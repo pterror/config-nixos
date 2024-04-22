@@ -42,6 +42,7 @@ in {
         drop_shadow = false;
         shadow_range = 4;
         shadow_render_power = 3;
+        dim_special = 0.7;
         "col.shadow" = "rgba(1a1a1aee)";
       };
       animations = {
@@ -79,13 +80,6 @@ in {
         hyprtrails = {
 	  color = "rgba(ffaaaa80)";
 	};
-        /*hyprexpo = {
-          columns = 3;
-          gap_size = 1;
-          bg_col = "rgba(11111180)";
-          workspace_method = "center current"; # [center/first] [workspace] e.g. first 1 or center m+1
-          enable_gesture = true;
-        };*/
       };
       env = [
         "XDG_SESSION_TYPE,wayland"
