@@ -168,7 +168,17 @@
   home-manager.users.me = args2: let
     combined = args // args2;
   in
-    { home.stateVersion = "23.11"; } // # initial version. NEVER EVER CHANGE!
+    {
+      home = {
+        stateVersion = "23.11"; # initial version. NEVER EVER CHANGE!
+        pointerCursor = {
+          gtk.enable = true;
+	  name = "miku-cursor";
+	  package = inputs.miku-cursor.packages.${pkgs.system}.default;
+	  size = 24;
+        };
+      };
+    } //
     (import ./home-manager/hyprland.nix combined) //
     {
       xdg.portal = {
@@ -236,7 +246,6 @@
 
     nodejs_21
     electron
-    bun
     wasm-pack
     python3 # node-gyp
     gnumake # node-gyp
@@ -246,15 +255,14 @@
     lsof
 
     # fun
-    luajit
     ghidra
+    inputs.unicorn-scribbles-font.packages.${pkgs.system}.default
 
     # quickshell
     inputs.quickshell.packages.${pkgs.system}.nvidia
     playerctl # to read mpris data. will be obsoleted by proper dbus support
 
     # game
-    #inputs.unicorn-scribbles.packages.${pkgs.system}.unicorn-scribbles
     #itch # broken on go 1.21+
     dxvk
     winetricks
