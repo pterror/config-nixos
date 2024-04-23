@@ -14,19 +14,20 @@
         name = pkgname;
         version = "1.0.0";
 	nativeBuildInputs = with pkgs; [ unzip ];
-        src = pkgs.fetchzip {
+	# resized to 125% so it cannot be obtained directly from the source
+	src = ./unicorn-scribbles.otf;
+	dontUnpack = true;
+        /*src = pkgs.fetchzip {
 	  name = pkgname;
 	  url = "https://dl.dafont.com/dl/?f=unicorn_scribbles";
 	  extension = "zip";
 	  hash = "sha256-tr57tk/yzu0mDYGYoy+CpenRQG4dlbV6SaYP/8H2GBg=";
-	};
+	};*/
         url = "https://www.dafont.com/unicorn-scribbles.font";
-        sha256 = "a485afeaad61c9d8488a5363a34404336ae8b758fdf383c9556fcd64a6736202";
-	unpackCmd = "";
         installPhase = ''
           runHook preInstall
           mkdir -p $out/share/fonts
-          cp 'Unicorn Scribbles.otf' $out/share/fonts/unicorn-scribbles.otf
+          cp $src $out/share/fonts/
           runHook postInstall
         '';
         meta = {

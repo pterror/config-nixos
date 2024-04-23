@@ -4,6 +4,9 @@ ACTION=$1
 shift
 cd $HERE
 case $ACTION in
-  upgrade) sudo nixos-rebuild switch --upgrade --flake .;;
+  upgrade)
+    nix flake lock . --update-input unicorn-scribbles-font --update-input miku-cursor
+    sudo nixos-rebuild switch --upgrade --flake .
+    ;;
 esac
 cd -
