@@ -21,13 +21,14 @@
 
   fileSystems."/persistent" =
     { device = "/dev/disk/by-uuid/402595a1-3e09-433d-9416-0c04c74e9add";
+      neededForBoot = true;
       fsType = "btrfs";
     };
 
   fileSystems."/nix" =
     { device = "/dev/disk/by-uuid/402595a1-3e09-433d-9416-0c04c74e9add";
       fsType = "btrfs";
-      options = [ "subvol=subvolume/nix" ];
+      options = [ "subvol=nix" ];
     };
 
   fileSystems."/boot" =

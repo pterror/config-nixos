@@ -91,7 +91,7 @@ in {
         ", preferred, auto, auto"
       ];
       exec-once = [
-	"QML_XHR_ALLOW_FILE_READ=1 quickshell"
+	"quickshell"
       ];
       windowrulev2 = [
         "noanim, class:(satty)"

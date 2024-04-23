@@ -14,34 +14,36 @@
         "/etc/NetworkManager/system-connections"
       ];
       files = [
-        "/etc/machine-id"
       ];
       users.me = {
         directories = [
           { directory = ".gnupg"; mode = "0700"; }
           { directory = ".ssh"; mode = "0700"; }
           { directory = ".local/share/keyrings"; mode = "0700"; }
-	  ".config/xdg-desktop-portal"
 	  ".config/qt6ct" # TODO: move to declarative config
 	  ".config/quickshell"
 	  ".config/wallpapers"
+	  ".config/alacritty/alacritty.toml"
 	  { directory = ".config/omf"; mode = "0700"; } # TODO: move to declarative config
 	  { directory = ".config/pipewire"; mode = "0700"; }
 	  ".config/google-chrome"
+	  ".config/fish"
 	  ".config/tits"
 	  ".mozilla/firefox"
 	  ".openvscode-server"
 	  ".aws"
 	  ".wine"
 	  ".local/share/pnpm"
+	  ".local/share/omf"
 	  ".local/share/Steam"
+	  ".local/share/fonts"
+	  ".icons/miku-cursor-linux"
 
 	  "git"
 	  "game"
 	];
 	files = [
 	  "config"
-	  ".config/xdg-desktop-portal/portals.conf"
 	];
       };
     };
@@ -153,6 +155,7 @@
   time.timeZone = "Australia/Brisbane";
   users.users = {
     me = {
+      hashedPassword = "$y$j9T$cidkoWm0GGdY640fxDlg1.$MtxmsHZ0XIO7PvPGss/K0WPBE7NwJVhvH38gbg/gCpA";
       isNormalUser = true;
       extraGroups = [ "wheel" "docker" ];
       shell = pkgs.fish;
