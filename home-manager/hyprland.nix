@@ -119,7 +119,7 @@ in {
         ", XF86AudioNext, exec, playerctl --player=playerctld next"
 
         # layershell
-	", Print, exec, grim -g '0,0 5760x1080' - | satty --initial-tool crop --filename - --early-exit --copy-command wl-copy"
+	", Print, exec, grim -g '0,0 5760x1080' - | satty --no-resize --initial-tool crop --filename - --early-exit --copy-command wl-copy"
 	#", Print, exec, [noanim;float;monitor DP-1;move 0 0;size 5760 1080] satty --initial-tool crop --filename <(grim -g '0,0 5760x1080' -) --early-exit --copy-command wl-copy"
 	"${mod}, Tab, exec, hyprctl dispatch submap \"${toggleOverview}\" && hyprctl dispatch submap reset"
 	#"ALT, Tab, hyprexpo:expo"

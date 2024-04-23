@@ -1,0 +1,89 @@
+diff --git a/src/command_line.rs b/src/command_line.rs
+index cb24751..629e649 100644
+--- a/src/command_line.rs
++++ b/src/command_line.rs
+@@ -15,6 +15,10 @@ pub struct CommandLine {
+     #[arg(long)]
+     pub fullscreen: bool,
+ 
++    /// Don't resize on initialization
++    #[arg(long)]
++    pub no_resize: bool,
++
+     /// Filename to use for saving action. Omit to disable saving to file. Might contain format
+     /// specifiers: <https://docs.rs/chrono/latest/chrono/format/strftime/index.html>.
+     #[arg(long)]
+diff --git a/src/configuration.rs b/src/configuration.rs
+index acbd546..9ea70af 100644
+--- a/src/configuration.rs
++++ b/src/configuration.rs
+@@ -31,6 +31,7 @@ pub struct Configuration {
+     input_filename: String,
+     output_filename: Option<String>,
+     fullscreen: bool,
++    no_resize: bool,
+     early_exit: bool,
+     initial_tool: Tools,
+     copy_command: Option<String>,
+@@ -149,6 +150,9 @@ impl Configuration {
+         if let Some(v) = general.fullscreen {
+             self.fullscreen = v;
+         }
++        if let Some(v) = general.no_resize {
++            self.no_resize = v;
++        }
+         if let Some(v) = general.early_exit {
+             self.early_exit = v;
+         }
+@@ -192,6 +196,9 @@ impl Configuration {
+         if command_line.fullscreen {
+             self.fullscreen = command_line.fullscreen;
+         }
++        if command_line.no_resize {
++            self.no_resize = command_line.no_resize;
++        }
+         if command_line.early_exit {
+             self.early_exit = command_line.early_exit;
+         }
+@@ -237,6 +244,10 @@ impl Configuration {
+         self.fullscreen
+     }
+ 
++    pub fn no_resize(&self) -> bool {
++        self.no_resize
++    }
++
+     pub fn output_filename(&self) -> Option<&String> {
+         self.output_filename.as_ref()
+     }
+@@ -272,6 +283,7 @@ impl Default for Configuration {
+             input_filename: String::new(),
+             output_filename: None,
+             fullscreen: false,
++            no_resize: false,
+             early_exit: false,
+             initial_tool: Tools::Pointer,
+             copy_command: None,
+@@ -316,6 +328,7 @@ struct FontFile {
+ #[serde(rename_all = "kebab-case", deny_unknown_fields)]
+ struct ConfiguationFileGeneral {
+     fullscreen: Option<bool>,
++    no_resize: Option<bool>,
+     early_exit: Option<bool>,
+     initial_tool: Option<Tools>,
+     copy_command: Option<String>,
+diff --git a/src/main.rs b/src/main.rs
+index a2967ba..2f2ceec 100644
+--- a/src/main.rs
++++ b/src/main.rs
+@@ -61,6 +61,10 @@ impl App {
+     }
+ 
+     fn resize_window_initial(&self, root: &Window, sender: ComponentSender<Self>) {
++        if APP_CONFIG.read().no_resize() {
++            return;
++        }
++
+         let monitor_size = match Self::get_monitor_size(root) {
+             Some(s) => s,
+             None => {

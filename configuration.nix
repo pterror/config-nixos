@@ -184,13 +184,12 @@
 
     # screenshot
     grim
-    satty
+    (satty.overrideAttrs { patches = [ ./programs/satty/fullscreen.patch ]; })
     wl-clipboard
 
     nodejs_21
     electron
     bun
-    rustup
     wasm-pack
     python3 # node-gyp
     gnumake # node-gyp
@@ -235,7 +234,6 @@
     LIBVA_DRIVER_NAME = "nvidia";
     GBM_BACKEND = "nvidia-drm";
     __GLX_VENDOR_LIBRARY_NAME = "nvidia";
-    CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_LINKER = "gcc";
   };
   system = {
     autoUpgrade = {
