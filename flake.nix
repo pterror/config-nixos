@@ -25,7 +25,9 @@
     quickshell.inputs.nixpkgs.follows = "nixpkgs";
     nix-gaming.url = "github:fufexan/nix-gaming";
     unicorn-scribbles-font.url = "path:./flakes/unicorn-scribbles-font";
+    unicorn-scribbles-font.inputs.nixpkgs.follows = "nixpkgs";
     miku-cursor.url = "path:./flakes/miku-cursor";
+    miku-cursor.inputs.nixpkgs.follows = "nixpkgs";
   };
   outputs = { self, nixpkgs, impermanence, ... }@inputs: {
     nixosConfigurations.pc = nixpkgs.lib.nixosSystem {

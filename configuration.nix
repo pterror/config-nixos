@@ -23,7 +23,6 @@
 	  ".config/qt6ct" # TODO: move to declarative config
 	  ".config/quickshell"
 	  ".config/wallpapers"
-	  ".config/alacritty/alacritty.toml"
 	  { directory = ".config/omf"; mode = "0700"; } # TODO: move to declarative config
 	  { directory = ".config/pipewire"; mode = "0700"; }
 	  ".config/google-chrome"
@@ -34,15 +33,15 @@
 	  ".aws"
 	  ".wine"
 	  ".local/share/pnpm"
+	  ".local/share/fish"
 	  ".local/share/omf"
 	  ".local/share/Steam"
-	  ".local/share/fonts"
-	  ".icons/miku-cursor-linux"
 
 	  "git"
 	  "game"
 	];
 	files = [
+	  ".config/alacritty/alacritty.toml"
 	  "config"
 	];
       };
@@ -256,7 +255,6 @@
 
     # fun
     ghidra
-    inputs.unicorn-scribbles-font.packages.${pkgs.system}.default
 
     # quickshell
     inputs.quickshell.packages.${pkgs.system}.nvidia
@@ -269,6 +267,7 @@
     inputs.nix-gaming.packages.${pkgs.system}.wine-tkg
   ];
   fonts.packages = with pkgs; [
+    inputs.unicorn-scribbles-font.packages.${pkgs.system}.default
     noto-fonts
     noto-fonts-cjk
     (nerdfonts.override {
