@@ -13,6 +13,7 @@
   };
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
+    impermanence.url = "github:nix-community/impermanence";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     hyprland.url = "github:hyprwm/Hyprland";
@@ -25,10 +26,13 @@
     nix-gaming.url = "github:fufexan/nix-gaming";
     # unicorn-scribbles.url = "/etc/nixos/flakes/unicorn-scribbles";
   };
-  outputs = { self, nixpkgs, ... }@inputs: {
+  outputs = { self, nixpkgs, impermanence, ... }@inputs: {
     nixosConfigurations.pc = nixpkgs.lib.nixosSystem {
       specialArgs = { inherit inputs; };
-      modules = [ ./configuration.nix ];
+      modules = [
+        impermanence.nixosModules.impermanence
+        ./configuration.nix
+      ];
     };
   };
 }

@@ -16,7 +16,7 @@
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/402595a1-3e09-433d-9416-0c04c74e9add";
       fsType = "btrfs";
-      options = [ "subvol=root" ];
+      options = [ "subvol=subvolume/root" ];
     };
 
   fileSystems."/persistent" =
@@ -27,7 +27,7 @@
   fileSystems."/nix" =
     { device = "/dev/disk/by-uuid/402595a1-3e09-433d-9416-0c04c74e9add";
       fsType = "btrfs";
-      options = [ "subvol=nix" ];
+      options = [ "subvol=subvolume/nix" ];
     };
 
   fileSystems."/boot" =

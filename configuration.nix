@@ -3,6 +3,50 @@
   imports = [ ./hardware-configuration.nix ./cachix.nix inputs.home-manager.nixosModules.home-manager ];
   documentation.nixos.enable = false;
 
+  environment.persistence = {
+    "/persistent" = {
+      hideMounts = true;
+      directories = [
+        "/var/log"
+        "/var/lib/bluetooth"
+        "/var/lib/nixos"
+        "/var/lib/systemd/coredump"
+        "/etc/NetworkManager/system-connections"
+      ];
+      files = [
+        "/etc/machine-id"
+      ];
+      users.me = {
+        directories = [
+          { directory = ".gnupg"; mode = "0700"; }
+          { directory = ".ssh"; mode = "0700"; }
+          { directory = ".local/share/keyrings"; mode = "0700"; }
+	  ".config/xdg-desktop-portal"
+	  ".config/qt6ct" # TODO: move to declarative config
+	  ".config/quickshell"
+	  ".config/wallpapers"
+	  { directory = ".config/omf"; mode = "0700"; } # TODO: move to declarative config
+	  { directory = ".config/pipewire"; mode = "0700"; }
+	  ".config/google-chrome"
+	  ".config/tits"
+	  ".mozilla/firefox"
+	  ".openvscode-server"
+	  ".aws"
+	  ".wine"
+	  ".local/share/pnpm"
+	  ".local/share/Steam"
+
+	  "git"
+	  "game"
+	];
+	files = [
+	  "config"
+	  ".config/xdg-desktop-portal/portals.conf"
+	];
+      };
+    };
+  };
+
   boot = {
     loader = {
       grub = {
