@@ -180,6 +180,16 @@
     } //
     (import ./home-manager/hyprland.nix combined) //
     {
+      gtk = {
+        theme.name = "Adwaita-dark";
+        font = {
+	  name = "Unicorn Scribbles";
+	  package = inputs.unicorn-scribbles-font.packages.${pkgs.system}.default;
+	  size = 10;
+	};
+      };
+    } //
+    {
       xdg.portal = {
         enable = true;
 	config = {

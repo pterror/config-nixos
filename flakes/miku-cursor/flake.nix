@@ -15,20 +15,20 @@
         version = "1.0.0";
         src = pkgs.fetchFromGitHub {
 	  name = pkgname;
-          owner = "OmeletWithoutEgg";
-	  repo = "miku-cursor-theme";
-	  rev = "341af5cafd5ed5bd00c9937fc4f55f4459091047";
-	  hash = "sha256-RgpBdQdOTsXybDX7NE0wm6SyRp9BsUduxJrVoMFVeC0=";
+          owner = "supermariofps";
+	  repo = "hatsune-miku-windows-linux-cursors";
+	  rev = "24bbed734c17bc19516b939ee10203b229513d2a";
+	  hash = "sha256-m5CDmAATxtQgjV5Ij+5bF3QQ8Na3pXPNmQUtwHwwWFc=";
 	};
         installPhase = ''
           runHook preInstall
-          mkdir -p $out/share/icons/miku-cursor/
-          cp -r . $out/share/icons/miku-cursor/
+          mkdir -p $out/share/icons/
+          cp -r miku-cursor-linux $out/share/icons/miku-cursor
           runHook postInstall
         '';
         meta = {
           homepage = "https://www.opendesktop.org/p/2124099";
-          description = "Hatsune Miku GTK cursor theme";
+          description = "Hatsune Miku X11 cursor theme";
           #license = nixpkgs.lib.licenses.unfree;
           platforms = nixpkgs.lib.platforms.all;
         };

@@ -242,7 +242,7 @@
       },
       "locked": {
         "lastModified": 1,
-        "narHash": "sha256-3iGvvoM1u6oEdG/BIXhgEiGLf47x4cpo0GfKEwQEp3M=",
+        "narHash": "sha256-9ejg4o+fTHKF9OP0SWMr5gkL0yh38guQNQ6mml3wPKg=",
         "path": "./flakes/miku-cursor",
         "type": "path"
       },
