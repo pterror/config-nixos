@@ -36,6 +36,7 @@
 	  ".local/share/fish"
 	  ".local/share/omf"
 	  ".local/share/Steam"
+	  ".cargo" # for .cargo/bin/
 
 	  "git"
 	  "game"
