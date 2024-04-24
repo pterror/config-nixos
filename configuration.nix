@@ -254,12 +254,6 @@
     (satty.overrideAttrs { patches = [ ./programs/satty/fullscreen.patch ]; })
     wl-clipboard
 
-    nodejs_21
-    electron
-    wasm-pack
-    python3 # node-gyp
-    gnumake # node-gyp
-
     # debug
     gdbHostCpuOnly
     lsof
