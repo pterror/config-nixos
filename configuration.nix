@@ -28,6 +28,7 @@
 	  ".config/google-chrome"
 	  ".config/fish"
 	  ".config/tits"
+	  ".config/gallery-dl"
 	  ".mozilla/firefox"
 	  ".openvscode-server"
 	  ".aws"
