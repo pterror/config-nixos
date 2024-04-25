@@ -100,9 +100,6 @@ in {
         "move 0 0, class:(satty)"
         "size 5760 1080, class:(satty)"
       ];
-      layerrule = [
-        "noanim, shell:popup"
-      ];
       bindm = [
         "${mod}, mouse:272, movewindow"
         "${mod}, mouse:273, resizewindow"
