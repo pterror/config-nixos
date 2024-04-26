@@ -1,5 +1,5 @@
 { pkgs, inputs, ... }: let
-  terminal = "alacritty";
+  terminal = "foot";
   fileManager = "pcmanfm";
   menu = "ags -t launcher";
   browser = "MOZ_ENABLE_WAYLAND=0 firefox";

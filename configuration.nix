@@ -43,7 +43,6 @@
 	  "game"
 	];
 	files = [
-	  ".config/alacritty/alacritty.toml"
 	  "config"
 	];
       };
@@ -203,6 +202,7 @@
 	];
       };
     } //
+    (import ./home-manager/foot.nix combined) //
     { services.wlsunset = { enable = true; latitude = "-27.5"; longitude = "153"; }; };
   environment.systemPackages = with pkgs; [
     cachix
@@ -210,16 +210,13 @@
     pcmanfm
     home-manager
     pavucontrol
-    alacritty
-    #foot
     google-chrome 
     curl
     cava
-    librsync # rdiff for binary patching
     wlsunset
     gallery-dl
     ntp # ntpdate
-    qt6.qtsvg # alacritty icon
+    qt6.qtsvg # svg app icons (if any)
     #gammaray # qt debugging
     qt6.qtwayland # gammaray, qti
     qt6.qtmultimedia
