@@ -5,7 +5,7 @@
 		settings = {
 			main = {
 				shell = "fish";
-				font = "FantasqueSansM Nerd Font Mono:size=12";
+				font = "Monofur Nerd Font:size=14";
 				dpi-aware = "yes";
 			};
 			mouse = {

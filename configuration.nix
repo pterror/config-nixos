@@ -274,7 +274,7 @@
     noto-fonts
     noto-fonts-cjk
     (nerdfonts.override {
-      fonts = [ "FantasqueSansMono" ];
+      fonts = [ "Monofur" ];
     })
   ];
   environment.sessionVariables = {

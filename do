@@ -8,5 +8,9 @@ case $ACTION in
     nix flake lock . --update-input unicorn-scribbles-font --update-input miku-cursor --update-input quickshell
     sudo nixos-rebuild switch --upgrade --flake .
     ;;
+  upgrader)
+    nix flake update .
+    sudo nixos-rebuild switch --upgrade --flake .
+    ;;
 esac
 cd -
