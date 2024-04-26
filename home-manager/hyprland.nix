@@ -5,6 +5,7 @@
   browser = "MOZ_ENABLE_WAYLAND=0 firefox";
   mod = "SUPER";
   toggleOverview = "quickshell:workspaces_overview:toggle";
+  toggleWLogout = "quickshell:wlogout:toggle";
   special = "magic";
 in {
   wayland.windowManager.hyprland = {
@@ -17,6 +18,9 @@ in {
     ];
     extraConfig = ''
       submap=${toggleOverview}
+      bind=${mod}, space, submap, reset
+      submap=reset
+      submap=${toggleWLogout}
       bind=${mod}, space, submap, reset
       submap=reset
     '';
@@ -119,6 +123,7 @@ in {
 	", Print, exec, grim -g '0,0 5760x1080' - | satty --no-resize --initial-tool crop --filename - --early-exit --copy-command wl-copy"
 	#", Print, exec, [noanim;float;monitor DP-1;move 0 0;size 5760 1080] satty --initial-tool crop --filename <(grim -g '0,0 5760x1080' -) --early-exit --copy-command wl-copy"
 	"${mod}, Tab, exec, hyprctl dispatch submap \"${toggleOverview}\" && hyprctl dispatch submap reset"
+	"${mod}, L, exec, hyprctl dispatch submap \"${toggleWLogout}\" && hyprctl dispatch submap reset"
 	#"ALT, Tab, hyprexpo:expo"
 	"ALT, Tab, overview:toggle"
 
