@@ -1,16 +1,6 @@
-{ pkgs, ... }:
+{ pkgs, firefox-transparent, ... }:
 {
   enable = true;
-  /*
-  package = (pkgs.firefox.overrideAttrs (_final: old: {
-    nativeBuildInputs = old.nativeBuildInputs ++ [ pkgs.librsync ];
-    buildCommand = old.buildCommand + ''
-      rdiff patch $out/lib/firefox/libxul.so ${./firefox/libxul.delta} $out/lib/firefox/libxul.so.tmp
-      rm $out/lib/firefox/libxul.so
-      mv $out/lib/firefox/libxul.so.tmp $out/lib/firefox/libxul.so
-    '';
-  }));
-  */
   preferences = {
     "gfx.webrender.all" = true; # required to fix transparency on xwayland.
     # transparency is hopelessly broken on native wayland.
