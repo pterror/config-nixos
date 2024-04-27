@@ -1,6 +1,7 @@
-{ pkgs, firefox-transparent, ... }:
+{ pkgs, inputs, ... }:
 {
   enable = true;
+  package = inputs.firefox-transparent.packages.${pkgs.system}.default;
   preferences = {
     "gfx.webrender.all" = true; # required to fix transparency on xwayland.
     # transparency is hopelessly broken on native wayland.

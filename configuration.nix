@@ -42,9 +42,6 @@
 	  "git"
 	  "game"
 	];
-	files = [
-	  "config"
-	];
       };
     };
   };

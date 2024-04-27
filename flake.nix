@@ -24,7 +24,7 @@
     quickshell.url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
     quickshell.inputs.nixpkgs.follows = "nixpkgs";
     nix-gaming.url = "github:fufexan/nix-gaming";
-    firefox-transparent.url = "path:./flakes/miku-cursor";
+    firefox-transparent.url = "path:./flakes/firefox-transparent";
     firefox-transparent.inputs.nixpkgs.follows = "nixpkgs";
     unicorn-scribbles-font.url = "path:./flakes/unicorn-scribbles-font";
     unicorn-scribbles-font.inputs.nixpkgs.follows = "nixpkgs";

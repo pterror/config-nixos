@@ -5,7 +5,7 @@ shift
 cd $HERE
 case $ACTION in
   upgrade)
-    nix flake lock . --update-input unicorn-scribbles-font --update-input miku-cursor --update-input quickshell
+    nix flake lock . --update-input unicorn-scribbles-font --update-input miku-cursor --update-input quickshell --update-input firefox-transparent
     sudo nixos-rebuild switch --upgrade --flake .
     ;;
   upgrader)
