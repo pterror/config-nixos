@@ -284,7 +284,6 @@
       enable = true;
       allowReboot = true;
     };
-    # copySystemConfiguration = true; # backup this file to /run/current-system/. incompatible with flakes
     stateVersion = "23.11"; # initial version. NEVER EVER CHANGE!
   };
 }

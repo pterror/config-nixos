@@ -1,20 +1,20 @@
 { pkgs, inputs, ... }: let
   terminal = "foot";
   fileManager = "pcmanfm";
-  menu = "ags -t launcher";
-  browser = "MOZ_ENABLE_WAYLAND=0 firefox";
+  browser = "firefox";
   mod = "SUPER";
   toggleOverview = "quickshell:workspaces_overview:toggle";
   toggleWLogout = "quickshell:wlogout:toggle";
+  toggleMenu = "quickshell:launcher:toggle";
+  menu = "hyprctl dispatch submap \"${toggleMenu}\" && hyprctl dispatch submap reset";
   special = "magic";
 in {
   wayland.windowManager.hyprland = {
     enable = true;
     package = inputs.hyprland.packages.${pkgs.system}.default;
     plugins = [
-      inputs.hyprland-plugins.packages.${pkgs.system}.hyprtrails
-      #inputs.hyprland-plugins.packages.${pkgs.system}.hyprexpo
-      inputs.hyprspace.packages.${pkgs.system}.Hyprspace
+      #inputs.hyprland-plugins.packages.${pkgs.system}.hyprtrails
+      #inputs.hyprspace.packages.${pkgs.system}.Hyprspace
     ];
     extraConfig = ''
       submap=${toggleOverview}
@@ -27,6 +27,9 @@ in {
     settings = {
       general = {
         border_size = 0;
+      };
+      debug = {
+        disable_logs = 0;
       };
       misc = {
         disable_hyprland_logo = true;
@@ -87,12 +90,14 @@ in {
       };
       env = [
         "XDG_SESSION_TYPE,wayland"
+	# this cannot be in configuration.nix as hyprland overrides it to 1
+	# required for firefox transparency
+        "MOZ_ENABLE_WAYLAND,0"
       ];
       monitor = [
         "DP-1, preferred, 0x0, auto"
         "DP-2, preferred, 1920x0, auto"
         "HDMI-A-1, preferred, 3840x0, auto"
-        ", preferred, auto, auto"
       ];
       exec-once = [
 	"quickshell"
@@ -124,8 +129,7 @@ in {
 	#", Print, exec, [noanim;float;monitor DP-1;move 0 0;size 5760 1080] satty --initial-tool crop --filename <(grim -g '0,0 5760x1080' -) --early-exit --copy-command wl-copy"
 	"${mod}, Tab, exec, hyprctl dispatch submap \"${toggleOverview}\" && hyprctl dispatch submap reset"
 	"${mod}, L, exec, hyprctl dispatch submap \"${toggleWLogout}\" && hyprctl dispatch submap reset"
-	#"ALT, Tab, hyprexpo:expo"
-	"ALT, Tab, overview:toggle"
+	#"ALT, Tab, overview:toggle"
 
         # general
         "${mod}, A, exec, ${browser}"
