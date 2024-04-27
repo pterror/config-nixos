@@ -214,12 +214,8 @@
     gallery-dl
     ntp # ntpdate
     qt6.qtsvg # svg app icons (if any)
-    #gammaray # qt debugging
-    qt6.qtwayland # gammaray, qti
     qt6.qtmultimedia
-    kdePackages.qtshadertools # qsb
     kdePackages.qt6ct # xdg-desktop-portal for file dialog
-    sqlite # debugging itch butler
     xdg-utils # open, xdg-open
     ffmpeg-full
     rlwrap
@@ -228,8 +224,6 @@
     direnv
     wf-recorder
     clang-tools
-    obs-studio
-    mandoc # for aws help
 
     # rice
     pipes
@@ -251,10 +245,6 @@
 
     # debug
     gdbHostCpuOnly
-    lsof
-
-    # fun
-    ghidra
 
     # quickshell
     inputs.quickshell.packages.${pkgs.system}.nvidia
