@@ -113,7 +113,7 @@
     };
     git.enable = true;
     htop.enable = true;
-    firefox = import ./programs/firefox.nix args;
+    firefox = import ./modules/firefox.nix args;
     nix-ld.enable = true;
     nix-ld.libraries = with pkgs; [
       fuse # appimages
@@ -240,7 +240,7 @@
 
     # screenshot
     grim
-    (satty.overrideAttrs { patches = [ ./programs/satty/fullscreen.patch ]; })
+    (satty.overrideAttrs { patches = [ ./patches/satty_fullscreen.patch ]; })
     wl-clipboard
 
     # debug
