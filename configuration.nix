@@ -164,19 +164,17 @@
   };
   home-manager.users.me = args2: let
     combined = args // args2;
-  in
+  in lib.mkMerge [
+    { home.stateVersion = "23.11"; } # initial version. NEVER EVER CHANGE!
     {
-      home = {
-        stateVersion = "23.11"; # initial version. NEVER EVER CHANGE!
-        pointerCursor = {
-          gtk.enable = true;
-	  name = "miku-cursor";
-	  package = inputs.miku-cursor.packages.${pkgs.system}.default;
-	  size = 24;
-        };
+      home.pointerCursor = {
+        gtk.enable = true;
+	name = "miku-cursor";
+	package = inputs.miku-cursor.packages.${pkgs.system}.default;
+	size = 24;
       };
-    } //
-    (import ./home-manager/hyprland.nix combined) //
+    }
+    (import ./home-manager/hyprland.nix combined)
     {
       gtk = {
         theme.name = "Adwaita-dark";
@@ -186,7 +184,7 @@
 	  size = 10;
 	};
       };
-    } //
+    }
     {
       xdg.portal = {
         enable = true;
@@ -198,9 +196,10 @@
 	  pkgs.xdg-desktop-portal-gtk
 	];
       };
-    } //
-    (import ./home-manager/foot.nix combined) //
-    { services.wlsunset = { enable = true; latitude = "-27.5"; longitude = "153"; }; };
+    }
+    (import ./home-manager/foot.nix combined)
+    { services.wlsunset = { enable = true; latitude = "-27.5"; longitude = "153"; }; }
+  ];
   environment.systemPackages = with pkgs; [
     cachix
     file
