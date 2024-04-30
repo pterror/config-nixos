@@ -1,5 +1,16 @@
+diff --git a/.gitignore b/.gitignore
+index 47f3855..df4c298 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -43,3 +43,6 @@ meson-out
+ meson-info
+ meson-logs
+ meson-private
++
++# direnv
++.direnv
 diff --git a/flake.lock b/flake.lock
-index 53a06ae..7a345e1 100644
+index 53a06ae..1ae4cfd 100644
 --- a/flake.lock
 +++ b/flake.lock
 @@ -16,11 +16,11 @@
@@ -30,12 +41,12 @@ index 53a06ae..7a345e1 100644
        "locked": {
 -        "lastModified": 1713376910,
 -        "narHash": "sha256-6cvw+CxacXe+l8/mZ1+ih21vLHvhIC+Erc7LQF0dyrQ=",
-+        "lastModified": 1714220844,
-+        "narHash": "sha256-FDtNkt6gfgPrByBuVgCcGxZyv9uwmFNS5qoBJbmDSDY=",
++        "lastModified": 1714442083,
++        "narHash": "sha256-iJXo74dNWLxElk+p8f8IPyHAJ8ISkov5Q2raDYGyjE4=",
          "owner": "hyprwm",
          "repo": "Hyprland",
 -        "rev": "82222342f10a7eff0ec9be972153e740d0f95213",
-+        "rev": "e400a288d0f8ef75672cb201203b857b65b782bb",
++        "rev": "62ae2b3f40ffce99e1d94384800e9eba6638f447",
          "type": "github"
        },
        "original": {
@@ -134,18 +145,32 @@ index 53a06ae..7a345e1 100644
        },
        "original": {
 diff --git a/src/Globals.hpp b/src/Globals.hpp
-index 4c11272..c65a129 100644
+index 4c11272..043ba99 100644
 --- a/src/Globals.hpp
 +++ b/src/Globals.hpp
-@@ -9,7 +9,7 @@ inline HANDLE pHandle = NULL;
+@@ -1,17 +1,19 @@
+ #pragma once
+ 
+-#include <hyprland/src/plugins/PluginAPI.hpp>
++#include "hyprland/src/helpers/WLClasses.hpp"
+ #include <hyprland/src/Compositor.hpp>
+ #include <hyprland/src/config/ConfigValue.hpp>
++#include <hyprland/src/plugins/PluginAPI.hpp>
++#include <hyprland/src/desktop/LayerSurface.hpp>
+ 
+ inline HANDLE pHandle = NULL;
+ 
  typedef void (*tMouseKeybind)(std::string);
  extern void* pMouseKeybind;
  
 -typedef void (*tRenderWindow)(void*, CWindow*, CMonitor*, timespec*, bool, eRenderPassMode, bool, bool);
 +typedef void (*tRenderWindow)(void*, PHLWINDOW, CMonitor*, timespec*, bool, eRenderPassMode, bool, bool);
  extern void* pRenderWindow;
- typedef void (*tRenderLayer)(void*, SLayerSurface*, CMonitor*, timespec*, bool);
+-typedef void (*tRenderLayer)(void*, SLayerSurface*, CMonitor*, timespec*, bool);
++typedef void (*tRenderLayer)(void *, PHLLS, CMonitor *, timespec *, bool);
  extern void* pRenderLayer;
+ 
+ namespace Config {
 diff --git a/src/Input.cpp b/src/Input.cpp
 index 747f46e..c99661b 100644
 --- a/src/Input.cpp
@@ -183,7 +208,7 @@ index 747f46e..c99661b 100644
          if (Config::switchOnDrop) {
              g_pCompositor->getMonitorFromID(targetWorkspace->m_iMonitorID)->changeWorkspace(targetWorkspace->m_iID);
 diff --git a/src/Overview.cpp b/src/Overview.cpp
-index 3fc8725..4ed9ee9 100644
+index 3fc8725..09445e5 100644
 --- a/src/Overview.cpp
 +++ b/src/Overview.cpp
 @@ -40,7 +40,7 @@ void CHyprspaceWidget::show() {
@@ -195,20 +220,96 @@ index 3fc8725..4ed9ee9 100644
                      g_pCompositor->setWindowFullscreen(w, false);
                  }
              }
+@@ -83,7 +83,7 @@ void CHyprspaceWidget::hide() {
+     // restore layer state
+     for (auto& ls : owner->m_aLayerSurfaceLayers[ZWLR_LAYER_SHELL_V1_LAYER_TOP]) {
+         if (!ls->readyToDelete && ls->mapped && ls->fadingOut) {
+-            auto oAlpha = std::find_if(oLayerAlpha.begin(), oLayerAlpha.end(), [&] (const auto& tuple) {return std::get<0>(tuple) == ls.get();});
++            auto oAlpha = std::find_if(oLayerAlpha.begin(), oLayerAlpha.end(), [&] (const auto& tuple) {return std::get<0>(tuple) == ls;});
+             if (oAlpha != oLayerAlpha.end()) {
+                 ls->fadingOut = false;
+                 ls->alpha = std::get<1>(*oAlpha);
+@@ -93,7 +93,7 @@ void CHyprspaceWidget::hide() {
+     }
+     for (auto& ls : owner->m_aLayerSurfaceLayers[ZWLR_LAYER_SHELL_V1_LAYER_OVERLAY]) {
+         if (!ls->readyToDelete && ls->mapped && ls->fadingOut) {
+-            auto oAlpha = std::find_if(oLayerAlpha.begin(), oLayerAlpha.end(), [&] (const auto& tuple) {return std::get<0>(tuple) == ls.get();});
++            auto oAlpha = std::find_if(oLayerAlpha.begin(), oLayerAlpha.end(), [&] (const auto& tuple) {return std::get<0>(tuple) == ls;});
+             if (oAlpha != oLayerAlpha.end()) {
+                 ls->fadingOut = false;
+                 ls->alpha = std::get<1>(*oAlpha);
+diff --git a/src/Overview.hpp b/src/Overview.hpp
+index 027f9f6..1eba8d1 100644
+--- a/src/Overview.hpp
++++ b/src/Overview.hpp
+@@ -1,5 +1,7 @@
+ #pragma once
++
+ #include <hyprland/src/Compositor.hpp>
++#include <hyprland/src/desktop/LayerSurface.hpp>
+ 
+ class CHyprspaceWidget {
+ 
+@@ -19,7 +21,7 @@ class CHyprspaceWidget {
+     std::vector<std::tuple<uint32_t, eFullscreenMode>> prevFullscreen;
+ 
+     // for storing the layer alpha values prior to overview activation (which sets all panel to transparent when configured)
+-    std::vector<std::tuple<SLayerSurface*, float>> oLayerAlpha;
++    std::vector<std::tuple<PHLLS, float>> oLayerAlpha;
+ 
+     // for click-to-exit
+     std::chrono::system_clock::time_point lastPressedTime = std::chrono::high_resolution_clock::now();
 diff --git a/src/Render.cpp b/src/Render.cpp
-index c247e10..2c077d7 100644
+index c247e10..ea14874 100644
 --- a/src/Render.cpp
 +++ b/src/Render.cpp
-@@ -1,7 +1,7 @@
- #include "Overview.hpp"
+@@ -1,7 +1,9 @@
+-#include "Overview.hpp"
  #include "Globals.hpp"
++#include "Overview.hpp"
++#include "hyprland/src/helpers/WLClasses.hpp"
++#include <memory>
  
 -void renderWindowStub(CWindow* pWindow, CMonitor* pMonitor, PHLWORKSPACE pWorkspaceOverride, CBox rectOverride, timespec* time) {
 +void renderWindowStub(PHLWINDOW pWindow, CMonitor* pMonitor, PHLWORKSPACE pWorkspaceOverride, CBox rectOverride, timespec* time) {
      if (!pWindow || !pMonitor || !pWorkspaceOverride || !time) return;
  
      const auto oWorkspace = pWindow->m_pWorkspace;
-@@ -244,14 +244,14 @@ void CHyprspaceWidget::draw() {
+@@ -50,7 +52,7 @@ void renderWindowStub(CWindow* pWindow, CMonitor* pMonitor, PHLWORKSPACE pWorksp
+     g_pHyprOpenGL->m_RenderData.renderModif.modifs.pop_back();
+ }
+ 
+-void renderLayerStub(SLayerSurface* pLayer, CMonitor* pMonitor, CBox rectOverride, timespec* time) {
++void renderLayerStub(PHLLS pLayer, CMonitor* pMonitor, CBox rectOverride, timespec* time) {
+     if (!pLayer || !pMonitor || !time) return;
+ 
+     if (!pLayer->mapped || pLayer->readyToDelete || !pLayer->layerSurface) return;
+@@ -98,7 +100,7 @@ void CHyprspaceWidget::draw() {
+     //g_pHyprOpenGL->markBlurDirtyForMonitor(owner);
+     //g_pHyprOpenGL->preRender(owner);
+ 
+-	// Background box
++    // Background box
+     CBox widgetBox = {owner->vecPosition.x, owner->vecPosition.y - curYOffset.value(), owner->vecTransformedSize.x, (Config::panelHeight + Config::reservedArea) * owner->scale}; //TODO: update size on monitor change
+     
+     if (Config::onBottom) widgetBox = {owner->vecPosition.x, owner->vecPosition.y + owner->vecTransformedSize.y - ((Config::panelHeight + Config::reservedArea) * owner->scale) + curYOffset.value(), owner->vecTransformedSize.x, (Config::panelHeight + Config::reservedArea) * owner->scale};
+@@ -213,13 +215,13 @@ void CHyprspaceWidget::draw() {
+             for (auto& ls : owner->m_aLayerSurfaceLayers[ZWLR_LAYER_SHELL_V1_LAYER_BACKGROUND]) {
+                 CBox layerBox = {curWorkspaceBox.pos() + (ls->realPosition.value() - owner->vecPosition) * monitorSizeScaleFactor, ls->realSize.value() * monitorSizeScaleFactor};
+                 g_pHyprOpenGL->m_RenderData.clipBox = curWorkspaceBox;
+-                renderLayerStub(ls.get(), owner, layerBox, &time);
++                renderLayerStub(ls, owner, layerBox, &time);
+                 g_pHyprOpenGL->m_RenderData.clipBox = CBox();
+             }
+             for (auto& ls : owner->m_aLayerSurfaceLayers[ZWLR_LAYER_SHELL_V1_LAYER_BOTTOM]) {
+                 CBox layerBox = {curWorkspaceBox.pos() + (ls->realPosition.value() - owner->vecPosition) * monitorSizeScaleFactor, ls->realSize.value() * monitorSizeScaleFactor};
+                 g_pHyprOpenGL->m_RenderData.clipBox = curWorkspaceBox;
+-                renderLayerStub(ls.get(), owner, layerBox, &time);
++                renderLayerStub(ls, owner, layerBox, &time);
+                 g_pHyprOpenGL->m_RenderData.clipBox = CBox();
+             }
+         }
+@@ -244,14 +246,14 @@ void CHyprspaceWidget::draw() {
                      CBox curWindowBox = {wX, wY, wW, wH};
                      g_pHyprOpenGL->m_RenderData.clipBox = curWorkspaceBox;
                      //g_pHyprOpenGL->renderRectWithBlur(&curWindowBox, CColor(0, 0, 0, 0));
@@ -225,7 +326,7 @@ index c247e10..2c077d7 100644
                      double wX = curWorkspaceRectOffsetX + ((w->m_vRealPosition.value().x - owner->vecPosition.x) * monitorSizeScaleFactor * owner->scale);
                      double wY = curWorkspaceRectOffsetY + ((w->m_vRealPosition.value().y - owner->vecPosition.y) * monitorSizeScaleFactor * owner->scale);
                      double wW = w->m_vRealSize.value().x * monitorSizeScaleFactor * owner->scale;
-@@ -260,14 +260,14 @@ void CHyprspaceWidget::draw() {
+@@ -260,14 +262,14 @@ void CHyprspaceWidget::draw() {
                      CBox curWindowBox = {wX, wY, wW, wH};
                      g_pHyprOpenGL->m_RenderData.clipBox = curWorkspaceBox;
                      //g_pHyprOpenGL->renderRectWithBlur(&curWindowBox, CColor(0, 0, 0, 0));
@@ -242,6 +343,24 @@ index c247e10..2c077d7 100644
                      double wX = curWorkspaceRectOffsetX + ((w->m_vRealPosition.value().x - owner->vecPosition.x) * monitorSizeScaleFactor * owner->scale);
                      double wY = curWorkspaceRectOffsetY + ((w->m_vRealPosition.value().y - owner->vecPosition.y) * monitorSizeScaleFactor * owner->scale);
                      double wW = w->m_vRealSize.value().x * monitorSizeScaleFactor * owner->scale;
+@@ -287,7 +289,7 @@ void CHyprspaceWidget::draw() {
+                 for (auto& ls : owner->m_aLayerSurfaceLayers[ZWLR_LAYER_SHELL_V1_LAYER_TOP]) {
+                     CBox layerBox = {curWorkspaceBox.pos() + (ls->realPosition.value() - owner->vecPosition) * monitorSizeScaleFactor, ls->realSize.value() * monitorSizeScaleFactor};
+                     g_pHyprOpenGL->m_RenderData.clipBox = curWorkspaceBox;
+-                    renderLayerStub(ls.get(), owner, layerBox, &time);
++                    renderLayerStub(ls, owner, layerBox, &time);
+                     g_pHyprOpenGL->m_RenderData.clipBox = CBox();
+                 }
+ 
+@@ -295,7 +297,7 @@ void CHyprspaceWidget::draw() {
+                 for (auto& ls : owner->m_aLayerSurfaceLayers[ZWLR_LAYER_SHELL_V1_LAYER_OVERLAY]) {
+                     CBox layerBox = {curWorkspaceBox.pos() + (ls->realPosition.value() - owner->vecPosition) * monitorSizeScaleFactor, ls->realSize.value() * monitorSizeScaleFactor};
+                     g_pHyprOpenGL->m_RenderData.clipBox = curWorkspaceBox;
+-                    renderLayerStub(ls.get(), owner, layerBox, &time);
++                    renderLayerStub(ls, owner, layerBox, &time);
+                     g_pHyprOpenGL->m_RenderData.clipBox = CBox();
+                 }
+         }
 diff --git a/src/main.cpp b/src/main.cpp
 index 06f3123..f43cb2e 100644
 --- a/src/main.cpp
