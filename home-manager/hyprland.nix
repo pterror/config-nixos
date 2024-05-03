@@ -13,10 +13,12 @@ in {
     enable = true;
     package = inputs.hyprland.packages.${pkgs.system}.default;
     plugins = [
-      inputs.hyprland-plugins.packages.${pkgs.system}.hyprtrails
+      #inputs.hyprland-plugins.packages.${pkgs.system}.hyprtrails
+      /*
       (inputs.hyprspace.packages.${pkgs.system}.Hyprspace.overrideAttrs {
         patches = [ ../patches/hyprspace_update.patch ];
       })
+      */
     ];
     extraConfig = ''
       submap=${toggleOverview}
@@ -30,9 +32,11 @@ in {
       general = {
         border_size = 0;
       };
+      /*
       debug = {
-        disable_logs = 0;
+        disable_logs = false;
       };
+      */
       misc = {
         disable_hyprland_logo = true;
 	disable_splash_rendering = true;
@@ -85,11 +89,13 @@ in {
 	  "specialWorkspace, 1, 3, md3_decel, slidevert"
 	];
       };
+      /*
       plugin = {
         hyprtrails = {
 	  color = "rgba(ffaaaa80)";
 	};
       };
+      */
       env = [
         "XDG_SESSION_TYPE,wayland"
 	# this cannot be in configuration.nix as hyprland overrides it to 1
@@ -135,7 +141,7 @@ in {
 	", Print, exec, grim -g '0,0 5760x1080' - | satty --no-resize --initial-tool crop --filename - --early-exit --copy-command wl-copy"
 	"${mod}, Tab, exec, hyprctl dispatch submap \"${toggleOverview}\" && hyprctl dispatch submap reset"
 	"${mod}, L, exec, hyprctl dispatch submap \"${toggleWLogout}\" && hyprctl dispatch submap reset"
-	"ALT, Tab, overview:toggle"
+	#"ALT, Tab, overview:toggle"
 
         # general
         "${mod}, A, exec, ${browser}"
