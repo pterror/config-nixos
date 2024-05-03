@@ -110,6 +110,11 @@ in {
         "monitor DP-1, class:(satty)"
         "move 0 0, class:(satty)"
         "size 5760 1080, class:(satty)"
+        "noanim, class:^(screenshot-editor)$"
+        "float, class:^(screenshot-editor)$"
+        "monitor DP-1, class:^(screenshot-editor)$"
+        "move 0 0, class:^(screenshot-editor)$"
+        "size 5760 1080, class:^(screenshot-editor)$"
       ];
       bindm = [
         "${mod}, mouse:272, movewindow"
