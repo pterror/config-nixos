@@ -6,6 +6,7 @@
   toggleOverview = "quickshell:workspaces_overview:toggle";
   toggleWLogout = "quickshell:wlogout:toggle";
   toggleMenu = "quickshell:launcher:toggle";
+  screenshot = "qti --path ~/git/qti/app/screenshot-editor/screenshot-editor.qml";
   menu = "hyprctl dispatch submap \"${toggleMenu}\" && hyprctl dispatch submap reset";
   special = "magic";
 in {
@@ -138,7 +139,7 @@ in {
         ", XF86AudioNext, exec, playerctl --player=playerctld next"
 
         # layershell
-	", Print, exec, grim -g '0,0 5760x1080' - | satty --no-resize --initial-tool crop --filename - --early-exit --copy-command wl-copy"
+	", Print, exec, ${screenshot}"
 	"${mod}, Tab, exec, hyprctl dispatch submap \"${toggleOverview}\" && hyprctl dispatch submap reset"
 	"${mod}, L, exec, hyprctl dispatch submap \"${toggleWLogout}\" && hyprctl dispatch submap reset"
 	#"ALT, Tab, overview:toggle"

@@ -234,13 +234,7 @@
     # image manipulation
     krita
     graphicsmagick
-    waifu2x-converter-cpp
     inkscape
-
-    # screenshot
-    grim
-    (satty.overrideAttrs { patches = [ ./patches/satty_fullscreen.patch ]; })
-    wl-clipboard
 
     # debug
     gdbHostCpuOnly
