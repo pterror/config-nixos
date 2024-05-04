@@ -23,6 +23,8 @@
     hyprspace.inputs.hyprland.follows = "hyprland";
     quickshell.url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
     quickshell.inputs.nixpkgs.follows = "nixpkgs";
+    qti.url = "git+https://github.com/pterror/qti?submodules=1";
+    qti.inputs.nixpkgs.follows = "nixpkgs";
     nix-gaming.url = "github:fufexan/nix-gaming";
     firefox-transparent.url = "path:./flakes/firefox-transparent";
     firefox-transparent.inputs.nixpkgs.follows = "nixpkgs";

@@ -9,7 +9,7 @@ case $ACTION in
     sudo nixos-rebuild switch --upgrade --flake .
     ;;
   upgrade-less)
-    nix flake lock . --update-input unicorn-scribbles-font --update-input miku-cursor --update-input quickshell --update-input firefox-transparent
+    nix flake lock . --update-input unicorn-scribbles-font --update-input miku-cursor --update-input quickshell --update-input qti --update-input firefox-transparent
     sudo nixos-rebuild switch --upgrade --flake .
     ;;
 esac

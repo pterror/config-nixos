@@ -254,7 +254,7 @@
     dxvk
     winetricks
     inputs.nix-gaming.packages.${pkgs.system}.wine-tkg
-  ];
+  ] ++ inputs.qti.packages.${pkgs.system}.all;
   fonts.packages = with pkgs; [
     inputs.unicorn-scribbles-font.packages.${pkgs.system}.default
     noto-fonts
