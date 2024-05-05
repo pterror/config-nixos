@@ -201,61 +201,47 @@
     { services.wlsunset = { enable = true; latitude = "-27.5"; longitude = "153"; }; }
   ];
   environment.systemPackages = with pkgs; [
+    home-manager
     cachix
     file
     pcmanfm
-    home-manager
     pavucontrol
     google-chrome 
     curl
     cava
     wlsunset
     gallery-dl
-    ntp # ntpdate
-    qt6.qtsvg # svg app icons (if any)
     qt6.qtmultimedia
     kdePackages.qt6ct # xdg-desktop-portal for file dialog
     xdg-utils # open, xdg-open
     ffmpeg-full
     rlwrap
-    nixpkgs-fmt
     p7zip
     direnv
     wf-recorder
     clang-tools
-
-    # rice
-    pipes
-    lolcat
-
+    nixpkgs-fmt
     # vs code
     nixd
-
     # image manipulation
     krita
     graphicsmagick
-    inkscape
-
     # debug
     gdbHostCpuOnly
-
     # quickshell
     inputs.quickshell.packages.${pkgs.system}.nvidia
     playerctl # to read mpris data. will be obsoleted by proper dbus support
-
     # game
     #itch # broken on go 1.21+
     dxvk
     winetricks
     inputs.nix-gaming.packages.${pkgs.system}.wine-tkg
-  ] ++ inputs.qti.packages.${pkgs.system}.all;
+  ] ++ /* qti */ inputs.qti.packages.${pkgs.system}.all;
   fonts.packages = with pkgs; [
     inputs.unicorn-scribbles-font.packages.${pkgs.system}.default
     noto-fonts
     noto-fonts-cjk
-    (nerdfonts.override {
-      fonts = [ "Monofur" ];
-    })
+    (nerdfonts.override { fonts = [ "Monofur" ]; })
   ];
   environment.sessionVariables = {
     # hyprland
