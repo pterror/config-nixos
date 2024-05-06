@@ -197,7 +197,7 @@
 	];
       };
     }
-    (import ./home-manager/foot.nix combined)
+    (import ./home-manager/kitty.nix combined)
     { services.wlsunset = { enable = true; latitude = "-27.5"; longitude = "153"; }; }
   ];
   environment.systemPackages = with pkgs; [

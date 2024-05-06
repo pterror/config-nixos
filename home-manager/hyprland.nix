@@ -1,5 +1,5 @@
 { pkgs, inputs, ... }: let
-  terminal = "foot";
+  terminal = "kitty";
   fileManager = "pcmanfm";
   browser = "firefox";
   mod = "SUPER";
