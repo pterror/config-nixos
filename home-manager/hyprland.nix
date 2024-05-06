@@ -6,7 +6,7 @@
   toggleOverview = "quickshell:workspaces_overview:toggle";
   toggleWLogout = "quickshell:wlogout:toggle";
   toggleMenu = "quickshell:launcher:toggle";
-  screenshot = "qti --path ~/git/qti/app/screenshot-editor/screenshot-editor.qml";
+  screenshot = "qti --path ${inputs.qti.packages.${pkgs.system}.qti-app-screenshot-editor}/share/qti/screenshot-editor/screenshot-editor.qml";
   menu = "hyprctl dispatch submap \"${toggleMenu}\" && hyprctl dispatch submap reset";
   special = "magic";
 in {
@@ -40,7 +40,7 @@ in {
       */
       misc = {
         disable_hyprland_logo = true;
-	disable_splash_rendering = true;
+        disable_splash_rendering = true;
       };
       dwindle = {
         no_gaps_when_only = 1;
@@ -61,7 +61,7 @@ in {
       };
       animations = {
         bezier = [
-	  "linear, 0, 0, 1, 1"
+          "linear, 0, 0, 1, 1"
           "md3_standard, 0.2, 0, 0, 1"
           "md3_decel, 0.05, 0.7, 0.1, 1"
           "md3_accel, 0.3, 0, 0.8, 0.15"
@@ -75,7 +75,7 @@ in {
           "easeOutExpo, 0.16, 1, 0.3, 1"
           "softAcDecel, 0.26, 0.26, 0.15, 1"
           "md2, 0.4, 0, 0.2, 1"
-	];
+        ];
         animation = [
           "windows, 1, 3, md3_decel, popin 60%"
           "windowsIn, 1, 3, md3_decel, popin 60%"
@@ -87,20 +87,20 @@ in {
           "fadeLayersIn, 1, 3, menu_decel"
           "fadeLayersOut, 1, 1.6, menu_accel"
           "workspaces, 1, 7, menu_decel, slide"
-	  "specialWorkspace, 1, 3, md3_decel, slidevert"
-	];
+          "specialWorkspace, 1, 3, md3_decel, slidevert"
+        ];
       };
       /*
       plugin = {
         hyprtrails = {
-	  color = "rgba(ffaaaa80)";
-	};
+          color = "rgba(ffaaaa80)";
+        };
       };
       */
       env = [
         "XDG_SESSION_TYPE,wayland"
-	# this cannot be in configuration.nix as hyprland overrides it to 1
-	# required for firefox transparency
+        # this cannot be in configuration.nix as hyprland overrides it to 1
+        # required for firefox transparency
         "MOZ_ENABLE_WAYLAND,0"
       ];
       monitor = [
@@ -109,7 +109,7 @@ in {
         "HDMI-A-1, preferred, 3840x0, auto"
       ];
       exec-once = [
-	"quickshell"
+        "quickshell"
       ];
       windowrulev2 = [
         "noanim, class:(satty)"
@@ -139,10 +139,10 @@ in {
         ", XF86AudioNext, exec, playerctl --player=playerctld next"
 
         # layershell
-	", Print, exec, ${screenshot}"
-	"${mod}, Tab, exec, hyprctl dispatch submap \"${toggleOverview}\" && hyprctl dispatch submap reset"
-	"${mod}, L, exec, hyprctl dispatch submap \"${toggleWLogout}\" && hyprctl dispatch submap reset"
-	#"ALT, Tab, overview:toggle"
+        ", Print, exec, ${screenshot}"
+        "${mod}, Tab, exec, hyprctl dispatch submap \"${toggleOverview}\" && hyprctl dispatch submap reset"
+        "${mod}, L, exec, hyprctl dispatch submap \"${toggleWLogout}\" && hyprctl dispatch submap reset"
+        #"ALT, Tab, overview:toggle"
 
         # general
         "${mod}, A, exec, ${browser}"
@@ -155,7 +155,7 @@ in {
         "${mod}, P, pseudo, # dwindle"
         "${mod}, J, togglesplit, # dwindle"
 
-	"${mod}, S, togglespecialworkspace, ${special}"
+        "${mod}, S, togglespecialworkspace, ${special}"
         "${mod} SHIFT, S, movetoworkspace, special:${special}"
 
         "${mod}, mouse_down, workspace, e+1"
