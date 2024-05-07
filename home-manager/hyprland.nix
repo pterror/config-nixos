@@ -111,18 +111,6 @@ in {
       exec-once = [
         "quickshell"
       ];
-      windowrulev2 = [
-        "noanim, class:(satty)"
-        "float, class:(satty)"
-        "monitor DP-1, class:(satty)"
-        "move 0 0, class:(satty)"
-        "size 5760 1080, class:(satty)"
-        "noanim, class:^(screenshot-editor)$"
-        "float, class:^(screenshot-editor)$"
-        "monitor DP-1, class:^(screenshot-editor)$"
-        "move 0 0, class:^(screenshot-editor)$"
-        "size 5760 1080, class:^(screenshot-editor)$"
-      ];
       bindm = [
         "${mod}, mouse:272, movewindow"
         "${mod}, mouse:273, resizewindow"
@@ -139,7 +127,7 @@ in {
         ", XF86AudioNext, exec, playerctl --player=playerctld next"
 
         # layershell
-        ", Print, exec, ${screenshot}"
+        ", Print, exec, [float; monitor DP-1; move 0 0; size 5760 1080; noanim] ${screenshot}"
         "${mod}, Tab, exec, hyprctl dispatch submap \"${toggleOverview}\" && hyprctl dispatch submap reset"
         "${mod}, L, exec, hyprctl dispatch submap \"${toggleWLogout}\" && hyprctl dispatch submap reset"
         #"ALT, Tab, overview:toggle"
