@@ -245,7 +245,6 @@
   ];
   environment.sessionVariables = {
     # hyprland
-    WLR_RENDERER = "vulkan";
     __GL_GSYNC_ALLOWED = "0";
     __GL_VRR_ALLOWED = "0";
     QT_QPA_PLATFORM = "wayland";
