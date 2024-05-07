@@ -7,37 +7,15 @@
   toggleWLogout = "quickshell:wlogout:toggle";
   toggleMenu = "quickshell:launcher:toggle";
   screenshot = "qti --path ${inputs.qti.packages.${pkgs.system}.qti-app-screenshot-editor}/share/qti/screenshot-editor/screenshot-editor.qml";
-  menu = "hyprctl dispatch submap \"${toggleMenu}\" && hyprctl dispatch submap reset";
   special = "magic";
 in {
   wayland.windowManager.hyprland = {
     enable = true;
     package = inputs.hyprland.packages.${pkgs.system}.default;
-    plugins = [
-      #inputs.hyprland-plugins.packages.${pkgs.system}.hyprtrails
-      /*
-      (inputs.hyprspace.packages.${pkgs.system}.Hyprspace.overrideAttrs {
-        patches = [ ../patches/hyprspace_update.patch ];
-      })
-      */
-    ];
-    extraConfig = ''
-      submap=${toggleOverview}
-      bind=${mod}, space, submap, reset
-      submap=reset
-      submap=${toggleWLogout}
-      bind=${mod}, space, submap, reset
-      submap=reset
-    '';
     settings = {
       general = {
         border_size = 0;
       };
-      /*
-      debug = {
-        disable_logs = false;
-      };
-      */
       misc = {
         disable_hyprland_logo = true;
         disable_splash_rendering = true;
@@ -90,13 +68,6 @@ in {
           "specialWorkspace, 1, 3, md3_decel, slidevert"
         ];
       };
-      /*
-      plugin = {
-        hyprtrails = {
-          color = "rgba(ffaaaa80)";
-        };
-      };
-      */
       env = [
         "XDG_SESSION_TYPE,wayland"
         # this cannot be in configuration.nix as hyprland overrides it to 1
@@ -128,9 +99,8 @@ in {
 
         # layershell
         ", Print, exec, [float; monitor DP-1; move 0 0; size 5760 1080; noanim] ${screenshot}"
-        "${mod}, Tab, exec, hyprctl dispatch submap \"${toggleOverview}\" && hyprctl dispatch submap reset"
-        "${mod}, L, exec, hyprctl dispatch submap \"${toggleWLogout}\" && hyprctl dispatch submap reset"
-        #"ALT, Tab, overview:toggle"
+        "${mod}, Tab, global, ${toggleOverview}"
+        "${mod}, L, global, ${toggleWLogout}"
 
         # general
         "${mod}, A, exec, ${browser}"
@@ -139,7 +109,7 @@ in {
         "${mod}, M, exit,"
         "${mod}, E, exec, ${fileManager}"
         "${mod}, V, togglefloating,"
-        "${mod}, R, exec, ${menu}"
+        "${mod}, R, global, ${toggleMenu}"
         "${mod}, P, pseudo, # dwindle"
         "${mod}, J, togglesplit, # dwindle"
 
