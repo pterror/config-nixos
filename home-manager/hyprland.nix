@@ -98,7 +98,7 @@ in {
         ", XF86AudioNext, exec, playerctl --player=playerctld next"
 
         # layershell
-        ", Print, exec, [float; monitor DP-1; move 0 0; size 5760 1080; noanim] ${screenshot}"
+        ", Print, exec, [float; monitor DP-2; move -1920 0; size 5760 1080; noanim] ${screenshot}"
         "${mod}, Tab, global, ${toggleOverview}"
         "${mod}, L, global, ${toggleWLogout}"
 
