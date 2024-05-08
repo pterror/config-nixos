@@ -303,11 +303,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1715072265,
-        "narHash": "sha256-NCJ2yM39OXC3GTotaVoGlCNbtUZ56NjrOix7iEq9gCM=",
+        "lastModified": 1715192332,
+        "narHash": "sha256-zT/+SVH8ZJb3i8Xdl2B95PmLn22kjS0yYDOkX5r/UGc=",
         "ref": "refs/heads/master",
-        "rev": "0bd2972e6cb0b67e167b09fde59a660140b66f06",
-        "revCount": 30,
+        "rev": "d1b73f9cd77fec3794ecc603e691081f0d8c8cde",
+        "revCount": 31,
         "submodules": true,
         "type": "git",
         "url": "https://github.com/pterror/qti"
