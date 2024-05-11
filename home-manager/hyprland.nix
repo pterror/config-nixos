@@ -19,7 +19,6 @@ in {
         disable_splash_rendering = true;
       };
       dwindle = { no_gaps_when_only = 1; };
-      cursor = { no_hardware_cursors = 1; };
       decoration = {
         rounding = 10;
         blur = {

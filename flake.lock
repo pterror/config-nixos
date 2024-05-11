@@ -94,11 +94,11 @@
         "xdph": "xdph"
       },
       "locked": {
-        "lastModified": 1715278772,
-        "narHash": "sha256-8qD/LLGtkEe48t2azJUNBJU9VNaAx9v0fsZuuJx3VFA=",
+        "lastModified": 1715448710,
+        "narHash": "sha256-ntVaQOHnfejEiqHUY07kWrytdXVlXtg1RLv65T9w2/c=",
         "ref": "refs/heads/main",
-        "rev": "85f7f69046c07c61f59b0ef7cccd01e88b316413",
-        "revCount": 4645,
+        "rev": "494b9415a1157279a1e1782ba635fc2ef6a18155",
+        "revCount": 4668,
         "submodules": true,
         "type": "git",
         "url": "https://github.com/hyprwm/Hyprland"
@@ -303,11 +303,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1715368585,
-        "narHash": "sha256-sL1QDdG3azfk5uFh01TaF+Zbu9FVAI6TLQpiHTnpD6I=",
+        "lastModified": 1715444261,
+        "narHash": "sha256-sPy+0KJ+DeUwbiv0UBdDtOgsliWJ3pe2F6i3q6vcqqE=",
         "ref": "refs/heads/master",
-        "rev": "3ccffd895658cb428744fd606722be3b678cd171",
-        "revCount": 36,
+        "rev": "cdcaf28680be0e2276ba498fd4acbaf288d10f98",
+        "revCount": 37,
         "submodules": true,
         "type": "git",
         "url": "https://github.com/pterror/qti"
