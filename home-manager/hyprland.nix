@@ -13,16 +13,13 @@ in {
     enable = true;
     package = inputs.hyprland.packages.${pkgs.system}.default;
     settings = {
-      general = {
-        border_size = 0;
-      };
+      general = { border_size = 0; };
       misc = {
         disable_hyprland_logo = true;
         disable_splash_rendering = true;
       };
-      dwindle = {
-        no_gaps_when_only = 1;
-      };
+      dwindle = { no_gaps_when_only = 1; };
+      cursor = { no_hardware_cursors = 1; };
       decoration = {
         rounding = 10;
         blur = {

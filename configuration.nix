@@ -251,7 +251,6 @@
     QT_QPA_PLATFORMTHEME = "qt6ct";
     QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
     # hyprland x nvidia
-    WLR_NO_HARDWARE_CURSORS = "1";
     LIBVA_DRIVER_NAME = "nvidia";
     GBM_BACKEND = "nvidia-drm";
     __GLX_VENDOR_LIBRARY_NAME = "nvidia";
