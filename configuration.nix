@@ -101,6 +101,7 @@
   programs = {
     fish.enable = true;
     steam.enable = true;
+    direnv.enable = true;
     neovim = {
       enable = true;
       defaultEditor = true;
@@ -217,7 +218,6 @@
     ffmpeg-full
     rlwrap
     p7zip
-    direnv
     wf-recorder
     clang-tools
     nixpkgs-fmt

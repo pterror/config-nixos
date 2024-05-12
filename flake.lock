@@ -42,11 +42,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1715380449,
-        "narHash": "sha256-716+f9Rj3wjSyD1xitCv2FcYbgPz1WIVDj+ZBclH99Y=",
+        "lastModified": 1715486357,
+        "narHash": "sha256-4pRuzsHZOW5W4CsXI9uhKtiJeQSUoe1d2M9mWU98HC4=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "d7682620185f213df384c363288093b486b2883f",
+        "rev": "44677a1c96810a8e8c4ffaeaad10c842402647c1",
         "type": "github"
       },
       "original": {
@@ -94,11 +94,11 @@
         "xdph": "xdph"
       },
       "locked": {
-        "lastModified": 1715448710,
-        "narHash": "sha256-ntVaQOHnfejEiqHUY07kWrytdXVlXtg1RLv65T9w2/c=",
+        "lastModified": 1715468612,
+        "narHash": "sha256-pA0lpLJ3a+EhOCpEdksx5UlzXTcOaZzISppKKLYwAeg=",
         "ref": "refs/heads/main",
-        "rev": "494b9415a1157279a1e1782ba635fc2ef6a18155",
-        "revCount": 4668,
+        "rev": "33a7b7bb6b307d6e4a093f75ffdda0419cd7ffaf",
+        "revCount": 4671,
         "submodules": true,
         "type": "git",
         "url": "https://github.com/hyprwm/Hyprland"
@@ -224,11 +224,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1715269120,
-        "narHash": "sha256-AcN0Zv7E2mPpB4JsKCFeKz7X0VQgFSCFXplsxj6oens=",
+        "lastModified": 1715476621,
+        "narHash": "sha256-tsvjakds3dmU0L+hFk35JwihQAd40d5AoVZmq62IaHU=",
         "owner": "fufexan",
         "repo": "nix-gaming",
-        "rev": "8960f1a63dab72f971044c217c6936cc527e679b",
+        "rev": "78c0a23969771a7fe1a0dc51b23dc8bc07a6c555",
         "type": "github"
       },
       "original": {
@@ -267,11 +267,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1714809261,
-        "narHash": "sha256-hfBmnYFyz9I1mdrC3tX1A+dF9cOUcds5PIMPxrT+cRk=",
+        "lastModified": 1715413075,
+        "narHash": "sha256-FCi3R1MeS5bVp0M0xTheveP6hhcCYfW/aghSTPebYL4=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "d32560238207b8e26d88b265207b216ee46b8450",
+        "rev": "e4e7a43a9db7e22613accfeb1005cca1b2b1ee0d",
         "type": "github"
       },
       "original": {
@@ -303,11 +303,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1715452730,
-        "narHash": "sha256-opEoXl7mMhyY++mXfLA3MIdrtOaFqpx9JdRVaB5yUFA=",
+        "lastModified": 1715508439,
+        "narHash": "sha256-SZ/nLsP1fVuVgG/nGDDs5D/xYi5QeQI30Suosr/nJ6I=",
         "ref": "refs/heads/master",
-        "rev": "32d83630516c92eabbe6519ba9ad7e176371b450",
-        "revCount": 38,
+        "rev": "d3e61f1df5c4048a7a1c8c5b077077619d2b8986",
+        "revCount": 39,
         "submodules": true,
         "type": "git",
         "url": "https://github.com/pterror/qti"
