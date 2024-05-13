@@ -1,0 +1,138 @@
+:root, html, body {
+	/*--system-wide-fg: rgb(32 32 32 / 60);
+	--system-wide-fg-2: rgb(48 48 48 / 60);
+	--system-wide-fg-3: rgb(64 64 64 / 60);*/
+	--system-wide-fg: rgb(255 255 255 / 60);
+	--system-wide-fg-2: rgb(240 240 240 / 60);
+	--system-wide-fg-3: rgb(224 224 224 / 60);
+	background: transparent !important;
+	color: var(--system-wide-fg);
+	color-scheme: dark light;
+}
+
+::selection {
+	background-color: lch(100 0 0 / 0.2) !important;
+}
+
+@-moz-document domain(google.com) {
+	* { background: transparent !important; }
+	.aajZCb {
+		background: lch(0 0 0 / 0.5) !important;
+	}
+	.gb_Ad.gb_db.gb_pd > div:last-child {
+		border-radius: 32px !important;
+		background: lch(0 0 0 / 0.7) !important;
+	}
+}
+
+@-moz-document domain(www.youtube.com) {
+	:root {
+		--yt-spec-base-background: transparent !important;
+		--darkreader-bg--yt-spec-base-background: transparent !important;
+	}
+	#cinematics { display: none; }
+}
+
+@-moz-document domain(tio.run) {
+	textarea, #search { background: #20202080 !important; }
+	nav { background: #38383850 !important; }
+	nav > * { background: #30303050 !important; }
+	#messages { background: rgba(56, 56, 56, 0.4) !important; }
+}
+
+@-moz-document domain(discord.com) {
+	body, .appMount_fae9dd {
+		letter-spacing: 0.03em;
+		/*--text-normal: var(--system-wide-fg);
+		--text-muted: var(--system-wide-fg-3);
+		--header-primary: var(--system-wide-fg);
+		--header-secondary: var(--system-wide-fg-2);
+		--interactive-active: var(--system-wide-fg);
+		--channels-default: var(--system-wide-fg-3);*/
+		--font-primary: 'Unicorn Scribbles', 'gg sans', 'Noto Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+		--font-display: 'Unicorn Scribbles', 'gg sans', 'Noto Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+		--bg-overlay-chat: transparent;
+		--bg-overlay-app-frame: transparent;
+		--bg-overlay-2: transparent;
+		--background-primary: lch(10 0 0 / 0.5);
+		--background-secondary: transparent;
+		--background-secondary-alt: lch(8 0 0 / 0.3);
+		--background-tertiary: transparent;
+		--background-modifier-accent: transparent;
+		--channeltextarea-background: transparent;
+	}
+}
+
+@-moz-document domain(github.com) {
+	:root {
+		/*--bgColor-default: transparent !important;
+		--bgColor-muted: transparent !important;
+		--bgColor-inset: transparent !important;
+		--color-canvas-inset: #01040940 !important;
+		--color-scale-gray-5: #484f5840 !important;
+		--color-scale-gray-6: #30363d40 !important;
+		--color-scale-gray-7: #21262d40 !important;
+		--color-scale-gray-8: #161b2240 !important;
+		--color-scale-gray-9: #0d111740 !important;*/
+	}
+}
+
+/* fixme: doesn't properly match this page */
+@-moz-document url(about:config) {
+	@media (prefers-color-scheme: dark) {
+		:host(:is(.anonymous-content-host, notification-message)), :root {
+			--in-content-page-background: rgb(28 27 34 / 0.25);
+		}
+	}
+}
+
+/* fixme: doesn't properly match this page */
+@-moz-document url("about:newtab") {
+	:root {
+		--newtab-background-color-secondary: #42414d40 !important;
+	}
+
+	.top.site-outer:has(.title.sponsored) { display: none; }
+}
+
+@-moz-document domain(localhost) {
+	.monaco-workbench, #workbench\.parts\.titlebar {
+		background-color: transparent !important;
+	}
+}
+
+@-moz-document domain(en.wikipedia.org) {
+	@media screen {
+		body, .mw-page-container, .vector-pinned-container, .vector-header-container .mw-header, .vector-header-container .vector-sticky-header { background-color: transparent !important; }
+		pre, code, .mw-code { background-color: lch(100 0 0 / 0.2) !important; border: none !important; }
+	}
+}
+
+@-moz-document domain(192.168.1.1) {
+	#mainBody {
+	#top, #main, #base-inner, #pc-top, #pc-scroll { background: transparent !important; }
+	div.search-input-wrapper, #menuTree li.ml1 a, div.top-nav ul li.selected span.text, div.top-nav.disabled ul li.selected span.text { background: lch(100 0 0 / 0.2) !important; }
+	ul.search-input-drop li, div.msg-container-wrapper { background: lch(10 0 0 / 0.7) !important; }
+	ul.search-input-drop li.hover { background: lch(30 0 0 / 0.7) !important; }
+	div.wizard-container div.wizard-btn button.button-button, div.msg-btn-container div.button-container button.button-button, div.button-container.submit button.button-button, button.button-button { background: lch(40 30 260 / 0.7) !important; }
+	:is(div.wizard-container div.wizard-btn button.button-button, div.msg-btn-container div.button-container button.button-button, div.button-container.submit button.button-button, button.button-button):hover { background: lch(50 30 260 / 0.7) !important; }
+	#menuTree li.ml1 a.sel { background: lch(100 0 0 / 0.4) !important; }
+	* { color: white !important; }
+	#menu span.icon { filter: brightness(100); }
+	div.map-icon-internet, div.map-icon-internet-conn, div.map-icon-wireless, div.map-icon-wire, div.map-icon-phone, div.map-icon-usb, div.map-icon-router { filter: brightness(2); }
+	span.map-icon-num { color: black !important; }
+	div.help-content-container { background-color: rgb(0 0 0 / 75%) !important; }
+	}
+}
+
+@-moz-document domain(pavpanchekha.com) {
+	html, h1, h2, h3 { color: white !important; }
+	pre, code { color: #bbbbbb !important; }
+}
+
+@-moz-document domain(analytics.google.com) {
+	* { background: lch(0 0 0 / 0.05) !important; }
+	mdx-slider-container, xap-slider-container {
+		background: lch(0 0 0 / 0.75) !important;
+	}
+}

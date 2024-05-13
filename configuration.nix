@@ -27,6 +27,7 @@
 	  { directory = ".config/pipewire"; mode = "0700"; }
 	  ".config/google-chrome"
 	  ".config/fish"
+	  ".config/itch"
 	  ".config/tits"
 	  ".config/gallery-dl"
 	  ".mozilla/firefox"
@@ -102,6 +103,7 @@
     fish.enable = true;
     steam.enable = true;
     direnv.enable = true;
+    firefox = import ./modules/firefox.nix args;
     neovim = {
       enable = true;
       defaultEditor = true;
@@ -114,12 +116,11 @@
     };
     git.enable = true;
     htop.enable = true;
-    firefox = import ./modules/firefox.nix args;
     nix-ld.enable = true;
     nix-ld.libraries = with pkgs; [
       fuse # appimages
-      libinput # wlkey
-      udev # wlkey
+      #libinput # wlkey
+      #udev # wlkey
       glib # gobject for electron
       expat # playwright
       cairo # playwright
@@ -175,6 +176,7 @@
 	size = 24;
       };
     }
+    #{ programs.firefox = import ./home-manager/firefox.nix combined; }
     (import ./home-manager/hyprland.nix combined)
     {
       gtk = {
@@ -232,7 +234,6 @@
     inputs.quickshell.packages.${pkgs.system}.nvidia
     playerctl # to read mpris data. will be obsoleted by proper dbus support
     # game
-    #itch # broken on go 1.21+
     dxvk
     winetricks
     inputs.nix-gaming.packages.${pkgs.system}.wine-tkg

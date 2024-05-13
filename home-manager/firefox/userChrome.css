@@ -1,0 +1,190 @@
+:root {
+	font-family: "Unicorn Scribbles" !important;
+	--tabpanel-background-color: transparent !important;
+	--toolbar-bgcolor: transparent !important;
+	--sidebar-background-color: transparent !important;
+	--lwt-accent-color: transparent !important;
+	--lwt-accent-color-inactive: transparent !important;
+	--lwt-sidebar-background-color: transparent !important;
+	/* history */
+	/* --lwt-sidebar-background-color (duplicate) */
+	/* url bar */
+	--toolbar-field-background-color: transparent !important;
+	--toolbar-field-focus-background-color: transparent;
+	--button-bgcolor: transparent;
+	--button-hover-bgcolor: rgb(255 255 255 / 25%);
+	--backdrop: rgb(0 0 0 / 75%);
+}
+
+/* transparent popout window */
+#main-window { background-color: transparent !important; }
+
+#urlbar { font-size: 17px !important; }
+#navigator-toolbox { border-bottom: none !important; }
+search-textbox { background-color: transparent !important; }
+
+/* transparent sidebery */
+#sidebar-box > #browser, #webextpanels-window { background: transparent !important }
+
+.sidebar-splitter {
+	background: transparent !important;
+	border: none !important;
+}
+
+#titlebar { display: none; }
+#sidebar-header { display: none; }
+#back-button { display: none; }
+#forward-button { display: none; }
+#stop-reload-button { display: none; }
+
+/* blurredfox */
+:root {
+	--bf-moz-appearance: -moz-mac-vibrancy-dark !important; /* macos */
+	--bf-moz-appearance: -moz-win-glass !important; /* windows */
+	--toolbar-bgcolor: transparent !important;
+	--urlbar-separator-color: transparent !important;
+	--bf-main-window: transparent;
+}
+
+#back-button > .toolbarbutton-icon {
+	--backbutton-background: transparent !important;
+	-moz-appearance: var(--bf-moz-appearance) !important;
+}
+
+#main-window:-moz-lwtheme-brighttext,
+#main-window:-moz-lwtheme-darktext {
+	background: var(--bf-main-window) !important;
+	-moz-appearance: var(--bf-moz-appearance) !important;
+}
+
+#urlbar[breakout-extend="true"]:not([open="true"]) > #urlbar-background {
+	background: var(--backdrop) !important;
+	-moz-appearance: var(--bf-moz-appearance) !important;
+}
+
+/* shinafox: expand sidebery on hover */
+
+#sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"] {
+  --sidebar-width: 32px;
+  --sidebar-hover-width: 512px;
+  position: relative;
+  min-width: var(--sidebar-width) !important;
+  width: var(--sidebar-width) !important;
+  max-width: var(--sidebar-width) !important;
+  z-index: 1;
+}
+
+#sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]>#sidebar {
+  transition: min-width 200ms ease-in-out !important;
+  min-width: var(--sidebar-width) !important;
+  will-change: min-width;
+  transition-delay: 0.3s !important;  /* Delay on hover off */
+}
+
+#sidebar-box[sidebarcommand="_3c078156-979c-498b-8990-85f7987dd929_-sidebar-action"]:hover>#sidebar {
+  min-width: var(--sidebar-hover-width) !important;
+  transition-delay: 0.1s !important;  /* No delay on hover on */
+  background: #0008 !important;
+}
+
+findbar { border: none; }
+
+/* shinafox: centered findbar text */
+findbar .findbar-textbox  {
+	border-radius: 10px !important;
+	text-align: center!important;
+}
+
+/* shinafox: minimal extensions */
+
+#unified-extensions-view #unified-extensions-manage-extensions .toolbarbutton-text::before {
+        content: "• • •";
+        font-size: 15px;
+        visibility: visible !important;
+        display: block;
+        text-align: center;
+}
+
+#unified-extensions-panel #unified-extensions-view {
+        width: 100% !important;
+}
+
+#unified-extensions-view{
+        --uei-icon-size: 22px;
+        --firefoxcss-number-of-extensions-in-a-row: 4;
+}
+
+
+#unified-extensions-view .unified-extensions-item-menu-button.subviewbutton,
+#unified-extensions-view .unified-extensions-item-action-button .unified-extensions-item-contents{
+        display:none !important;
+}
+
+#unified-extensions-view .panel-subview-body {
+        padding: 10px !important;
+}
+
+#unified-extensions-view .unified-extensions-item .unified-extensions-item-icon,
+#unified-extensions-view .unified-extensions-item .toolbarbutton-badge-stack {
+        margin-inline-end: 0px !important;
+}
+
+#unified-extensions-view #overflowed-extensions-list,
+#unified-extensions-view #unified-extensions-area,
+#unified-extensions-view .unified-extensions-list {
+        display: grid !important;
+        grid-template-columns: repeat(var(--firefoxcss-number-of-extensions-in-a-row),auto);
+        justify-items:left !important;
+        align-items:left !important;
+}
+
+/* shinafox: centered urlbar text */
+
+#nav-bar {
+        display: flex;
+        justify-content: center;
+}
+
+#urlbar-container {
+        flex: 1;
+        max-width: 1000px;
+        min-width: 200px;
+        margin: auto !important;
+}
+
+#main-window #urlbar {
+        z-index: 9999 !important;
+        width: 100% !important;
+        margin-top: 0 !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        transition: width 0.3s ease, left 0.3s ease, margin-top 0.3s ease, margin-left 0.3s ease, margin-right 0.3s ease;
+}
+
+#main-window #urlbar[breakout][breakout-extend] {
+        background-color: 
+        opacity: 0.8 !important;
+        width: 100% !important;
+        left: 0;
+        right: 0;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        margin-top: 30vh !important;
+}
+
+#urlbar-background,
+#urlbar-input-container {
+        --toolbarbutton-border-radius: calc(var(--urlbar-min-height) / 2);
+}
+
+#urlbar-input-container {
+        --urlbar-icon-border-radius: calc(var(--toolbarbutton-border-radius) - 1px);
+}
+
+#urlbar:not([focused]) #urlbar-input {
+        text-align: center !important;
+}
+
+#urlbar:not([breakout][breakout-extend]) #urlbar-input {
+        text-align: center !important;
+}
