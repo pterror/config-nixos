@@ -31,7 +31,7 @@
   };
   outputs = { self, nixpkgs, impermanence, ... }@inputs: {
     nixosConfigurations.pc = nixpkgs.lib.nixosSystem {
-      specialArgs = { inherit inputs; };
+      specialArgs = { inherit inputs; my-config = import ./my-config.nix; };
       modules = [
         impermanence.nixosModules.impermanence
         ./configuration.nix

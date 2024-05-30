@@ -1,4 +1,4 @@
-{ pkgs, inputs, ... }:
+{ pkgs, my-config, inputs, ... }:
 {
   enable = true;
   package = inputs.firefox-transparent.packages.${pkgs.system}.default;
@@ -14,8 +14,10 @@
     "browser.theme.toolbar-theme" = 0; # dark
     "layout.css.prefers-color-scheme.content-override" = 0; # dark
     "font.default.x-western" = "sans-serif";
-    "font.name.monospace.x-western" = "FantasqueSansM Nerd Font";
-    "font.name.sans-serif.x-western" = "Unicorn Scribbles";
+    "font.name-list.monospace.x-western" = my-config.fonts.monospace;
+    "font.name-list.sans-serif.x-western" = my-config.fonts.sans-serif;
+    #"font.name-list.cursive.x-western" = my-config.fonts.cursive;
+    "browser.eme.ui.enabled" = false; # disable DRM ui. media.eme.enabled is disabled by default
   };
   policies = {
     DontCheckDefaultBrowser = true;

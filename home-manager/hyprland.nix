@@ -1,13 +1,6 @@
 { pkgs, inputs, ... }: let
-  terminal = "kitty";
-  fileManager = "pcmanfm";
-  browser = "firefox";
   mod = "SUPER";
-  toggleOverview = "quickshell:workspaces_overview:toggle";
-  toggleWLogout = "quickshell:wlogout:toggle";
-  toggleMenu = "quickshell:launcher:toggle";
   screenshot = "qti --path ${inputs.qti.packages.${pkgs.system}.qti-app-screenshot-editor}/share/qti/screenshot-editor/screenshot-editor.qml";
-  special = "magic";
 in {
   wayland.windowManager.hyprland = {
     enable = true;
@@ -19,6 +12,7 @@ in {
         disable_splash_rendering = true;
       };
       dwindle = { no_gaps_when_only = 1; };
+      cursor = { no_hardware_cursors = 1; };
       decoration = {
         rounding = 10;
         blur = {
@@ -84,33 +78,33 @@ in {
       ];
       bind = [
         # media
-        ", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_SINK@ 5%+"
-        ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_SINK@ 5%-"
-        ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_SINK@ toggle"
-        ", XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_SOURCE@ toggle"
-        ", XF86AudioPlay, exec, playerctl --player=playerctld play-pause"
-        ", XF86AudioStop, exec, playerctl --player=playerctld pause"
-        ", XF86AudioPrev, exec, playerctl --player=playerctld previous"
-        ", XF86AudioNext, exec, playerctl --player=playerctld next"
+        ", XF86AudioRaiseVolume, global, quickshell:audio:volume_up"
+        ", XF86AudioLowerVolume, global, quickshell:audio:volume_down"
+        ", XF86AudioMute, global, quickshell:audio:toggle_mute"
+        ", XF86AudioMicMute, global, quickshell:audio:toggle_mic_mute"
+        ", XF86AudioPlay, global, quickshell:media:play_pause"
+        ", XF86AudioStop, global, quickshell:media:pause"
+        ", XF86AudioPrev, global, quickshell:media:previous"
+        ", XF86AudioNext, global, quickshell:media:next"
 
         # layershell
         ", Print, exec, [float; monitor DP-2; move -1920 0; size 5760 1080; noanim] ${screenshot}"
-        "${mod}, Tab, global, ${toggleOverview}"
-        "${mod}, L, global, ${toggleWLogout}"
+        "${mod}, Tab, global, quickshell:workspaces_overview:toggle"
+        "${mod}, L, global, quickshell:wlogout:toggle"
 
         # general
-        "${mod}, A, exec, ${browser}"
-        "${mod}, Q, exec, ${terminal}"
+        "${mod}, A, exec, firefox"
+        "${mod}, Q, exec, kitty"
         "${mod}, C, killactive,"
         "${mod}, M, exit,"
-        "${mod}, E, exec, ${fileManager}"
+        "${mod}, E, exec, pcmanfm"
         "${mod}, V, togglefloating,"
-        "${mod}, R, global, ${toggleMenu}"
+        "${mod}, R, global, quickshell:launcher:toggle"
         "${mod}, P, pseudo, # dwindle"
         "${mod}, J, togglesplit, # dwindle"
 
-        "${mod}, S, togglespecialworkspace, ${special}"
-        "${mod} SHIFT, S, movetoworkspace, special:${special}"
+        "${mod}, S, togglespecialworkspace, magic"
+        "${mod} SHIFT, S, movetoworkspace, special:magic"
 
         "${mod}, mouse_down, workspace, e+1"
         "${mod}, mouse_up, workspace, e-1"

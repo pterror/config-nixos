@@ -232,17 +232,17 @@
     gdbHostCpuOnly
     # quickshell
     inputs.quickshell.packages.${pkgs.system}.nvidia
-    playerctl # to read mpris data. will be obsoleted by proper dbus support
     # game
     dxvk
     winetricks
     inputs.nix-gaming.packages.${pkgs.system}.wine-tkg
+    samba # ntlm_auth for wine
   ] ++ /* qti */ inputs.qti.packages.${pkgs.system}.qti-all;
   fonts.packages = with pkgs; [
     inputs.unicorn-scribbles-font.packages.${pkgs.system}.default
     noto-fonts
     noto-fonts-cjk
-    (nerdfonts.override { fonts = [ "Monofur" ]; })
+    (nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
   ];
   environment.sessionVariables = {
     # hyprland
