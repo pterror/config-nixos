@@ -244,17 +244,20 @@
     noto-fonts-cjk
     (nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
   ];
-  environment.sessionVariables = {
-    # hyprland
-    __GL_GSYNC_ALLOWED = "0";
-    __GL_VRR_ALLOWED = "0";
-    QT_QPA_PLATFORM = "wayland";
-    QT_QPA_PLATFORMTHEME = "qt6ct";
-    QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
-    # hyprland x nvidia
-    LIBVA_DRIVER_NAME = "nvidia";
-    GBM_BACKEND = "nvidia-drm";
-    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+  environment = {
+    pathsToLink = [ "/share/qti" ];
+    sessionVariables = {
+      # hyprland
+      __GL_GSYNC_ALLOWED = "0";
+      __GL_VRR_ALLOWED = "0";
+      QT_QPA_PLATFORM = "wayland";
+      QT_QPA_PLATFORMTHEME = "qt6ct";
+      QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
+      # hyprland x nvidia
+      LIBVA_DRIVER_NAME = "nvidia";
+      GBM_BACKEND = "nvidia-drm";
+      __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+    };
   };
   system = {
     autoUpgrade = {

@@ -303,11 +303,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1715508439,
-        "narHash": "sha256-SZ/nLsP1fVuVgG/nGDDs5D/xYi5QeQI30Suosr/nJ6I=",
+        "lastModified": 1717227804,
+        "narHash": "sha256-7F4Iafi4hh2YVIxb723uol7lfEn7Hg+YtI7MyxpaGaY=",
         "ref": "refs/heads/master",
-        "rev": "d3e61f1df5c4048a7a1c8c5b077077619d2b8986",
-        "revCount": 39,
+        "rev": "5724e1445019dfd8d2eb110a941779dc3a2437f1",
+        "revCount": 51,
         "submodules": true,
         "type": "git",
         "url": "https://github.com/pterror/qti"
@@ -325,11 +325,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1717036197,
-        "narHash": "sha256-7IRa1f+RJa3s99tE3Nk76YBnF7p0KCc/Z8/RDYlO/RA=",
+        "lastModified": 1717153380,
+        "narHash": "sha256-R0quODlgZmByicf10knjzc+XoLzF6oXfVInyBvplQMg=",
         "ref": "refs/heads/master",
-        "rev": "569c40494d8792b161c7141f674b14aeafd99fb6",
-        "revCount": 191,
+        "rev": "238ca8cf0bf02453cb47a93e5310934ba395f23b",
+        "revCount": 197,
         "type": "git",
         "url": "https://git.outfoxxed.me/outfoxxed/quickshell"
       },
