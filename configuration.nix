@@ -59,18 +59,19 @@
       efi.canTouchEfiVariables = true;
     };
     kernelPackages = pkgs.linuxPackages_zen;
-    initrd.kernelModules = [ "nvidia" ];
-    extraModulePackages = [ config.boot.kernelPackages.nvidia_x11 ];
-    blacklistedKernelModules = [ "nouveau" ];
   };
   
   qt.enable = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  nixpkgs.config.allowUnfree = true; # todo: allowUnfreePredicate
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "google-chrome"
+    "steam"
+    "steam-original"
+    "steam-run"
+  ];
   hardware = {
     opengl.enable = true; # hyprland
     nvidia = {
-      open = true;
       modesetting.enable = true;
       powerManagement.enable = true;
     };
@@ -82,7 +83,6 @@
   security.rtkit.enable = true;
   services = {
     earlyoom.enable = true;
-    xserver.videoDrivers = [ "nvidia" ];
     pipewire = {
       enable = true;
       alsa = {
@@ -118,13 +118,10 @@
     htop.enable = true;
     nix-ld.enable = true;
     nix-ld.libraries = with pkgs; [
-      fuse # appimages
-      #libinput # wlkey
-      #udev # wlkey
+      #libinput udev # wlkey
       glib # gobject for electron
-      expat # playwright
-      cairo # playwright
-      alsaLib # asound for playwright and soloud
+      expat cairo # playwright
+      alsaLib # asound for playwright (and soloud)
       xorg.libxcb # playwright
       xorg.libX11 # playwright
       xorg.libXcomposite # playwright
@@ -132,18 +129,12 @@
       xorg.libXext # playwright
       xorg.libXfixes # playwright
       xorg.libXrandr # playwright
-      nspr # playwright
-      dbus # playwright
-      atk # playwright
-      cups # playwright
-      libdrm # playwright
-      pango # playwright
+      nspr dbus atk cups libdrm pango # playwright
       libxkbcommon # playwright
       mesa # gbm for playwright
       nss # playwright
       gtk3
-      vulkan-loader # unity
-      libGL # unity
+      vulkan-loader libGL # unity
     ];
   };
   networking = {
@@ -215,6 +206,7 @@
     wlsunset
     gallery-dl
     qt6.qtmultimedia
+    qt6.qtwayland # idk if this fixes QT_QPA_PLATFORM=wayland
     kdePackages.qt6ct # xdg-desktop-portal for file dialog
     xdg-utils # open, xdg-open
     ffmpeg-full
@@ -237,7 +229,14 @@
     winetricks
     inputs.nix-gaming.packages.${pkgs.system}.wine-tkg
     samba # ntlm_auth for wine
+    prismlauncher
+    r2modman
+    # vr
+    (pkgs.callPackage ./packages/sidequest.nix {}) alvr android-tools
   ] ++ /* qti */ inputs.qti.packages.${pkgs.system}.qti-all;
+  services.udev.extraRules = ''
+    SUBSYSTEM="usb", ATTR{idVendor}=="2833", ATTR{idProduct}=="0186", MODE="0660" group="plugdev", symlink+="ocuquest%n"
+  '';
   fonts.packages = with pkgs; [
     inputs.unicorn-scribbles-font.packages.${pkgs.system}.default
     noto-fonts

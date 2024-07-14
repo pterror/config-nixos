@@ -7,6 +7,7 @@
 			font_family = my-config.fonts.monospace;
 			font_size = 12;
 			cursor_shape = "beam";
+			foreground = "#c0c0c0";
 		};
 	};
 }
