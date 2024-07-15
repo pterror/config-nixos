@@ -1,6 +1,6 @@
 { pkgs, inputs, ... }: let
   mod = "SUPER";
-  screenshot = "${inputs.qti.packages.${pkgs.system}.qti} --path ${inputs.qti.packages.${pkgs.system}.qti-app-screenshot-editor}/share/qti/screenshot-editor/screenshot-editor.qml";
+  screenshot = "${inputs.qti.packages.${pkgs.system}.qti}/bin/qti --path ${inputs.qti.packages.${pkgs.system}.qti-app-screenshot-editor}/share/qti/screenshot-editor/screenshot-editor.qml";
 in {
   wayland.windowManager.hyprland = {
     enable = true;
@@ -60,10 +60,6 @@ in {
       };
       env = [
         "XDG_SESSION_TYPE,wayland"
-	# "DRI_PRIME,1" # for using dGPU for games. causes everything to lag (~10fps) for some reason.
-        # this cannot be in configuration.nix as hyprland overrides it to 1
-        # required for firefox transparency
-        "MOZ_ENABLE_WAYLAND,0"
       ];
       monitor = [
         "DP-1, preferred, 0x0, auto"
@@ -71,7 +67,7 @@ in {
         "HDMI-A-1, preferred, 3840x0, auto"
       ];
       exec-once = [
-        # "quickshell"
+        "${inputs.quickshell.packages.${pkgs.system}.default}/bin/quickshell"
       ];
       bindm = [
         "${mod}, mouse:272, movewindow"
@@ -94,11 +90,11 @@ in {
         "${mod}, L, global, quickshell:wlogout:toggle"
 
         # general
-        "${mod}, A, exec, ${pkgs.firefox}"
-        "${mod}, Q, exec, ${pkgs.kitty} -1"
+        "${mod}, A, exec, ${pkgs.firefox}/bin/firefox"
+        "${mod}, Q, exec, ${pkgs.kitty}/bin/kitty -1"
         "${mod}, C, killactive,"
         "${mod}, M, exit,"
-        "${mod}, E, exec, ${pkgs.pcmanfm}"
+        "${mod}, E, exec, ${pkgs.pcmanfm}/bin/pcmanfm"
         "${mod}, V, togglefloating,"
         "${mod}, R, global, quickshell:launcher:toggle"
         "${mod}, P, pseudo, # dwindle"

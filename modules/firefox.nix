@@ -1,9 +1,9 @@
 { pkgs, my-config, inputs, ... }:
 {
   enable = true;
-  package = inputs.firefox-transparent.packages.${pkgs.system}.default;
   preferences = {
     "gfx.webrender.all" = true; # required to fix transparency on xwayland.
+    "browser.tabs.allow_transparent_browser" = true; # transparency
     # transparency is hopelessly broken on native wayland.
     "browser.display.background_color" = "#1c1b2200";
     "browser.display.background_color.dark" = "#1c1b2200";

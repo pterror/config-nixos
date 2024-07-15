@@ -70,7 +70,7 @@
     "steam-run"
   ];
   hardware = {
-    opengl.enable = true; # hyprland
+    graphics.enable = true; # hyprland
     nvidia = {
       modesetting.enable = true;
       powerManagement.enable = true;
@@ -167,7 +167,6 @@
 	size = 24;
       };
     }
-    #{ programs.firefox = import ./home-manager/firefox.nix combined; }
     (import ./home-manager/hyprland.nix combined)
     {
       gtk = {
@@ -223,7 +222,7 @@
     # debug
     gdbHostCpuOnly
     # quickshell
-    inputs.quickshell.packages.${pkgs.system}.nvidia
+    inputs.quickshell.packages.${pkgs.system}.default
     # game
     dxvk
     winetricks
@@ -254,7 +253,6 @@
       QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
       # hyprland x nvidia
       LIBVA_DRIVER_NAME = "nvidia";
-      GBM_BACKEND = "nvidia-drm";
       __GLX_VENDOR_LIBRARY_NAME = "nvidia";
     };
   };

@@ -22,8 +22,6 @@
     qti.url = "git+https://github.com/pterror/qti?submodules=1";
     qti.inputs.nixpkgs.follows = "nixpkgs";
     nix-gaming.url = "github:fufexan/nix-gaming";
-    firefox-transparent.url = "path:./flakes/firefox-transparent";
-    firefox-transparent.inputs.nixpkgs.follows = "nixpkgs";
     unicorn-scribbles-font.url = "path:./flakes/unicorn-scribbles-font";
     unicorn-scribbles-font.inputs.nixpkgs.follows = "nixpkgs";
     miku-cursor.url = "path:./flakes/miku-cursor";
