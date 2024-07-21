@@ -8,7 +8,16 @@
       (map (s: { ${s} = f s; }) systems.flakeExposed);
   in {
     packages = forAllSystems (system: let
-      pkgs = nixpkgs.legacyPackages.${system};
+      getName = let
+        parse = drv: (builtins.parseDrvName drv).name;
+      in x:
+        if builtins.isString x
+        then parse x
+        else x.pname or (parse x.name);
+      pkgs = import nixpkgs {
+        system = system;
+	config.allowUnfreePredicate = pkg: getName pkg == "unicorn-scribbles-font";
+      };
     in rec {
       unicorn-scribbles-font = pkgs.stdenv.mkDerivation {
         name = pkgname;
@@ -33,7 +42,7 @@
         meta = {
           homepage = "https://www.dafont.com/unicorn-scribbles.font";
           description = "A typeface specially designed for user interfaces";
-          #license = nixpkgs.lib.licenses.unfree;
+          license = nixpkgs.lib.licenses.unfree;
           platforms = nixpkgs.lib.platforms.all;
         };
       };

@@ -43,6 +43,9 @@
 	  "git"
 	  "game"
 	];
+	files = [
+	  "passwords.kdbx"
+	];
       };
     };
   };
@@ -230,6 +233,8 @@
     samba # ntlm_auth for wine
     prismlauncher
     r2modman
+    cinny-desktop
+    keepassxc
     # vr
     (pkgs.callPackage ./packages/sidequest.nix {}) alvr android-tools
   ] ++ /* qti */ inputs.qti.packages.${pkgs.system}.qti-all;
@@ -238,6 +243,7 @@
   '';
   fonts.packages = with pkgs; [
     inputs.unicorn-scribbles-font.packages.${pkgs.system}.default
+    twemoji-color-font
     noto-fonts
     noto-fonts-cjk
     (nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })

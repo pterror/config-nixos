@@ -8,7 +8,16 @@
       (map (s: { ${s} = f s; }) systems.flakeExposed);
   in {
     packages = forAllSystems (system: let
-      pkgs = nixpkgs.legacyPackages.${system};
+      getName = let
+        parse = drv: (builtins.parseDrvName drv).name;
+      in x:
+        if builtins.isString x
+        then parse x
+        else x.pname or (parse x.name);
+      pkgs = import nixpkgs {
+        system = system;
+	config.allowUnfreePredicate = pkg: getName pkg == "miku-cursor";
+      };
     in rec {
       miku-cursor = pkgs.stdenv.mkDerivation {
         name = pkgname;
@@ -29,7 +38,7 @@
         meta = {
           homepage = "https://www.opendesktop.org/p/2124099";
           description = "Hatsune Miku X11 cursor theme";
-          #license = nixpkgs.lib.licenses.unfree;
+          license = nixpkgs.lib.licenses.unfree;
           platforms = nixpkgs.lib.platforms.all;
         };
       };
