@@ -114,6 +114,11 @@
         customRC = ''
           :set guicursor=a:ver25
           :set number relativenumber
+	  highlight Normal ctermbg=NONE guibg=NONE
+	  augroup user_colors
+            autocmd!
+            autocmd ColorScheme * highlight Normal ctermbg=NONE guibg=NONE
+          augroup END
         '';
       };
     };
