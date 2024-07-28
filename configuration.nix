@@ -86,6 +86,7 @@
   security.rtkit.enable = true;
   services = {
     earlyoom.enable = true;
+    tailscale.enable = true;
     pipewire = {
       enable = true;
       alsa = {
@@ -99,6 +100,7 @@
     openvscode-server = {
       enable = true;
       user = "me";
+      host = "0.0.0.0";
     };
   };
   virtualisation.docker.enable = true;
@@ -242,6 +244,7 @@
     keepassxc
     # vr
     (pkgs.callPackage ./packages/sidequest.nix {}) alvr android-tools
+    inputs.hwfetch.packages.${pkgs.system}.hwfetch
   ] ++ /* qti */ inputs.qti.packages.${pkgs.system}.qti-all;
   services.udev.extraRules = ''
     SUBSYSTEM="usb", ATTR{idVendor}=="2833", ATTR{idProduct}=="0186", MODE="0660" group="plugdev", symlink+="ocuquest%n"
@@ -262,6 +265,7 @@
       QT_QPA_PLATFORM = "wayland";
       QT_QPA_PLATFORMTHEME = "qt6ct";
       QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
+      QSG_USE_SIMPLE_ANIMATION_DRIVER = "0"; # fix quickshell lag
       # hyprland x nvidia
       LIBVA_DRIVER_NAME = "nvidia";
       __GLX_VENDOR_LIBRARY_NAME = "nvidia";

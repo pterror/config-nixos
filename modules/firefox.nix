@@ -18,6 +18,7 @@
     "font.name-list.sans-serif.x-western" = my-config.fonts.sans-serif;
     #"font.name-list.cursive.x-western" = my-config.fonts.cursive;
     "browser.eme.ui.enabled" = false; # disable DRM ui. media.eme.enabled is disabled by default
+    "dom.events.testing.asyncClipboard" = true; # paste support for dance for vscode
   };
   policies = {
     DontCheckDefaultBrowser = true;

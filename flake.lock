@@ -38,6 +38,26 @@
         "type": "github"
       }
     },
+    "hwfetch": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1722178698,
+        "narHash": "sha256-XZ2xQmFrwdjoMHvpeLE1wsg8R7jYETq0tZnqtRbIMio=",
+        "owner": "morr0ne",
+        "repo": "hwfetch",
+        "rev": "0a354f10a19a65c9fa3c9fc9534df22d5e9e83d7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "morr0ne",
+        "repo": "hwfetch",
+        "type": "github"
+      }
+    },
     "hyprcursor": {
       "inputs": {
         "hyprlang": [
@@ -355,6 +375,7 @@
     "root": {
       "inputs": {
         "home-manager": "home-manager",
+        "hwfetch": "hwfetch",
         "hyprland": "hyprland",
         "impermanence": "impermanence",
         "miku-cursor": "miku-cursor",
