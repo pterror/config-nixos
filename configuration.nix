@@ -13,8 +13,6 @@
         "/var/lib/systemd/coredump"
         "/etc/NetworkManager/system-connections"
       ];
-      files = [
-      ];
       users.me = {
         directories = [
           { directory = ".gnupg"; mode = "0700"; }
@@ -39,12 +37,8 @@
 	  ".local/share/omf"
 	  ".local/share/Steam"
 	  ".cargo" # for .cargo/bin/
-
 	  "git"
 	  "game"
-	];
-	files = [
-	  "passwords.kdbx"
 	];
       };
     };
@@ -84,6 +78,11 @@
     };
   };
   security.rtkit.enable = true;
+  networking = {
+    hostName = "pc";
+    networkmanager.enable = true;
+    firewall.enable = false;
+  };
   services = {
     earlyoom.enable = true;
     tailscale.enable = true;
@@ -108,6 +107,9 @@
     fish.enable = true;
     steam.enable = true;
     direnv.enable = true;
+    git.enable = true;
+    htop.enable = true;
+    adb.enable = true;
     firefox = import ./modules/firefox.nix args;
     neovim = {
       enable = true;
@@ -124,8 +126,6 @@
         '';
       };
     };
-    git.enable = true;
-    htop.enable = true;
     nix-ld.enable = true;
     nix-ld.libraries = with pkgs; [
       #libinput udev # wlkey
@@ -147,17 +147,12 @@
       vulkan-loader libGL # unity
     ];
   };
-  networking = {
-    hostName = "pc";
-    networkmanager.enable = true;
-    firewall.enable = false;
-  };
   time.timeZone = "Australia/Brisbane";
   users.users = {
     me = {
       hashedPassword = "$y$j9T$cidkoWm0GGdY640fxDlg1.$MtxmsHZ0XIO7PvPGss/K0WPBE7NwJVhvH38gbg/gCpA";
       isNormalUser = true;
-      extraGroups = [ "wheel" "docker" ];
+      extraGroups = [ "wheel" "docker" "adbusers" ];
       shell = pkgs.fish;
     };
     root = {
@@ -168,17 +163,14 @@
   home-manager.users.me = args2: let
     combined = args // args2;
   in lib.mkMerge [
-    { home.stateVersion = "23.11"; } # initial version. NEVER EVER CHANGE!
     {
+      home.stateVersion = "23.11"; # initial version. NEVER EVER CHANGE!
       home.pointerCursor = {
         gtk.enable = true;
 	name = "miku-cursor";
 	package = inputs.miku-cursor.packages.${pkgs.system}.default;
 	size = 24;
       };
-    }
-    (import ./home-manager/hyprland.nix combined)
-    {
       gtk = {
         theme.name = "Adwaita-dark";
         font = {
@@ -187,21 +179,10 @@
 	  size = 10;
 	};
       };
+      services.wlsunset = { enable = true; latitude = "-27.5"; longitude = "153"; };
     }
-    {
-      xdg.portal = {
-        enable = true;
-	config = {
-	  common.default = [ "hyprland" "gtk" ];
-	};
-	extraPortals = [
-	  inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland
-	  pkgs.xdg-desktop-portal-gtk
-	];
-      };
-    }
+    (import ./home-manager/hyprland.nix combined)
     (import ./home-manager/kitty.nix combined)
-    { services.wlsunset = { enable = true; latitude = "-27.5"; longitude = "153"; }; }
   ];
   environment.systemPackages = with pkgs; [
     home-manager
@@ -270,6 +251,16 @@
       LIBVA_DRIVER_NAME = "nvidia";
       __GLX_VENDOR_LIBRARY_NAME = "nvidia";
     };
+  };
+  xdg.portal = {
+    enable = true;
+    config = {
+      common.default = [ "hyprland" "gtk" ];
+    };
+    extraPortals = [
+      inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland
+      pkgs.xdg-desktop-portal-gtk
+    ];
   };
   system = {
     autoUpgrade = {
