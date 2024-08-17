@@ -197,6 +197,9 @@
     gallery-dl
     qt6.qtmultimedia
     qt6.qtwayland # idk if this fixes QT_QPA_PLATFORM=wayland
+    # qt6.qtbase # eglfs_kms for wayland-compositor
+    qt6.qtvirtualkeyboard # optional dependency for wayland-compositor
+    vulkan-loader # libvulkan for wayland-compositor
     kdePackages.qt6ct # xdg-desktop-portal for file dialog
     xdg-utils # open, xdg-open
     ffmpeg-full
@@ -221,11 +224,12 @@
     samba # ntlm_auth for wine
     prismlauncher
     r2modman
-    cinny-desktop
     keepassxc
     # vr
     (pkgs.callPackage ./packages/sidequest.nix {}) alvr android-tools
-    inputs.hwfetch.packages.${pkgs.system}.hwfetch
+    inputs.hwfetch.packages.${pkgs.system}.default
+    inputs.verdi.packages.${pkgs.system}.default
+    inputs.asciinema.packages.${pkgs.system}.default
   ] ++ /* qti */ inputs.qti.packages.${pkgs.system}.qti-all;
   services.udev.extraRules = ''
     SUBSYSTEM="usb", ATTR{idVendor}=="2833", ATTR{idProduct}=="0186", MODE="0660" group="plugdev", symlink+="ocuquest%n"
@@ -243,7 +247,6 @@
       # hyprland
       __GL_GSYNC_ALLOWED = "0";
       __GL_VRR_ALLOWED = "0";
-      QT_QPA_PLATFORM = "wayland";
       QT_QPA_PLATFORMTHEME = "qt6ct";
       QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
       QSG_USE_SIMPLE_ANIMATION_DRIVER = "0"; # fix quickshell lag
