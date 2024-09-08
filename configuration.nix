@@ -196,7 +196,6 @@
     pcmanfm
     pavucontrol
     google-chrome 
-    comma
     curl
     cava
     wlsunset
