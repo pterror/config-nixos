@@ -102,7 +102,7 @@
       host = "0.0.0.0";
     };
   };
-  virtualisation.docker.enable = true;
+  # virtualisation.docker.enable = true;
   programs = {
     fish.enable = true;
     steam.enable = true;
@@ -148,16 +148,21 @@
     ];
   };
   time.timeZone = "Australia/Brisbane";
-  users.users = {
-    me = {
-      hashedPassword = "$y$j9T$cidkoWm0GGdY640fxDlg1.$MtxmsHZ0XIO7PvPGss/K0WPBE7NwJVhvH38gbg/gCpA";
-      isNormalUser = true;
-      extraGroups = [ "wheel" "docker" "adbusers" ];
-      shell = pkgs.fish;
+  users = {
+    users = {
+      me = {
+        hashedPassword = "$y$j9T$cidkoWm0GGdY640fxDlg1.$MtxmsHZ0XIO7PvPGss/K0WPBE7NwJVhvH38gbg/gCpA";
+        isNormalUser = true;
+        extraGroups = [ "wheel" "docker" "adbusers" ];
+        shell = pkgs.fish;
+      };
+      root = {
+        initialHashedPassword = "";
+        shell = pkgs.fish;
+      };
     };
-    root = {
-      initialHashedPassword = "";
-      shell = pkgs.fish;
+    extraGroups = {
+      vboxusers.members = [ "me" ];
     };
   };
   home-manager.users.me = args2: let
@@ -191,6 +196,7 @@
     pcmanfm
     pavucontrol
     google-chrome 
+    comma
     curl
     cava
     wlsunset
@@ -204,7 +210,8 @@
     xdg-utils # open, xdg-open
     ffmpeg-full
     rlwrap
-    p7zip
+    _7zz
+    unrar-wrapper
     wf-recorder
     clang-tools
     nixpkgs-fmt
