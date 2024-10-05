@@ -102,7 +102,7 @@
       host = "0.0.0.0";
     };
   };
-  # virtualisation.docker.enable = true;
+  virtualisation.docker.enable = true;
   programs = {
     fish.enable = true;
     steam.enable = true;
@@ -226,6 +226,8 @@
     # game
     dxvk
     winetricks
+    gamescope
+    gamemode
     inputs.nix-gaming.packages.${pkgs.system}.wine-tkg
     samba # ntlm_auth for wine
     prismlauncher
