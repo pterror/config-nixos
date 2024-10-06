@@ -232,6 +232,7 @@
     samba # ntlm_auth for wine
     prismlauncher
     r2modman
+    flatpak
     keepassxc
     # vr
     (pkgs.callPackage ./packages/sidequest.nix {}) alvr android-tools
