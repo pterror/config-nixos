@@ -239,7 +239,6 @@
     inputs.hwfetch.packages.${pkgs.system}.default
     inputs.verdi.packages.${pkgs.system}.default
     inputs.asciinema.packages.${pkgs.system}.default
-    inputs.wivrn.packages.${pkgs.system}.default
   ] ++ /* qti */ inputs.qti.packages.${pkgs.system}.qti-all;
   services.udev.extraRules = ''
     SUBSYSTEM="usb", ATTR{idVendor}=="2833", ATTR{idProduct}=="0186", MODE="0660" group="plugdev", symlink+="ocuquest%n"
