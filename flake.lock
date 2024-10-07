@@ -513,7 +513,8 @@
         "qti": "qti",
         "quickshell": "quickshell",
         "unicorn-scribbles-font": "unicorn-scribbles-font",
-        "verdi": "verdi"
+        "verdi": "verdi",
+        "wivrn": "wivrn"
       }
     },
     "rust-overlay": {
@@ -609,6 +610,23 @@
         "owner": "pterror",
         "repo": "verdi",
         "type": "github"
+      }
+    },
+    "wivrn": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1,
+        "narHash": "sha256-WIBXIhzKGrcVnOZhJQiS8h1NZxtc9+T+b7nqlWj0Qjw=",
+        "path": "./flakes/wivrn",
+        "type": "path"
+      },
+      "original": {
+        "path": "./flakes/wivrn",
+        "type": "path"
       }
     },
     "xdph": {
