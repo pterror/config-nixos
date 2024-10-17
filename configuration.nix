@@ -65,6 +65,7 @@
     "steam"
     "steam-original"
     "steam-run"
+    "reaper"
   ];
   hardware = {
     graphics.enable = true; # hyprland
@@ -214,6 +215,7 @@
     wf-recorder
     clang-tools
     nixpkgs-fmt
+    reaper
     # vs code
     nixd
     # image manipulation

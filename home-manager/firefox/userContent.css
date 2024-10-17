@@ -11,7 +11,7 @@
 }
 
 ::selection {
-	background-color: lch(100 0 0 / 0.2) !important;
+	background-color: lch(50 0 0 / 75%) !important;
 }
 
 @-moz-document domain(google.com) {
@@ -130,9 +130,92 @@
 	pre, code { color: #bbbbbb !important; }
 }
 
+/* openvscode-server */
+@-moz-document url-prefix(http://localhost:3000/) {
+	:root {
+		--transparent-highlight: #b0d0ff20;
+		--transparent-highlight-light: #e0f0ff80;
+		--transparent-highlight-lighter: #e0f0ffb0;
+		--transparent-highlight-light-fg: #0e0f1080;
+		--transparent-highlight-dark: #0e0f1080;
+	}
+
+	.monaco-workbench .editor-container,
+	.monaco-workbench .part > .content,
+	.monaco-workbench .part.editor > .content .editor-group-container,
+	.monaco-workbench .part.editor > .content .editor-group-container > .title,
+	.monaco-workbench .part.editor > .content .editor-group-container > .title .tabs-container > .tab,
+	.monaco-workbench .part.statusbar,
+	.monaco-editor .sticky-widget-lines-scrollable,
+	.monaco-editor .sticky-widget-lines,
+	.monaco-editor .sticky-widget-line,
+	.monaco-editor .sticky-line-content,
+	.monaco-editor .sticky-widget-line-numbers,
+	.monaco-editor .sticky-line-number {
+		background-color: transparent !important;
+	}
+
+	.monaco-editor .selected-text {
+		opacity: 60%; /* hacky workaround for background-color that is solid now for some reason */
+	}
+
+	.monaco-workbench .part.titlebar,
+	.monaco-workbench .part.activitybar,
+	.monaco-workbench .part.sidebar,
+	.monaco-workbench .part.editor > .content .editor-group-container > .title .tabs-container > .tab {
+		border-color: transparent !important;
+	}
+
+	.monaco-workbench .part.editor > .content .editor-group-container > .title > .tabs-and-actions-container{
+		--tabs-border-bottom-color: transparent !important;
+	}
+
+	.monaco-workbench .part.statusbar {
+		--status-border-top-color: transparent !important;
+	}
+
+	.monaco-workbench .part.activitybar,
+	.monaco-workbench .part.sidebar {
+		background-color: transparent !important;
+	}
+
+	.monaco-editor .minimap > canvas:first-of-type {
+		opacity: 50%;
+	}
+
+	.monaco-workbench .part.editor > .content .editor-group-container > .title .tabs-container > .tab.active {
+		background-color: var(--transparent-highlight) !important;
+	}
+
+	.monaco-workbench {
+		--vscode-editor-background: transparent !important;
+		--vscode-editor-inactiveSelectionBackground: transparent !important;
+		--vscode-sideBar-background: transparent !important;
+		--vscode-editorGutter-background: transparent !important;
+		--vscode-sideBarSectionHeader-background: transparent !important;
+		--vscode-breadcrumb-background: transparent !important;
+		--vscode-editorStickyScroll-background: var(--transparent-highlight) !important;
+		--vscode-badge-background: var(--transparent-highlight-light) !important;
+		--vscode-badge-foreground: var(--transparent-highlight-light-fg) !important;
+		--vscode-extensionButton-background: var(--transparent-highlight-light) !important;
+		--vscode-extensionButton-prominentHoverBackground: var(--transparent-highlight-lighter) !important;
+		--vscode-extensionButton-prominentForeground: var(--transparent-highlight-light-fg) !important;
+		--vscode-statusBarItem-remoteBackground: var(--transparent-highlight-light) !important;
+		--vscode-commandCenter-inactiveBorder: transparent !important;
+		--vscode-quickInput-background: var(--transparent-highlight-dark) !important;
+		--vscode-quickInputList-focusBackground: var(--transparent-highlight) !important;
+	}
+}
+
+
 @-moz-document domain(analytics.google.com) {
 	* { background: lch(0 0 0 / 0.05) !important; }
 	mdx-slider-container, xap-slider-container {
 		background: lch(0 0 0 / 0.75) !important;
 	}
+}
+
+@-moz-document domain(wikipedia.org) {
+	.mw-parser-output span.cs1-maint { display: inline; } /* display Citation Style 1 maintenance messages */
+	.mw-parser-output span.cs1-hidden-error { display: inline; } /* display hidden Citation Style 1 error messages */
 }

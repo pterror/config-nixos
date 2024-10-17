@@ -1,5 +1,6 @@
 :root {
 	font-family: "Unicorn Scribbles" !important;
+	background: transparent;
 	--tabpanel-background-color: transparent !important;
 	--toolbar-bgcolor: transparent !important;
 	--sidebar-background-color: transparent !important;
