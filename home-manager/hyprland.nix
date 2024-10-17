@@ -4,7 +4,6 @@
 in {
   wayland.windowManager.hyprland = {
     enable = true;
-    package = inputs.hyprland.packages.${pkgs.system}.default;
     settings = {
       general = { border_size = 0; };
       misc = {
