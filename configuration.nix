@@ -59,11 +59,11 @@
   };
   
   qt.enable = true;
-  nix.settings.experimental-features = [ "nix-command" "flakes" "repl-flake" ];
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "google-chrome"
     "steam"
-    "steam-original"
+    "steam-unwrapped"
     "steam-run"
     "reaper"
   ];
@@ -186,6 +186,7 @@
 	};
       };
       services.wlsunset = { enable = true; latitude = "-27.5"; longitude = "153"; };
+      services.fluidsynth = { enable = true; soundService = "pipewire-pulse"; };
     }
     (import ./home-manager/hyprland.nix combined)
     (import ./home-manager/kitty.nix combined)
@@ -238,9 +239,9 @@
     keepassxc
     # vr
     (pkgs.callPackage ./packages/sidequest.nix {}) alvr android-tools
-    inputs.hwfetch.packages.${pkgs.system}.default
-    inputs.verdi.packages.${pkgs.system}.default
-    inputs.asciinema.packages.${pkgs.system}.default
+    # inputs.hwfetch.packages.${pkgs.system}.default
+    # inputs.verdi.packages.${pkgs.system}.default
+    # inputs.asciinema.packages.${pkgs.system}.default
   ] ++ /* qti */ inputs.qti.packages.${pkgs.system}.qti-all;
   services.udev.extraRules = ''
     SUBSYSTEM="usb", ATTR{idVendor}=="2833", ATTR{idProduct}=="0186", MODE="0660" group="plugdev", symlink+="ocuquest%n"

@@ -23,12 +23,12 @@
     unicorn-scribbles-font.inputs.nixpkgs.follows = "nixpkgs";
     miku-cursor.url = path:./flakes/miku-cursor;
     miku-cursor.inputs.nixpkgs.follows = "nixpkgs";
-    hwfetch.url = github:morr0ne/hwfetch;
-    hwfetch.inputs.nixpkgs.follows = "nixpkgs";
-    asciinema.url = github:asciinema/asciinema;
-    asciinema.inputs.nixpkgs.follows = "nixpkgs";
-    verdi.url = github:pterror/verdi;
-    verdi.inputs.nixpkgs.follows = "nixpkgs";
+    # hwfetch.url = github:morr0ne/hwfetch;
+    # hwfetch.inputs.nixpkgs.follows = "nixpkgs";
+    # asciinema.url = github:asciinema/asciinema;
+    # asciinema.inputs.nixpkgs.follows = "nixpkgs";
+    # verdi.url = github:pterror/verdi;
+    # verdi.inputs.nixpkgs.follows = "nixpkgs";
   };
   outputs = { self, nixpkgs, impermanence, ... }@inputs: {
     nixosConfigurations.pc = nixpkgs.lib.nixosSystem {
