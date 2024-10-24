@@ -216,6 +216,7 @@
     clang-tools
     nixpkgs-fmt
     reaper
+    jetbrains.idea-community
     # vs code
     nixd
     # image manipulation
