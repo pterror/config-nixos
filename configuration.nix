@@ -3,17 +3,6 @@
   imports = [ ./hardware-configuration.nix ./cachix.nix inputs.home-manager.nixosModules.home-manager ];
   documentation.nixos.enable = false;
 
-  nix.settings = {
-    substituters = [
-      "https://nix-community.cachix.org"
-      "https://nix-gaming.cachix.org"
-    ];
-    trusted-public-keys = [
-      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-      "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
-    ];
-  };
-
   environment.persistence = {
     "/persistent" = {
       hideMounts = true;
@@ -66,16 +55,15 @@
       };
       efi.canTouchEfiVariables = true;
     };
-    # TODO: wifi (rtw89_8852ae) broken; wait until 6.11.6 before upgrading
     kernelPackages = pkgs.linuxPackages_zen;
   };
   
   qt.enable = true;
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [ "nix-command" "flakes" "repl-flake" ];
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "google-chrome"
     "steam"
-    "steam-unwrapped"
+    "steam-original"
     "steam-run"
     "reaper"
   ];
@@ -144,7 +132,7 @@
       #libinput udev # wlkey
       glib # gobject for electron
       expat cairo # playwright
-      alsa-lib # asound for playwright (and soloud)
+      alsaLib # asound for playwright (and soloud)
       xorg.libxcb # playwright
       xorg.libX11 # playwright
       xorg.libXcomposite # playwright
@@ -250,15 +238,10 @@
     flatpak
     keepassxc
     # vr
-    (sidequest.overrideAttrs (super: {
-      nativeBuildInputs = super.nativeBuildInputs ++ [ wrapGAppsHook ];
-    }))
-    alvr
-    android-tools
-    wivrn
-    # inputs.hwfetch.packages.${pkgs.system}.default
-    # inputs.verdi.packages.${pkgs.system}.default
-    # inputs.asciinema.packages.${pkgs.system}.default
+    (pkgs.callPackage ./packages/sidequest.nix {}) alvr android-tools
+    inputs.hwfetch.packages.${pkgs.system}.default
+    inputs.verdi.packages.${pkgs.system}.default
+    inputs.asciinema.packages.${pkgs.system}.default
   ] ++ /* qti */ inputs.qti.packages.${pkgs.system}.qti-all;
   services.udev.extraRules = ''
     SUBSYSTEM="usb", ATTR{idVendor}=="2833", ATTR{idProduct}=="0186", MODE="0660" group="plugdev", symlink+="ocuquest%n"
@@ -267,7 +250,7 @@
     inputs.unicorn-scribbles-font.packages.${pkgs.system}.default
     twemoji-color-font
     noto-fonts
-    noto-fonts-cjk-sans
+    noto-fonts-cjk
     (nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
   ];
   environment = {
