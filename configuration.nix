@@ -250,6 +250,7 @@
     r2modman
     flatpak
     keepassxc
+    lumafly
     # vr
     (pkgs.callPackage ./packages/sidequest.nix {}) alvr android-tools
     inputs.hwfetch.packages.${pkgs.system}.default
