@@ -230,6 +230,7 @@
     nixpkgs-fmt
     reaper
     jetbrains.idea-community
+    bottom
     # vs code
     nixd
     # image manipulation
