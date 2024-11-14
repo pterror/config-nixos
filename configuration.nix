@@ -68,15 +68,16 @@
       };
       efi.canTouchEfiVariables = true;
     };
-    kernelPackages = pkgs.linuxPackages_zen;
+    # TODO: wifi (rtw89_8852ae) broken; wait until zen 6.11.7 before switching back to zen
+    kernelPackages = pkgs.linuxPackages_latest;
   };
   
   qt.enable = true;
-  nix.settings.experimental-features = [ "nix-command" "flakes" "repl-flake" ];
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "google-chrome"
     "steam"
-    "steam-original"
+    "steam-unwrapped"
     "steam-run"
     "reaper"
   ];
@@ -115,6 +116,13 @@
       user = "me";
       host = "0.0.0.0";
     };
+    udev.extraRules = ''
+      SUBSYSTEM="usb", ATTR{idVendor}=="2833", ATTR{idProduct}=="0186", MODE="0660" group="plugdev", symlink+="ocuquest%n"
+    '';
+    wivrn = {
+      enable = true;
+      autoStart = true;
+    };
   };
   virtualisation.docker.enable = true;
   programs = {
@@ -145,7 +153,7 @@
       #libinput udev # wlkey
       glib # gobject for electron
       expat cairo # playwright
-      alsaLib # asound for playwright (and soloud)
+      alsa-lib # asound for playwright (and soloud)
       xorg.libxcb # playwright
       xorg.libX11 # playwright
       xorg.libXcomposite # playwright
@@ -253,19 +261,22 @@
     keepassxc
     lumafly
     # vr
-    (pkgs.callPackage ./packages/sidequest.nix {}) alvr android-tools
-    inputs.hwfetch.packages.${pkgs.system}.default
-    inputs.verdi.packages.${pkgs.system}.default
-    inputs.asciinema.packages.${pkgs.system}.default
+    (sidequest.overrideAttrs (super: {
+      nativeBuildInputs = super.nativeBuildInputs ++ [ wrapGAppsHook ];
+    }))
+    alvr
+    android-tools
+    # inputs.hwfetch.packages.${pkgs.system}.default
+    # inputs.verdi.packages.${pkgs.system}.default
+    # inputs.asciinema.packages.${pkgs.system}.default
+    inputs.stardust-telescope.packages.${pkgs.system}.telescope
+    inputs.stardust-telescope.packages.${pkgs.system}.flatscreen
   ] ++ /* qti */ inputs.qti.packages.${pkgs.system}.qti-all;
-  services.udev.extraRules = ''
-    SUBSYSTEM="usb", ATTR{idVendor}=="2833", ATTR{idProduct}=="0186", MODE="0660" group="plugdev", symlink+="ocuquest%n"
-  '';
   fonts.packages = with pkgs; [
     inputs.unicorn-scribbles-font.packages.${pkgs.system}.default
     twemoji-color-font
     noto-fonts
-    noto-fonts-cjk
+    noto-fonts-cjk-sans
     (nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
   ];
   environment = {

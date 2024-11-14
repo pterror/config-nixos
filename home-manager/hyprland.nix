@@ -10,7 +10,7 @@ in {
         disable_hyprland_logo = true;
         disable_splash_rendering = true;
       };
-      dwindle = { no_gaps_when_only = 1; };
+      #dwindle = { no_gaps_when_only = 1; };
       cursor = {
         allow_dumb_copy = 1;
         no_hardware_cursors = 1;
@@ -23,11 +23,11 @@ in {
           passes = 3;
           vibrancy = 0.1696;
         };
-        drop_shadow = false;
-        shadow_range = 4;
-        shadow_render_power = 3;
-        dim_special = 0.7;
-        "col.shadow" = "rgba(1a1a1aee)";
+        #drop_shadow = false;
+        #shadow_range = 4;
+        #shadow_render_power = 3;
+        #dim_special = 0.7;
+        #"col.shadow" = "rgba(1a1a1aee)";
       };
       animations = {
         bezier = [
