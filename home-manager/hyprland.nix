@@ -10,7 +10,9 @@ in {
         disable_hyprland_logo = true;
         disable_splash_rendering = true;
       };
-      #dwindle = { no_gaps_when_only = 1; };
+      dwindle = {
+        smart_split = true;
+      };
       cursor = {
         allow_dumb_copy = 1;
         no_hardware_cursors = 1;
@@ -23,11 +25,12 @@ in {
           passes = 3;
           vibrancy = 0.1696;
         };
-        #drop_shadow = false;
-        #shadow_range = 4;
-        #shadow_render_power = 3;
-        #dim_special = 0.7;
-        #"col.shadow" = "rgba(1a1a1aee)";
+	shadow = {
+	  enabled = false;
+	  range = 4;
+	  render_power = 3;
+	};
+        dim_special = 0.7;
       };
       animations = {
         bezier = [
@@ -60,6 +63,18 @@ in {
           "specialWorkspace, 1, 3, md3_decel, slidevert"
         ];
       };
+      workspace = [
+        # no_gaps_when_only
+        "w[tv1], gapsout:0, gapsin:0"
+        "f[1], gapsout:0, gapsin:0"
+      ];
+      windowrulev2 = [
+        # no_gaps_when_only
+        "bordersize 0, floating:0, onworkspace:w[tv1]"
+        "rounding 0, floating:0, onworkspace:w[tv1]"
+        "bordersize 0, floating:0, onworkspace:f[1]"
+        "rounding 0, floating:0, onworkspace:f[1]"
+      ];
       env = [
         "QT_QPA_PLATFORM,wayland"
         "XDG_SESSION_TYPE,wayland"
