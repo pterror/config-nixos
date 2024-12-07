@@ -17,6 +17,11 @@
 	--backdrop: rgb(0 0 0 / 75%);
 }
 
+/* hide tabs */
+#TabsToolbar {
+	display: none;
+}
+
 /* transparent popout window */
 #main-window { background-color: transparent !important; }
 
@@ -24,8 +29,10 @@
 #navigator-toolbox { border-bottom: none !important; }
 search-textbox { background-color: transparent !important; }
 
+#sidebar-box { z-index: 3 !important; }
+
 /* transparent sidebery */
-#sidebar-box > #browser, #webextpanels-window { background: transparent !important }
+#sidebar-box > #browser, #webextpanels-window { background: transparent !important; }
 
 .sidebar-splitter {
 	background: transparent !important;
@@ -155,7 +162,7 @@ findbar .findbar-textbox  {
 
 #main-window #urlbar {
         z-index: 9999 !important;
-        width: 100% !important;
+        /* width: 100% !important; */
         margin-top: 0 !important;
         margin-left: 0 !important;
         margin-right: 0 !important;
@@ -165,7 +172,7 @@ findbar .findbar-textbox  {
 #main-window #urlbar[breakout][breakout-extend] {
         background-color: 
         opacity: 0.8 !important;
-        width: 100% !important;
+        /* width: 100% !important; */
         left: 0;
         right: 0;
         margin-left: auto !important;

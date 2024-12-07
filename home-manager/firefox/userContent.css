@@ -49,18 +49,19 @@
 		--header-secondary: var(--system-wide-fg-2);
 		--interactive-active: var(--system-wide-fg);
 		--channels-default: var(--system-wide-fg-3);*/
-		--font-primary: 'Unicorn Scribbles', 'gg sans', 'Noto Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-		--font-display: 'Unicorn Scribbles', 'gg sans', 'Noto Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-		--bg-overlay-chat: transparent;
-		--bg-overlay-app-frame: transparent;
-		--bg-overlay-2: transparent;
-		--background-primary: lch(10 0 0 / 0.5);
-		--background-secondary: transparent;
-		--background-secondary-alt: lch(8 0 0 / 0.3);
-		--background-tertiary: transparent;
-		--background-modifier-accent: transparent;
-		--channeltextarea-background: transparent;
-	}
+	--font-primary: 'Unicorn Scribbles', 'gg sans', 'Noto Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	--font-display: 'Unicorn Scribbles', 'gg sans', 'Noto Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	--font-code: 'FantasqueSansM Nerd Font', 'gg mono', 'Source Code Pro', Consolas, 'Andale Mono WT', 'Andale Mono', 'Lucida Console', 'Lucida Sans Typewriter', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Liberation Mono', 'Nimbus Mono L', Monaco, 'Courier New', Courier, monospace;
+	--bg-overlay-chat: transparent;
+	--bg-overlay-app-frame: transparent;
+	--bg-overlay-2: transparent;
+	--background-primary: lch(10 0 0 / 0.5);
+	--background-secondary: transparent;
+	--background-secondary-alt: lch(8 0 0 / 0.3);
+	--background-tertiary: transparent;
+	--background-modifier-accent: transparent;
+	--channeltextarea-background: transparent;
+}
 }
 
 @-moz-document domain(github.com) {
@@ -74,7 +75,53 @@
 		--color-scale-gray-7: #21262d40 !important;
 		--color-scale-gray-8: #161b2240 !important;
 		--color-scale-gray-9: #0d111740 !important;*/
-	}
+}
+
+.merge-status-list {
+	max-height: 1200px !important;
+	display: flex;
+	flex-direction: column;
+}
+
+/* Failed required tasks */
+.merge-status-item:has(.color-fg-danger):has(.Label--primary) {
+	order: -1
+}
+
+/* Running required tasks */
+.merge-status-item:has(svg.anim-rotate):has(.Label--primary) {
+	order: 0
+}
+
+/* Queued required tasks */
+.merge-status-item:has(svg.hx_dot-fill-pending-icon):has(.Label--primary) {
+	order: 1;
+}
+
+/* Successfull Required tasks */
+.merge-status-item:has(.Label--primary) {
+	order: 2;
+}
+
+/* Failed optional tasks */
+.merge-status-item:has(.color-fg-danger) {
+	order: 3
+}
+
+/* Pending optional tasks */
+.merge-status-item:has(svg.anim-rotate) {
+	order: 4
+}
+
+/* Queued optional tasks */
+.merge-status-item:has(svg.hx_dot-fill-pending-icon) {
+	order: 5;
+}
+
+/* The rest */
+.merge-status-item {
+	order: 6
+}
 }
 
 /* fixme: doesn't properly match this page */
@@ -110,18 +157,18 @@
 
 @-moz-document domain(192.168.1.1) {
 	#mainBody {
-	#top, #main, #base-inner, #pc-top, #pc-scroll { background: transparent !important; }
-	div.search-input-wrapper, #menuTree li.ml1 a, div.top-nav ul li.selected span.text, div.top-nav.disabled ul li.selected span.text { background: lch(100 0 0 / 0.2) !important; }
-	ul.search-input-drop li, div.msg-container-wrapper { background: lch(10 0 0 / 0.7) !important; }
-	ul.search-input-drop li.hover { background: lch(30 0 0 / 0.7) !important; }
-	div.wizard-container div.wizard-btn button.button-button, div.msg-btn-container div.button-container button.button-button, div.button-container.submit button.button-button, button.button-button { background: lch(40 30 260 / 0.7) !important; }
-	:is(div.wizard-container div.wizard-btn button.button-button, div.msg-btn-container div.button-container button.button-button, div.button-container.submit button.button-button, button.button-button):hover { background: lch(50 30 260 / 0.7) !important; }
-	#menuTree li.ml1 a.sel { background: lch(100 0 0 / 0.4) !important; }
-	* { color: white !important; }
-	#menu span.icon { filter: brightness(100); }
-	div.map-icon-internet, div.map-icon-internet-conn, div.map-icon-wireless, div.map-icon-wire, div.map-icon-phone, div.map-icon-usb, div.map-icon-router { filter: brightness(2); }
-	span.map-icon-num { color: black !important; }
-	div.help-content-container { background-color: rgb(0 0 0 / 75%) !important; }
+		#top, #main, #base-inner, #pc-top, #pc-scroll { background: transparent !important; }
+		div.search-input-wrapper, #menuTree li.ml1 a, div.top-nav ul li.selected span.text, div.top-nav.disabled ul li.selected span.text { background: lch(100 0 0 / 0.2) !important; }
+		ul.search-input-drop li, div.msg-container-wrapper { background: lch(10 0 0 / 0.7) !important; }
+		ul.search-input-drop li.hover { background: lch(30 0 0 / 0.7) !important; }
+		div.wizard-container div.wizard-btn button.button-button, div.msg-btn-container div.button-container button.button-button, div.button-container.submit button.button-button, button.button-button { background: lch(40 30 260 / 0.7) !important; }
+		:is(div.wizard-container div.wizard-btn button.button-button, div.msg-btn-container div.button-container button.button-button, div.button-container.submit button.button-button, button.button-button):hover { background: lch(50 30 260 / 0.7) !important; }
+		#menuTree li.ml1 a.sel { background: lch(100 0 0 / 0.4) !important; }
+		* { color: white !important; }
+		#menu span.icon { filter: brightness(100); }
+		div.map-icon-internet, div.map-icon-internet-conn, div.map-icon-wireless, div.map-icon-wire, div.map-icon-phone, div.map-icon-usb, div.map-icon-router { filter: brightness(2); }
+		span.map-icon-num { color: black !important; }
+		div.help-content-container { background-color: rgb(0 0 0 / 75%) !important; }
 	}
 }
 
