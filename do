@@ -5,7 +5,7 @@ shift
 cd $HERE
 case $ACTION in
   upgrade)
-    nix flake update .
+    nix flake update --flake .
     sudo nixos-rebuild switch --upgrade --flake .
     ;;
   upgrade-less)

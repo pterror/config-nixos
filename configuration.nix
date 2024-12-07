@@ -8,11 +8,13 @@
       "https://nix-community.cachix.org"
       "https://nix-gaming.cachix.org"
       "https://stardustxr.cachix.org"
+      "https://eigenvalue.cachix.org"
     ];
     trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
       "stardustxr.cachix.org-1:mWSn8Ap2RLsIWT/8gsj+VfbJB6xoOkPaZpbjO+r9HBo="
+      "eigenvalue.cachix.org-1:ykerQDDa55PGxU25CETy9wF6uVDpadGGXYrFNJA3TUs="
     ];
   };
 
@@ -68,8 +70,7 @@
       };
       efi.canTouchEfiVariables = true;
     };
-    # TODO: wifi (rtw89_8852ae) broken; wait until zen 6.11.7 before switching back to zen
-    kernelPackages = pkgs.linuxPackages_latest;
+    kernelPackages = pkgs.linuxPackages_zen;
   };
   
   qt.enable = true;
@@ -80,6 +81,7 @@
     "steam-unwrapped"
     "steam-run"
     "reaper"
+    "discord-canary"
   ];
   hardware = {
     graphics.enable = true; # hyprland
@@ -111,6 +113,7 @@
       jack.enable = true;
     };
     openssh.enable = true;
+    sunshine.enable = true;
     openvscode-server = {
       enable = true;
       user = "me";
@@ -238,7 +241,7 @@
     nixpkgs-fmt
     reaper
     jetbrains.idea-community
-    bottom
+    discord-canary
     # vs code
     nixd
     # image manipulation
@@ -259,7 +262,7 @@
     r2modman
     flatpak
     keepassxc
-    lumafly
+    # lumafly
     # vr
     (sidequest.overrideAttrs (super: {
       nativeBuildInputs = super.nativeBuildInputs ++ [ wrapGAppsHook ];
@@ -277,7 +280,7 @@
     twemoji-color-font
     noto-fonts
     noto-fonts-cjk-sans
-    (nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
+    nerd-fonts.fantasque-sans-mono
   ];
   environment = {
     pathsToLink = [ "/share/qti" ];
