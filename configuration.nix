@@ -103,6 +103,10 @@
   services = {
     earlyoom.enable = true;
     tailscale.enable = true;
+    transmission = {
+      enable = true;
+      settings.download-dir = "/mnt/usb/game/";
+    };
     pipewire = {
       enable = true;
       alsa = {
