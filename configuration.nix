@@ -75,12 +75,37 @@
   
   qt.enable = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  #nixpkgs.config.cudaSupport = true;
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "google-chrome"
     "steam"
     "steam-unwrapped"
     "steam-run"
     "reaper"
+    # for wivrn
+    "cuda-merged"
+    "cuda_cuobjdump"
+    "cuda_gdb"
+    "cuda_nvcc"
+    "cuda_nvdisasm"
+    "cuda_nvprune"
+    "cuda_cccl"
+    "cuda_cudart"
+    "cuda_cupti"
+    "cuda_cuxxfilt"
+    "cuda_nvml_dev"
+    "cuda_nvrtc"
+    "cuda_nvtx"
+    "libnpp"
+    "libcublas"
+    "libcufft"
+    "libcurand"
+    "libcusparse"
+    "libnvjitlink"
+    "cudnn"
+    "cuda_profiler_api"
+    "cuda_sanitizer_api"
+    "libcusolver"
   ];
   hardware = {
     graphics.enable = true; # hyprland
@@ -126,10 +151,10 @@
     udev.extraRules = ''
       SUBSYSTEM="usb", ATTR{idVendor}=="2833", ATTR{idProduct}=="0186", MODE="0660" group="plugdev", symlink+="ocuquest%n"
     '';
-    wivrn = {
-      enable = true;
-      autoStart = true;
-    };
+    #wivrn = {
+    #  enable = true;
+    #  autoStart = true;
+    #};
   };
   virtualisation.docker.enable = true;
   programs = {
@@ -246,7 +271,18 @@
     jetbrains.idea-community
     vesktop
     btop
-    mommy
+    bat
+    ((mommy.override {
+      mommySettings = {
+        sweetie = "cutie";
+	color = "219";
+      };
+    }).overrideAttrs (self: super: {
+      postInstall = builtins.replaceStrings
+        ["--set-default MOMMY_OPT_CONFIG_FILE "]
+	["--add-flags -c --add-flags "]
+	super.postInstall;
+    }))
     # vs code
     nixd
     # image manipulation
@@ -295,14 +331,13 @@
       __GL_VRR_ALLOWED = "0";
       QT_QPA_PLATFORMTHEME = "qt6ct";
       QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
-      QSG_USE_SIMPLE_ANIMATION_DRIVER = "0"; # fix quickshell lag
+      # QSG_USE_SIMPLE_ANIMATION_DRIVER = "0"; # fix quickshell lag
+      QSG_USE_SIMPLE_ANIMATION_DRIVER = "1"; # why is quickshell laggy,,,
       # hyprland x nvidia
       LIBVA_DRIVER_NAME = "nvidia";
       __GLX_VENDOR_LIBRARY_NAME = "nvidia";
       # can fix steam shader precaching pls?
       __GL_SHADER_DISK_CACHE_SIZE = "100000000000";
-      # mommy
-      MOMMY_SWEETIE = "cutie";
     };
   };
   xdg.portal = {
