@@ -81,7 +81,6 @@
     "steam-unwrapped"
     "steam-run"
     "reaper"
-    "discord-canary"
   ];
   hardware = {
     graphics.enable = true; # hyprland
@@ -105,6 +104,7 @@
     tailscale.enable = true;
     transmission = {
       enable = true;
+      user = "me";
       settings.download-dir = "/mnt/usb/game/";
     };
     pipewire = {
@@ -137,7 +137,6 @@
     steam.enable = true;
     direnv.enable = true;
     git.enable = true;
-    htop.enable = true;
     adb.enable = true;
     firefox = import ./modules/firefox.nix args;
     neovim = {
@@ -245,7 +244,9 @@
     nixpkgs-fmt
     reaper
     jetbrains.idea-community
-    discord-canary
+    vesktop
+    btop
+    mommy
     # vs code
     nixd
     # image manipulation
@@ -298,6 +299,10 @@
       # hyprland x nvidia
       LIBVA_DRIVER_NAME = "nvidia";
       __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+      # can fix steam shader precaching pls?
+      __GL_SHADER_DISK_CACHE_SIZE = "100000000000";
+      # mommy
+      MOMMY_SWEETIE = "cutie";
     };
   };
   xdg.portal = {
