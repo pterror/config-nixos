@@ -274,8 +274,9 @@
     bat
     ((mommy.override {
       mommySettings = {
+        caregiver = "uwu/NixOWOS";
         sweetie = "cutie";
-	color = "219";
+	color = "182/183/218/219/225";
       };
     }).overrideAttrs (self: super: {
       postInstall = builtins.replaceStrings
@@ -331,8 +332,7 @@
       __GL_VRR_ALLOWED = "0";
       QT_QPA_PLATFORMTHEME = "qt6ct";
       QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
-      # QSG_USE_SIMPLE_ANIMATION_DRIVER = "0"; # fix quickshell lag
-      QSG_USE_SIMPLE_ANIMATION_DRIVER = "1"; # why is quickshell laggy,,,
+      QSG_USE_SIMPLE_ANIMATION_DRIVER = "0"; # fix quickshell lag
       # hyprland x nvidia
       LIBVA_DRIVER_NAME = "nvidia";
       __GLX_VENDOR_LIBRARY_NAME = "nvidia";
