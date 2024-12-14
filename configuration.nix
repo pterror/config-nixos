@@ -33,28 +33,28 @@
           { directory = ".gnupg"; mode = "0700"; }
           { directory = ".ssh"; mode = "0700"; }
           { directory = ".local/share/keyrings"; mode = "0700"; }
-	  ".config/qt6ct" # TODO: move to declarative config
-	  ".config/quickshell"
-	  ".config/wallpapers"
-	  { directory = ".config/omf"; mode = "0700"; } # TODO: move to declarative config
-	  { directory = ".config/pipewire"; mode = "0700"; }
-	  ".config/google-chrome"
-	  ".config/fish"
-	  ".config/itch"
-	  ".config/tits"
-	  ".config/gallery-dl"
-	  ".mozilla/firefox"
-	  ".openvscode-server"
-	  ".aws"
-	  ".wine"
-	  ".local/share/pnpm"
-	  ".local/share/fish"
-	  ".local/share/omf"
-	  ".local/share/Steam"
-	  ".cargo" # for .cargo/bin/
-	  "git"
-	  "game"
-	];
+          ".config/qt6ct" # TODO: move to declarative config
+          ".config/quickshell"
+          ".config/wallpapers"
+          { directory = ".config/omf"; mode = "0700"; } # TODO: move to declarative config
+          { directory = ".config/pipewire"; mode = "0700"; }
+          ".config/google-chrome"
+          ".config/fish"
+          ".config/itch"
+          ".config/tits"
+          ".config/gallery-dl"
+          ".mozilla/firefox"
+          ".openvscode-server"
+          ".aws"
+          ".wine"
+          ".local/share/pnpm"
+          ".local/share/fish"
+          ".local/share/omf"
+          ".local/share/Steam"
+          ".cargo" # for .cargo/bin/
+          "git"
+          "game"
+        ];
       };
     };
   };
@@ -72,7 +72,7 @@
     };
     kernelPackages = pkgs.linuxPackages_zen;
   };
-  
+
   qt.enable = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   #nixpkgs.config.cudaSupport = true;
@@ -169,13 +169,13 @@
       defaultEditor = true;
       configure = {
         customRC = ''
-          :set guicursor=a:ver25
-          :set number relativenumber
-	  highlight Normal ctermbg=NONE guibg=NONE
-	  augroup user_colors
-            autocmd!
-            autocmd ColorScheme * highlight Normal ctermbg=NONE guibg=NONE
-          augroup END
+                    :set guicursor=a:ver25
+                    :set number relativenumber
+          	  highlight Normal ctermbg=NONE guibg=NONE
+          	  augroup user_colors
+                      autocmd!
+                      autocmd ColorScheme * highlight Normal ctermbg=NONE guibg=NONE
+                    augroup END
         '';
       };
     };
@@ -183,7 +183,8 @@
     nix-ld.libraries = with pkgs; [
       #libinput udev # wlkey
       glib # gobject for electron
-      expat cairo # playwright
+      expat
+      cairo # playwright
       alsa-lib # asound for playwright (and soloud)
       xorg.libxcb # playwright
       xorg.libX11 # playwright
@@ -192,12 +193,18 @@
       xorg.libXext # playwright
       xorg.libXfixes # playwright
       xorg.libXrandr # playwright
-      nspr dbus atk cups libdrm pango # playwright
+      nspr
+      dbus
+      atk
+      cups
+      libdrm
+      pango # playwright
       libxkbcommon # playwright
       mesa # gbm for playwright
       nss # playwright
       gtk3
-      vulkan-loader libGL # unity
+      vulkan-loader
+      libGL # unity
     ];
   };
   time.timeZone = "Australia/Brisbane";
@@ -218,37 +225,39 @@
       vboxusers.members = [ "me" ];
     };
   };
-  home-manager.users.me = args2: let
-    combined = args // args2;
-  in lib.mkMerge [
-    {
-      home.stateVersion = "23.11"; # initial version. NEVER EVER CHANGE!
-      home.pointerCursor = {
-        gtk.enable = true;
-	name = "miku-cursor";
-	package = inputs.miku-cursor.packages.${pkgs.system}.default;
-	size = 24;
-      };
-      gtk = {
-        theme.name = "Adwaita-dark";
-        font = {
-	  name = "Unicorn Scribbles";
-	  package = inputs.unicorn-scribbles-font.packages.${pkgs.system}.default;
-	  size = 10;
-	};
-      };
-      services.wlsunset = { enable = true; latitude = "-27.5"; longitude = "153"; };
-    }
-    (import ./home-manager/hyprland.nix combined)
-    (import ./home-manager/kitty.nix combined)
-  ];
+  home-manager.users.me = args2:
+    let
+      combined = args // args2;
+    in
+    lib.mkMerge [
+      {
+        home.stateVersion = "23.11"; # initial version. NEVER EVER CHANGE!
+        home.pointerCursor = {
+          gtk.enable = true;
+          name = "miku-cursor";
+          package = inputs.miku-cursor.packages.${pkgs.system}.default;
+          size = 24;
+        };
+        gtk = {
+          theme.name = "Adwaita-dark";
+          font = {
+            name = "Unicorn Scribbles";
+            package = inputs.unicorn-scribbles-font.packages.${pkgs.system}.default;
+            size = 10;
+          };
+        };
+        services.wlsunset = { enable = true; latitude = "-27.5"; longitude = "153"; };
+      }
+      (import ./home-manager/hyprland.nix combined)
+      (import ./home-manager/kitty.nix combined)
+    ];
   environment.systemPackages = with pkgs; [
     home-manager
     cachix
     file
     pcmanfm
     pavucontrol
-    google-chrome 
+    google-chrome
     curl
     cava
     wlsunset
@@ -273,16 +282,22 @@
     btop
     bat
     ((mommy.override {
-      mommySettings = {
-        caregiver = "uwu/NixOWOS";
-        sweetie = "cutie";
-	color = "182/183/218/219/225";
-      };
+      mommySettings =
+        let
+          cargo-mommy = import ./modules/cargo-mommy.nix;
+          moods = cargo-mommy.withMoods [ "mommy" "thirsty" ];
+        in
+        {
+          caregiver = "uwu/NixOWOS";
+          sweetie = "cutie";
+          suffix = "~/~/ :3/ :3/ uwu/ owo";
+          color = "182/183/218/219/225";
+        } // moods;
     }).overrideAttrs (self: super: {
       postInstall = builtins.replaceStrings
-        ["--set-default MOMMY_OPT_CONFIG_FILE "]
-	["--add-flags -c --add-flags "]
-	super.postInstall;
+        [ "--set-default MOMMY_OPT_CONFIG_FILE " ]
+        [ "--add-flags -c --add-flags " ]
+        super.postInstall;
     }))
     # vs code
     nixd
