@@ -285,7 +285,18 @@
       mommySettings =
         let
           cargo-mommy = import ./modules/cargo-mommy.nix;
-          moods = cargo-mommy.withMoods [ "mommy" "thirsty" ];
+          moods = cargo-mommy.withMoods [
+            "mommy"
+            "mommy"
+            "mommy"
+            "chill"
+            "chill"
+            "chill"
+            "thirsty"
+            "thirsty"
+            "thirsty"
+            "yikes"
+          ];
         in
         {
           caregiver = "uwu/NixOWOS";
