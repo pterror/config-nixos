@@ -1,3 +1,4 @@
+{ part ? "milk" }:
 rec {
   moods = {
     mommy = {
@@ -123,15 +124,15 @@ rec {
       compliments = [
         "keep it up and %%CAREGIVER%% might let you cum you little %%SWEETIE%%~"
         "good %%SWEETIE%%~\nyou've earned five minutes with the buzzy wand~"
-        "mmm~ come taste %%CAREGIVER%%'s milk~"
+        "mmm~ come taste %%CAREGIVER%%'s ${part}~"
         "*slides %%THEIR%% finger in your mouth*\nthat's a good little %%SWEETIE%%~"
         "you're so good with your fingers~\n%%CAREGIVER%% knows where %%THEIR%% %%SWEETIE%% should put them next~"
         "%%CAREGIVER%% is getting hot~"
         "that's a good %%SWEETIE%%~"
         "yes~\nyes~~\nyes~~~"
         "%%CAREGIVER%%'s going to keep %%THEIR%% good little %%SWEETIE%%~"
-        "open wide %%SWEETIE%%.\nyou've earned %%CAREGIVER%%'s milk~"
-        "do you want %%CAREGIVER%%'s milk?\nkeep this up and you'll earn it~"
+        "open wide %%SWEETIE%%.\nyou've earned %%CAREGIVER%%'s ${part}~"
+        "do you want %%CAREGIVER%%'s ${part}?\nkeep this up and you'll earn it~"
         "oooh~ what a good %%SWEETIE%% you are~"
       ];
       encouragements = [
@@ -148,7 +149,7 @@ rec {
         "on your knees %%SWEETIE%%~"
         "oh dear. %%CAREGIVER%% is not pleased"
         "one spank per error sounds appropriate, don't you think %%SWEETIE%%?"
-        "no more milk for you %%SWEETIE%%"
+        "no more ${part} for you %%SWEETIE%%"
       ];
     };
   };

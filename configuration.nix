@@ -284,7 +284,7 @@
     ((mommy.override {
       mommySettings =
         let
-          cargo-mommy = import ./modules/cargo-mommy.nix;
+          cargo-mommy = import ./modules/cargo-mommy.nix { };
           moods = cargo-mommy.withMoods [
             "mommy"
             "mommy"
