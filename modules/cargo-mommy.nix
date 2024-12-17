@@ -1,4 +1,4 @@
-{ part ? "milk" }:
+{ part ? "milk", denigratingTerm ? "slut/toy/pet/pervert/whore" }:
 rec {
   moods = {
     mommy = {
@@ -122,34 +122,34 @@ rec {
     };
     yikes = {
       compliments = [
-        "keep it up and %%CAREGIVER%% might let you cum you little %%SWEETIE%%~"
-        "good %%SWEETIE%%~\nyou've earned five minutes with the buzzy wand~"
+        "keep it up and %%CAREGIVER%% might let you cum you little ${denigratingTerm}~"
+        "good ${denigratingTerm}~\nyou've earned five minutes with the buzzy wand~"
         "mmm~ come taste %%CAREGIVER%%'s ${part}~"
-        "*slides %%THEIR%% finger in your mouth*\nthat's a good little %%SWEETIE%%~"
-        "you're so good with your fingers~\n%%CAREGIVER%% knows where %%THEIR%% %%SWEETIE%% should put them next~"
+        "*slides %%THEIR%% finger in your mouth*\nthat's a good little ${denigratingTerm}~"
+        "you're so good with your fingers~\n%%CAREGIVER%% knows where %%THEIR%% ${denigratingTerm} should put them next~"
         "%%CAREGIVER%% is getting hot~"
-        "that's a good %%SWEETIE%%~"
+        "that's a good ${denigratingTerm}~"
         "yes~\nyes~~\nyes~~~"
-        "%%CAREGIVER%%'s going to keep %%THEIR%% good little %%SWEETIE%%~"
-        "open wide %%SWEETIE%%.\nyou've earned %%CAREGIVER%%'s ${part}~"
+        "%%CAREGIVER%%'s going to keep %%THEIR%% good little ${denigratingTerm}~"
+        "open wide ${denigratingTerm}.\nyou've earned %%CAREGIVER%%'s ${part}~"
         "do you want %%CAREGIVER%%'s ${part}?\nkeep this up and you'll earn it~"
-        "oooh~ what a good %%SWEETIE%% you are~"
+        "oooh~ what a good ${denigratingTerm} you are~"
       ];
       encouragements = [
-        "you filthy %%SWEETIE%%~\nyou made a mess, now clean it up~\nwith your tongue~"
+        "you filthy ${denigratingTerm}~\nyou made a mess, now clean it up~\nwith your tongue~"
         "*picks you up by the throat*\npathetic~"
         "*drags %%THEIR%% claws down your back*\ndo it again~"
         "*brandishes %%THEIR%% paddle*\ndon't make me use this~"
-        "%%SWEETIE%%.\n%%SWEETIE%%~\n%%SWEETIE%%~~"
-        "get on your knees and beg %%CAREGIVER%% for forgiveness you %%SWEETIE%%~"
-        "%%CAREGIVER%% doesn't think %%THEIR%% little %%SWEETIE%% should have permission to wear clothes anymore~"
+        "${denigratingTerm}.\n${denigratingTerm}~\n${denigratingTerm}~~"
+        "get on your knees and beg %%CAREGIVER%% for forgiveness you ${denigratingTerm}~"
+        "%%CAREGIVER%% doesn't think %%THEIR%% little ${denigratingTerm} should have permission to wear clothes anymore~"
         "never forget you belong to %%CAREGIVER%%~"
-        "does %%CAREGIVER%% need to put you in the %%SWEETIE%% wiggler~?"
+        "does %%CAREGIVER%% need to put you in the ${denigratingTerm} wiggler~?"
         "%%CAREGIVER%% is starting to wonder if you should just give up and become %%THEIR%% breeding stock~"
-        "on your knees %%SWEETIE%%~"
+        "on your knees ${denigratingTerm}~"
         "oh dear. %%CAREGIVER%% is not pleased"
-        "one spank per error sounds appropriate, don't you think %%SWEETIE%%?"
-        "no more ${part} for you %%SWEETIE%%"
+        "one spank per error sounds appropriate, don't you think ${denigratingTerm}?"
+        "no more ${part} for you ${denigratingTerm}"
       ];
     };
   };
