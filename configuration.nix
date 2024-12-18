@@ -284,7 +284,7 @@
     ((mommy.override {
       mommySettings =
         let
-          cargo-mommy = import ./modules/cargo-mommy.nix { };
+          cargo-mommy = import ./modules/cargo-mommy.nix;
           moods = cargo-mommy.withMoods [
             "mommy"
             "mommy"
@@ -309,6 +309,7 @@
         [ "--set-default MOMMY_OPT_CONFIG_FILE " ]
         [ "--add-flags -c --add-flags " ]
         super.postInstall;
+      patches = [ ./modules/mommy_yikes.patch ];
     }))
     # vs code
     nixd

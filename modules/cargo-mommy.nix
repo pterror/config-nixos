@@ -1,6 +1,3 @@
-{ part ? "milk"
-, denigratingTerms ? ["slut" "toy" "pet" "pervert" "whore" ]
-}:
 rec {
   moods = {
     mommy = {
@@ -123,36 +120,36 @@ rec {
       ];
     };
     yikes = {
-      compliments = builtins.concatMap (denigratingTerm: [
-        "keep it up and %%CAREGIVER%% might let you cum you little ${denigratingTerm}~"
-        "good ${denigratingTerm}~%%N%%you've earned five minutes with the buzzy wand~"
-        "mmm~ come taste %%CAREGIVER%%'s ${part}~"
-        "*slides %%THEIR%% finger in your mouth*%%N%%that's a good little ${denigratingTerm}~"
-        "you're so good with your fingers~%%N%%%%CAREGIVER%% knows where %%THEIR%% ${denigratingTerm} should put them next~"
+      compliments = [
+        "keep it up and %%CAREGIVER%% might let you cum you little %%PET%%~"
+        "good %%PET%%~%%N%%you've earned five minutes with the buzzy wand~"
+        "mmm~ come taste %%CAREGIVER%%'s %%PART%%~"
+        "*slides %%THEIR%% finger in your mouth*%%N%%that's a good little %%PET%%~"
+        "you're so good with your fingers~%%N%%%%CAREGIVER%% knows where %%THEIR%% %%PET%% should put them next~"
         "%%CAREGIVER%% is getting hot~"
-        "that's a good ${denigratingTerm}~"
+        "that's a good %%PET%%~"
         "yes~%%N%%yes~~%%N%%yes~~~"
-        "%%CAREGIVER%%'s going to keep %%THEIR%% good little ${denigratingTerm}~"
-        "open wide ${denigratingTerm}.%%N%%you've earned %%CAREGIVER%%'s ${part}~"
-        "do you want %%CAREGIVER%%'s ${part}?%%N%%keep this up and you'll earn it~"
-        "oooh~ what a good ${denigratingTerm} you are~"
-      ]) denigratingTerms;
-      encouragements = builtins.concatMap (denigratingTerm: [
-        "you filthy ${denigratingTerm}~%%N%%you made a mess, now clean it up~%%N%%with your tongue~"
+        "%%CAREGIVER%%'s going to keep %%THEIR%% good little %%PET%%~"
+        "open wide %%PET%%.%%N%%you've earned %%CAREGIVER%%'s %%PART%%~"
+        "do you want %%CAREGIVER%%'s %%PART%%?%%N%%keep this up and you'll earn it~"
+        "oooh~ what a good %%PET%% you are~"
+      ];
+      encouragements = [
+        "you filthy %%PET%%~%%N%%you made a mess, now clean it up~%%N%%with your tongue~"
         "*picks you up by the throat*%%N%%pathetic~"
         "*drags %%THEIR%% claws down your back*%%N%%do it again~"
         "*brandishes %%THEIR%% paddle*%%N%%don't make me use this~"
-        "${denigratingTerm}.%%N%%${denigratingTerm}~%%N%%${denigratingTerm}~~"
-        "get on your knees and beg %%CAREGIVER%% for forgiveness you ${denigratingTerm}~"
-        "%%CAREGIVER%% doesn't think %%THEIR%% little ${denigratingTerm} should have permission to wear clothes anymore~"
+        "%%PET%%.%%N%%%%PET%%~%%N%%%%PET%%~~"
+        "get on your knees and beg %%CAREGIVER%% for forgiveness you %%PET%%~"
+        "%%CAREGIVER%% doesn't think %%THEIR%% little %%PET%% should have permission to wear clothes anymore~"
         "never forget you belong to %%CAREGIVER%%~"
-        "does %%CAREGIVER%% need to put you in the ${denigratingTerm} wiggler~?"
+        "does %%CAREGIVER%% need to put you in the %%PET%% wiggler~?"
         "%%CAREGIVER%% is starting to wonder if you should just give up and become %%THEIR%% breeding stock~"
-        "on your knees ${denigratingTerm}~"
+        "on your knees %%PET%%~"
         "oh dear. %%CAREGIVER%% is not pleased"
-        "one spank per error sounds appropriate, don't you think ${denigratingTerm}?"
-        "no more ${part} for you ${denigratingTerm}"
-      ]) denigratingTerms;
+        "one spank per error sounds appropriate, don't you think %%PET%%?"
+        "no more %%PART%% for you %%PET%%"
+      ];
     };
   };
   merge = (list:
