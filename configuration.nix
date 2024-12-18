@@ -281,7 +281,8 @@
     vesktop
     btop
     bat
-    ((mommy.override {
+    luajit
+    /*((mommy.override {
       mommySettings =
         let
           cargo-mommy = import ./modules/cargo-mommy.nix;
@@ -310,7 +311,7 @@
         [ "--add-flags -c --add-flags " ]
         super.postInstall;
       patches = [ ./modules/mommy_yikes.patch ];
-    }))
+    }))*/
     # vs code
     nixd
     # image manipulation
