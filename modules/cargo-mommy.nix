@@ -1,4 +1,6 @@
-{ part ? "milk", denigratingTerm ? "slut/toy/pet/pervert/whore" }:
+{ part ? "milk"
+, denigratingTerms ? ["slut" "toy" "pet" "pervert" "whore" ]
+}:
 rec {
   moods = {
     mommy = {
@@ -51,14 +53,14 @@ rec {
         "you're such a smart cookie~"
         "that's a good %%SWEETIE%%~"
         "%%CAREGIVER%% thinks %%THEIR%% little %%SWEETIE%% earned a big hug~"
-        "good %%SWEETIE%%~\n%%CAREGIVER%%'s so proud of you~"
-        "aww, what a good %%SWEETIE%%~\n%%CAREGIVER%% knew you could do it~"
+        "good %%SWEETIE%%~%%N%%%%CAREGIVER%%'s so proud of you~"
+        "aww, what a good %%SWEETIE%%~%%N%%%%CAREGIVER%% knew you could do it~"
         "you did it~!"
         "%%CAREGIVER%% loves you~"
         "*gives you a sticker*"
         "*boops your nose*"
         "*wraps you in a big hug*"
-        "well done~!\n%%CAREGIVER%% is so happy for you~"
+        "well done~!%%N%%%%CAREGIVER%% is so happy for you~"
         "what a good %%SWEETIE%% you are~"
         "that's %%CAREGIVER%%'s clever little %%SWEETIE%%~"
         "you're doing so well~!"
@@ -98,49 +100,49 @@ rec {
     };
     thirsty = {
       compliments = [
-        "*tugs your leash*\nthat's a VERY good %%SWEETIE%%~"
+        "*tugs your leash*%%N%%that's a VERY good %%SWEETIE%%~"
         "*runs %%THEIR%% fingers through your hair* good %%SWEETIE%%~ keep going~"
-        "*smooches your forehead*\ngood job~"
-        "*nibbles on your ear*\nthat's right~\nkeep going~"
-        "*pats your butt*\nthat's a good %%SWEETIE%%~"
-        "*drags %%THEIR%% nail along your cheek*\nsuch a good %%SWEETIE%%~"
-        "*bites %%THEIR%% lip*\nmhmm~"
+        "*smooches your forehead*%%N%%good job~"
+        "*nibbles on your ear*%%N%%that's right~%%N%%keep going~"
+        "*pats your butt*%%N%%that's a good %%SWEETIE%%~"
+        "*drags %%THEIR%% nail along your cheek*%%N%%such a good %%SWEETIE%%~"
+        "*bites %%THEIR%% lip*%%N%%mhmm~"
         "give %%CAREGIVER%% a kiss~"
         "*heavy breathing against your neck*"
       ];
       encouragements = [
         "you're so cute when you're flustered~"
         "do you think you're going to get a reward from %%CAREGIVER%% like that~?"
-        "*grabs your hair and pulls your head back*\nyou can do better than that for %%CAREGIVER%% can't you~?"
+        "*grabs your hair and pulls your head back*%%N%%you can do better than that for %%CAREGIVER%% can't you~?"
         "if you don't learn how to code better, %%CAREGIVER%% is going to put you in time-out~"
         "does %%CAREGIVER%% need to give %%THEIR%% little %%SWEETIE%% some special lessons~?"
         "you need to work harder to please %%CAREGIVER%%~"
         "gosh you must be flustered~"
-        "are you just keysmashing now~?\ncute~"
+        "are you just keysmashing now~?%%N%%cute~"
         "is %%CAREGIVER%%'s little %%SWEETIE%% having trouble reaching the keyboard~?"
       ];
     };
     yikes = {
-      compliments = [
+      compliments = builtins.concatMap (denigratingTerm: [
         "keep it up and %%CAREGIVER%% might let you cum you little ${denigratingTerm}~"
-        "good ${denigratingTerm}~\nyou've earned five minutes with the buzzy wand~"
+        "good ${denigratingTerm}~%%N%%you've earned five minutes with the buzzy wand~"
         "mmm~ come taste %%CAREGIVER%%'s ${part}~"
-        "*slides %%THEIR%% finger in your mouth*\nthat's a good little ${denigratingTerm}~"
-        "you're so good with your fingers~\n%%CAREGIVER%% knows where %%THEIR%% ${denigratingTerm} should put them next~"
+        "*slides %%THEIR%% finger in your mouth*%%N%%that's a good little ${denigratingTerm}~"
+        "you're so good with your fingers~%%N%%%%CAREGIVER%% knows where %%THEIR%% ${denigratingTerm} should put them next~"
         "%%CAREGIVER%% is getting hot~"
         "that's a good ${denigratingTerm}~"
-        "yes~\nyes~~\nyes~~~"
+        "yes~%%N%%yes~~%%N%%yes~~~"
         "%%CAREGIVER%%'s going to keep %%THEIR%% good little ${denigratingTerm}~"
-        "open wide ${denigratingTerm}.\nyou've earned %%CAREGIVER%%'s ${part}~"
-        "do you want %%CAREGIVER%%'s ${part}?\nkeep this up and you'll earn it~"
+        "open wide ${denigratingTerm}.%%N%%you've earned %%CAREGIVER%%'s ${part}~"
+        "do you want %%CAREGIVER%%'s ${part}?%%N%%keep this up and you'll earn it~"
         "oooh~ what a good ${denigratingTerm} you are~"
-      ];
-      encouragements = [
-        "you filthy ${denigratingTerm}~\nyou made a mess, now clean it up~\nwith your tongue~"
-        "*picks you up by the throat*\npathetic~"
-        "*drags %%THEIR%% claws down your back*\ndo it again~"
-        "*brandishes %%THEIR%% paddle*\ndon't make me use this~"
-        "${denigratingTerm}.\n${denigratingTerm}~\n${denigratingTerm}~~"
+      ]) denigratingTerms;
+      encouragements = builtins.concatMap (denigratingTerm: [
+        "you filthy ${denigratingTerm}~%%N%%you made a mess, now clean it up~%%N%%with your tongue~"
+        "*picks you up by the throat*%%N%%pathetic~"
+        "*drags %%THEIR%% claws down your back*%%N%%do it again~"
+        "*brandishes %%THEIR%% paddle*%%N%%don't make me use this~"
+        "${denigratingTerm}.%%N%%${denigratingTerm}~%%N%%${denigratingTerm}~~"
         "get on your knees and beg %%CAREGIVER%% for forgiveness you ${denigratingTerm}~"
         "%%CAREGIVER%% doesn't think %%THEIR%% little ${denigratingTerm} should have permission to wear clothes anymore~"
         "never forget you belong to %%CAREGIVER%%~"
@@ -150,7 +152,7 @@ rec {
         "oh dear. %%CAREGIVER%% is not pleased"
         "one spank per error sounds appropriate, don't you think ${denigratingTerm}?"
         "no more ${part} for you ${denigratingTerm}"
-      ];
+      ]) denigratingTerms;
     };
   };
   merge = (list:
