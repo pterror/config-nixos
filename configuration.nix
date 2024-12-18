@@ -301,7 +301,7 @@
         {
           caregiver = "uwu/NixOWOS";
           sweetie = "cutie";
-          suffix = "~/~/ :3/ :3/ uwu/ owo";
+          suffix = "//~/~/ :3/ :3/ uwu/ owo";
           color = "182/183/218/219/225";
         } // moods;
     }).overrideAttrs (self: super: {
