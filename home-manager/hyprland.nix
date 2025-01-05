@@ -104,6 +104,7 @@ in {
 
         # layershell
         ", Print, exec, [float; monitor DP-2; move -1920 0; size 5760 1080; noanim] ${screenshot}"
+        "${mod} SHIFT, S, exec, [float; monitor DP-2; move -1920 0; size 5760 1080; noanim] ${screenshot}"
         "${mod}, Tab, global, quickshell:workspaces_overview:toggle"
         "${mod}, L, global, quickshell:wlogout:toggle"
 
@@ -111,6 +112,7 @@ in {
         "${mod}, A, exec, ${pkgs.firefox}/bin/firefox"
         "${mod}, Q, exec, ${pkgs.kitty}/bin/kitty -1"
         "${mod}, C, killactive,"
+	"${mod}, D, exec, ${pkgs.itch}/bin/itch"
         "${mod}, M, exit,"
         "${mod}, E, exec, ${pkgs.pcmanfm}/bin/pcmanfm"
         "${mod}, V, togglefloating,"
@@ -118,8 +120,8 @@ in {
         "${mod}, P, pseudo, # dwindle"
         "${mod}, J, togglesplit, # dwindle"
 
-        "${mod}, S, togglespecialworkspace, magic"
-        "${mod} SHIFT, S, movetoworkspace, special:magic"
+        "${mod}, Z, togglespecialworkspace, magic"
+        "${mod} SHIFT, Z, movetoworkspace, special:magic"
 
         "${mod}, mouse_down, workspace, e+1"
         "${mod}, mouse_up, workspace, e-1"

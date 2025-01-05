@@ -282,6 +282,8 @@
     btop
     bat
     luajit
+    itch
+    cargo-mommy
     /*((mommy.override {
       mommySettings =
         let
