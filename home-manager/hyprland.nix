@@ -14,7 +14,7 @@ in {
         smart_split = true;
       };
       cursor = {
-        allow_dumb_copy = 1;
+        #allow_dumb_copy = 1;
         no_hardware_cursors = 1;
       };
       decoration = {
