@@ -75,11 +75,6 @@
 
   qt.enable = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  nixpkgs.overlays = [
-    (final: prev: {
-      breakpad = prev.breakpad.override { stdenv = final.gcc13Stdenv; };
-    })
-  ];
   #nixpkgs.config.cudaSupport = true;
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "google-chrome"
@@ -115,6 +110,7 @@
   hardware = {
     graphics.enable = true; # hyprland
     nvidia = {
+      open = true;
       modesetting.enable = true;
       powerManagement.enable = true;
     };
