@@ -351,7 +351,8 @@
   fonts.packages = with pkgs; [
     inputs.unicorn-scribbles-font.packages.${pkgs.system}.default
     inputs.pointfree-font.packages.${pkgs.system}.default
-    inputs.string-literal-font.packages.${pkgs.system}.default
+    # inputs.string-literal-font.packages.${pkgs.system}.default
+    # inputs.modum-font.packages.${pkgs.system}.default
     twemoji-color-font
     noto-fonts
     noto-fonts-cjk-sans

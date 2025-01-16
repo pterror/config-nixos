@@ -15,6 +15,8 @@
     pointfree-font.inputs.nixpkgs.follows = "nixpkgs";
     string-literal-font.url = path:./flakes/string-literal-font;
     string-literal-font.inputs.nixpkgs.follows = "nixpkgs";
+    modum-font.url = path:./flakes/modum-font;
+    modum-font.inputs.nixpkgs.follows = "nixpkgs";
     miku-cursor.url = path:./flakes/miku-cursor;
     miku-cursor.inputs.nixpkgs.follows = "nixpkgs";
     stardust-telescope.url = github:StardustXR/telescope;

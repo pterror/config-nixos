@@ -344,6 +344,23 @@
         "type": "path"
       }
     },
+    "modum-font": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1,
+        "narHash": "sha256-f8Z1wGFCs9l84BEQ+5Qkrz1BkTQKHtc/rEGEarNMsQo=",
+        "path": "./flakes/modum-font",
+        "type": "path"
+      },
+      "original": {
+        "path": "./flakes/modum-font",
+        "type": "path"
+      }
+    },
     "nix-gaming": {
       "inputs": {
         "flake-parts": "flake-parts",
@@ -550,6 +567,7 @@
         "home-manager": "home-manager",
         "impermanence": "impermanence",
         "miku-cursor": "miku-cursor",
+        "modum-font": "modum-font",
         "nix-gaming": "nix-gaming",
         "nixpkgs": "nixpkgs_2",
         "pointfree-font": "pointfree-font",
