@@ -3,7 +3,7 @@
     nixpkgs.url = "nixpkgs/nixos-unstable";
   };
   outputs = { self, nixpkgs }: let
-    pkgname = "pointfree-font";
+    pkgname = "string-literal-font";
     forAllSystems = with nixpkgs.lib; f: foldAttrs mergeAttrs { }
       (map (s: { ${s} = f s; }) systems.flakeExposed);
   in {
@@ -14,20 +14,23 @@
         if builtins.isString x
         then parse x
         else x.pname or (parse x.name);
-      pkgs = import nixpkgs { system = system; };
+      pkgs = import nixpkgs {
+        system = system;
+	config.allowUnfreePredicate = pkg: getName pkg == "string-literal-font";
+      };
     in rec {
-      pointfree-font = pkgs.stdenv.mkDerivation {
+      string-literal-font = pkgs.stdenv.mkDerivation {
         name = pkgname;
         version = "1.0.0";
 	nativeBuildInputs = with pkgs; [ unzip ];
         src = pkgs.fetchzip {
 	  name = pkgname;
-	  url = "https://dl.dafont.com/dl/?f=pointfree";
+	  url = "https://dl.dafont.com/dl/?f=string_variable_literal";
 	  extension = "zip";
-	  hash = "sha256-lqd/UXdYqwfcbdG5NIHlFuEpYIoAPL7jzjEjHtx6SeY=";
+	  hash = "sha256-bF134EA0HAVNqEZG5sgLEJa5RTLQMJUDYSMw2+DwlaQ=";
 	  stripRoot = false;
 	};
-        url = "https://www.dafont.com/pointfree.font";
+        url = "https://www.dafont.com/string-variable-literal.font";
         installPhase = ''
           runHook preInstall
           mkdir -p $out/share/fonts
@@ -35,13 +38,13 @@
           runHook postInstall
         '';
         meta = {
-          homepage = "https://www.dafont.com/pointfree.font";
-          description = "Pointfree font";
-          license = nixpkgs.lib.licenses.unlicense;
+          homepage = "https://www.dafont.com/string-variable-literal.font";
+          description = "String Literal font";
+          license = nixpkgs.lib.licenses.unfree;
           platforms = nixpkgs.lib.platforms.all;
         };
       };
-      default = pointfree-font;
+      default = string-literal-font;
     });
   };
 }

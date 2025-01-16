@@ -471,7 +471,7 @@
       },
       "locked": {
         "lastModified": 1,
-        "narHash": "sha256-7ejuIY16CqHnCmiM/vmq2BusqzFUgBxzfQ6Z8wvZ+HA=",
+        "narHash": "sha256-tvMk2y3c4FwFRnXaQkXDvXRMA+TMhImJ2pMKpAjDg6M=",
         "path": "./flakes/pointfree-font",
         "type": "path"
       },
@@ -556,6 +556,7 @@
         "qti": "qti",
         "quickshell": "quickshell",
         "stardust-telescope": "stardust-telescope",
+        "string-literal-font": "string-literal-font",
         "unicorn-scribbles-font": "unicorn-scribbles-font"
       }
     },
@@ -608,6 +609,23 @@
         "owner": "StardustXR",
         "repo": "telescope",
         "type": "github"
+      }
+    },
+    "string-literal-font": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1,
+        "narHash": "sha256-s1Wowt12m2N+p75bgX6XYtfNjno2QZcvBZfBm+6E/3o=",
+        "path": "./flakes/string-literal-font",
+        "type": "path"
+      },
+      "original": {
+        "path": "./flakes/string-literal-font",
+        "type": "path"
       }
     },
     "umu": {

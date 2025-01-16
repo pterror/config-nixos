@@ -13,6 +13,8 @@
     unicorn-scribbles-font.inputs.nixpkgs.follows = "nixpkgs";
     pointfree-font.url = path:./flakes/pointfree-font;
     pointfree-font.inputs.nixpkgs.follows = "nixpkgs";
+    string-literal-font.url = path:./flakes/string-literal-font;
+    string-literal-font.inputs.nixpkgs.follows = "nixpkgs";
     miku-cursor.url = path:./flakes/miku-cursor;
     miku-cursor.inputs.nixpkgs.follows = "nixpkgs";
     stardust-telescope.url = github:StardustXR/telescope;
