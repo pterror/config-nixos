@@ -123,6 +123,16 @@ in {
         "${mod}, Z, togglespecialworkspace, magic"
         "${mod} SHIFT, Z, movetoworkspace, special:magic"
 
+	"${mod}, left, movefocus, l"
+	"${mod}, right, movefocus, r"
+	"${mod}, up, movefocus, u"
+	"${mod}, down, movefocus, d"
+
+	"${mod} SHIFT, left, movewindow, l"
+	"${mod} SHIFT, right, movewindow, r"
+	"${mod} SHIFT, up, movewindow, u"
+	"${mod} SHIFT, down, movewindow, d"
+
         "${mod}, mouse_down, workspace, e+1"
         "${mod}, mouse_up, workspace, e-1"
       ] ++ (builtins.concatLists (builtins.genList (x: let

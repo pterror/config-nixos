@@ -463,6 +463,23 @@
         "type": "github"
       }
     },
+    "pointfree-font": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1,
+        "narHash": "sha256-7ejuIY16CqHnCmiM/vmq2BusqzFUgBxzfQ6Z8wvZ+HA=",
+        "path": "./flakes/pointfree-font",
+        "type": "path"
+      },
+      "original": {
+        "path": "./flakes/pointfree-font",
+        "type": "path"
+      }
+    },
     "protostar": {
       "inputs": {
         "crane": "crane_4",
@@ -535,6 +552,7 @@
         "miku-cursor": "miku-cursor",
         "nix-gaming": "nix-gaming",
         "nixpkgs": "nixpkgs_2",
+        "pointfree-font": "pointfree-font",
         "qti": "qti",
         "quickshell": "quickshell",
         "stardust-telescope": "stardust-telescope",

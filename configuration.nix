@@ -350,6 +350,7 @@
   ] ++ /* qti */ inputs.qti.packages.${pkgs.system}.qti-all;
   fonts.packages = with pkgs; [
     inputs.unicorn-scribbles-font.packages.${pkgs.system}.default
+    inputs.pointfree-font.packages.${pkgs.system}.default
     twemoji-color-font
     noto-fonts
     noto-fonts-cjk-sans
