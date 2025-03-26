@@ -80,9 +80,9 @@ in {
         "XDG_SESSION_TYPE,wayland"
       ];
       monitor = [
-        "DP-1, preferred, 0x0, auto"
-        "DP-2, preferred, 1920x0, auto"
-        "HDMI-A-1, preferred, 3840x0, auto"
+        "DP-2, preferred, 0x0, auto"
+        "DP-3, preferred, 1920x0, auto"
+        "HDMI-A-2, preferred, 3840x0, auto"
       ];
       exec-once = [
         "${inputs.quickshell.packages.${pkgs.system}.default}/bin/quickshell"
@@ -103,8 +103,8 @@ in {
         ", XF86AudioNext, global, quickshell:media:next"
 
         # layershell
-        ", Print, exec, [float; monitor DP-2; move -1920 0; size 5760 1080; noanim] ${screenshot}"
-        "${mod} SHIFT, S, exec, [float; monitor DP-2; move -1920 0; size 5760 1080; noanim] ${screenshot}"
+        ", Print, exec, [float; monitor DP-3; move -1920 0; size 5760 1080; noanim] ${screenshot}"
+        "${mod} SHIFT, S, exec, [float; monitor DP-3; move -1920 0; size 5760 1080; noanim] ${screenshot}"
         "${mod}, Tab, global, quickshell:workspaces_overview:toggle"
         "${mod}, L, global, quickshell:wlogout:toggle"
 
