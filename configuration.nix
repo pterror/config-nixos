@@ -1,8 +1,5 @@
 { inputs, config, lib, pkgs, ... }@args:
-let lact-patched = pkgs.lact.overrideAttrs (oldAttrs: {
-  nativeBuildInputs = oldAttrs.nativeBuildInputs ++ [ pkgs.autoAddDriverRunpath ];
-});
-in {
+{
   imports = [ ./hardware-configuration.nix ./cachix.nix inputs.home-manager.nixosModules.home-manager ];
   documentation.nixos.enable = false;
 
@@ -74,66 +71,48 @@ in {
       efi.canTouchEfiVariables = true;
     };
     kernelPackages = pkgs.linuxPackages_zen;
-    initrd.kernelModules = [ "nvidia" ];
-    extraModulePackages = [ config.boot.kernelPackages.nvidia_x11 ];
-    blacklistedKernelModules = [ "nouveau" ];
   };
 
   qt.enable = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  nixpkgs.config = {
-    cudaSupport = true;
-    cudaArches = [ "sm_86" ];
-    firefox.speechSynthesisSupport = true;
-    allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-      "google-chrome"
-      "spotify"
-      "steam"
-      "steam-unwrapped"
-      "steam-run"
-      "reaper"
-      "discord-canary"
-      "nvidia-x11"
-      "nvidia-settings"
-      # for wivrn
-      "cuda-merged"
-      "cuda_cuobjdump"
-      "cuda_gdb"
-      "cuda_nvcc"
-      "cuda_nvdisasm"
-      "cuda_nvprune"
-      "cuda_cccl"
-      "cuda_cudart"
-      "cuda_cupti"
-      "cuda_cuxxfilt"
-      "cuda_nvml_dev"
-      "cuda_nvrtc"
-      "cuda_nvtx"
-      "libnpp"
-      "libcublas"
-      "libcufft"
-      "libcurand"
-      "libcusparse"
-      "libnvjitlink"
-      "cudnn"
-      "cuda_profiler_api"
-      "cuda_sanitizer_api"
-      "libcusolver"
-    ];
-  };
+  #nixpkgs.config.cudaSupport = true;
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "google-chrome"
+    "steam"
+    "steam-unwrapped"
+    "steam-run"
+    "reaper"
+    # for wivrn
+    "cuda-merged"
+    "cuda_cuobjdump"
+    "cuda_gdb"
+    "cuda_nvcc"
+    "cuda_nvdisasm"
+    "cuda_nvprune"
+    "cuda_cccl"
+    "cuda_cudart"
+    "cuda_cupti"
+    "cuda_cuxxfilt"
+    "cuda_nvml_dev"
+    "cuda_nvrtc"
+    "cuda_nvtx"
+    "libnpp"
+    "libcublas"
+    "libcufft"
+    "libcurand"
+    "libcusparse"
+    "libnvjitlink"
+    "cudnn"
+    "cuda_profiler_api"
+    "cuda_sanitizer_api"
+    "libcusolver"
+  ];
   hardware = {
     graphics.enable = true; # hyprland
-    opentabletdriver.enable = true; # wacom fix?
     nvidia = {
       open = true;
+      modesetting.enable = true;
       powerManagement.enable = true;
-      package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
-    	    version = "570.86.16";
-    	    sha256_64bit = "sha256-RWPqS7ZUJH9JEAWlfHLGdqrNlavhaR1xMyzs8lJhy9U=";
-    	    openSha256 = "sha256-DuVNA63+pJ8IB7Tw2gM4HbwlOh1bcDg2AN2mbEU9VPE=";
-    	    settingsSha256 = "sha256-9rtqh64TyhDF5fFAYiWl3oDHzKJqyOW3abpcf2iNRT8=";
-    	    persistencedSha256 = "sha256-3mp9X/oV8o2TH9720NnoXROxQ4g98nNee+DucXpQy3w=";
-    	};
     };
     bluetooth = {
       enable = true;
@@ -147,7 +126,6 @@ in {
     firewall.enable = false;
   };
   services = {
-    xserver.videoDrivers = [ "nvidia" ];
     earlyoom.enable = true;
     tailscale.enable = true;
     transmission = {
@@ -228,10 +206,6 @@ in {
       gtk3
       vulkan-loader
       libGL # unity
-      # cringe tetris clone
-      libadwaita
-      gtk4
-      gdk-pixbuf
     ];
   };
   time.timeZone = "Australia/Brisbane";
@@ -278,8 +252,6 @@ in {
       (import ./home-manager/hyprland.nix combined)
       (import ./home-manager/kitty.nix combined)
     ];
-  systemd.packages = with pkgs; [ lact-patched ];
-  systemd.services.lactd.wantedBy = [ "multi-user.target" ];
   environment.systemPackages = with pkgs; [
     home-manager
     cachix
@@ -307,17 +279,42 @@ in {
     nixpkgs-fmt
     reaper
     #jetbrains.idea-community
-    (vesktop.override {
-      electron = pkgs.electron_32;
-    })
+    vesktop
     btop
     bat
     luajit
     itch
-    koboldcpp
     cargo-mommy
-    lact-patched
-    spotify
+    /*((mommy.override {
+      mommySettings =
+        let
+          cargo-mommy = import ./modules/cargo-mommy.nix;
+          moods = cargo-mommy.withMoods [
+            "mommy"
+            "mommy"
+            "mommy"
+            "chill"
+            "chill"
+            "chill"
+            "thirsty"
+            "thirsty"
+            "thirsty"
+            "yikes"
+          ];
+        in
+        {
+          caregiver = "uwu/NixOWOS";
+          sweetie = "cutie";
+          suffix = "//~/~/ :3/ :3/ uwu/ owo";
+          color = "182/183/218/219/225";
+        } // moods;
+    }).overrideAttrs (self: super: {
+      postInstall = builtins.replaceStrings
+        [ "--set-default MOMMY_OPT_CONFIG_FILE " ]
+        [ "--add-flags -c --add-flags " ]
+        super.postInstall;
+      patches = [ ./modules/mommy_yikes.patch ];
+    }))*/
     # vs code
     nixd
     # image manipulation
@@ -340,13 +337,16 @@ in {
     keepassxc
     # lumafly
     # vr
-    sidequest
+    (sidequest.overrideAttrs (super: {
+      nativeBuildInputs = super.nativeBuildInputs ++ [ wrapGAppsHook ];
+    }))
     alvr
     android-tools
-    slimevr
-    slimevr-server
-    #inputs.stardust-telescope.packages.${pkgs.system}.telescope
-    #inputs.stardust-telescope.packages.${pkgs.system}.flatscreen
+    # inputs.hwfetch.packages.${pkgs.system}.default
+    # inputs.verdi.packages.${pkgs.system}.default
+    # inputs.asciinema.packages.${pkgs.system}.default
+    inputs.stardust-telescope.packages.${pkgs.system}.telescope
+    inputs.stardust-telescope.packages.${pkgs.system}.flatscreen
   ] ++ /* qti */ inputs.qti.packages.${pkgs.system}.qti-all;
   fonts.packages = with pkgs; [
     inputs.unicorn-scribbles-font.packages.${pkgs.system}.default
