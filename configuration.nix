@@ -355,6 +355,7 @@ in {
     # inputs.modum-font.packages.${pkgs.system}.default
     twemoji-color-font
     noto-fonts
+    noto-fonts-emoji
     noto-fonts-cjk-sans
     nerd-fonts.fantasque-sans-mono
   ];
