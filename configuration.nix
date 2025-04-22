@@ -74,11 +74,16 @@ in {
       efi.canTouchEfiVariables = true;
     };
     kernelPackages = pkgs.linuxPackages_zen;
+    initrd.kernelModules = [ "nvidia" ];
+    extraModulePackages = [ config.boot.kernelPackages.nvidia_x11 ];
+    blacklistedKernelModules = [ "nouveau" ];
   };
 
   qt.enable = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nixpkgs.config = {
+    cudaSupport = true;
+    cudaArches = [ "sm_86" ];
     firefox.speechSynthesisSupport = true;
     allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
       "google-chrome"
@@ -87,14 +92,48 @@ in {
       "steam-unwrapped"
       "steam-run"
       "reaper"
+      "discord-canary"
+      "nvidia-x11"
+      "nvidia-settings"
+      # for wivrn
+      "cuda-merged"
+      "cuda_cuobjdump"
+      "cuda_gdb"
+      "cuda_nvcc"
+      "cuda_nvdisasm"
+      "cuda_nvprune"
+      "cuda_cccl"
+      "cuda_cudart"
+      "cuda_cupti"
+      "cuda_cuxxfilt"
+      "cuda_nvml_dev"
+      "cuda_nvrtc"
+      "cuda_nvtx"
+      "libnpp"
+      "libcublas"
+      "libcufft"
+      "libcurand"
+      "libcusparse"
+      "libnvjitlink"
+      "cudnn"
+      "cuda_profiler_api"
+      "cuda_sanitizer_api"
+      "libcusolver"
     ];
   };
   hardware = {
     graphics.enable = true; # hyprland
     opentabletdriver.enable = true; # wacom fix?
     nvidia = {
-      modesetting.enable = true;
+      open = true;
       powerManagement.enable = true;
+      package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
+    	    version = "570.86.16";
+    	    sha256_64bit = "sha256-RWPqS7ZUJH9JEAWlfHLGdqrNlavhaR1xMyzs8lJhy9U=";
+    	    openSha256 = "sha256-DuVNA63+pJ8IB7Tw2gM4HbwlOh1bcDg2AN2mbEU9VPE=";
+    	    settingsSha256 = "sha256-9rtqh64TyhDF5fFAYiWl3oDHzKJqyOW3abpcf2iNRT8=";
+    	    persistencedSha256 = "sha256-3mp9X/oV8o2TH9720NnoXROxQ4g98nNee+DucXpQy3w=";
+    	};
     };
     bluetooth = {
       enable = true;
@@ -108,6 +147,7 @@ in {
     firewall.enable = false;
   };
   services = {
+    xserver.videoDrivers = [ "nvidia" ];
     earlyoom.enable = true;
     tailscale.enable = true;
     transmission = {
