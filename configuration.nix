@@ -241,6 +241,7 @@ in {
   systemd.packages = with pkgs; [ lact-patched ];
   systemd.services.lactd.wantedBy = [ "multi-user.target" ];
   environment.systemPackages = with pkgs; [
+    ntfs3g
     home-manager
     cachix
     file
@@ -266,10 +267,7 @@ in {
     clang-tools
     nixpkgs-fmt
     reaper
-    #jetbrains.idea-community
-    (vesktop.override {
-      electron = pkgs.electron_32;
-    })
+    vesktop
     btop
     bat
     luajit
