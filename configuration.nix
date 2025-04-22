@@ -74,7 +74,6 @@ in {
       efi.canTouchEfiVariables = true;
     };
     kernelPackages = pkgs.linuxPackages_zen;
-    initrd.kernelModules = [ "nvidia" ];
     extraModulePackages = [ config.boot.kernelPackages.nvidia_x11 ];
     blacklistedKernelModules = [ "nouveau" ];
   };
