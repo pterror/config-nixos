@@ -1,6 +1,9 @@
 { pkgs, my-config, inputs, ... }:
 {
   enable = true;
+  wrapperConfig = {
+    speechSynthesisSupport = true;
+  };
   preferences = {
     "gfx.webrender.all" = true; # required to fix transparency on xwayland.
     "browser.tabs.allow_transparent_browser" = true; # transparency

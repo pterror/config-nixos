@@ -57,6 +57,7 @@ in {
           ".cargo" # for .cargo/bin/
           "git"
           "game"
+	  "Dendron"
         ];
       };
     };
@@ -81,9 +82,8 @@ in {
   qt.enable = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nixpkgs.config = {
-    cudaSupport = true;
+    #cudaSupport = true;
     cudaArches = [ "sm_86" ];
-    firefox.speechSynthesisSupport = true;
     allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
       "google-chrome"
       "spotify"
@@ -127,12 +127,12 @@ in {
       open = true;
       powerManagement.enable = true;
       package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
-    	    version = "570.86.16";
-    	    sha256_64bit = "sha256-RWPqS7ZUJH9JEAWlfHLGdqrNlavhaR1xMyzs8lJhy9U=";
-    	    openSha256 = "sha256-DuVNA63+pJ8IB7Tw2gM4HbwlOh1bcDg2AN2mbEU9VPE=";
-    	    settingsSha256 = "sha256-9rtqh64TyhDF5fFAYiWl3oDHzKJqyOW3abpcf2iNRT8=";
-    	    persistencedSha256 = "sha256-3mp9X/oV8o2TH9720NnoXROxQ4g98nNee+DucXpQy3w=";
-    	};
+        version = "575.51.02";
+        sha256_64bit = "sha256-XZ0N8ISmoAC8p28DrGHk/YN1rJsInJ2dZNL8O+Tuaa0=";
+        openSha256 = "sha256-NQg+QDm9Gt+5bapbUO96UFsPnz1hG1dtEwT/g/vKHkw=";
+        settingsSha256 = "sha256-6n9mVkEL39wJj5FB1HBml7TTJhNAhS/j5hqpNGFQE4w=";
+        persistencedSha256 = lib.fakeHash;
+      };
     };
     bluetooth = {
       enable = true;
@@ -171,7 +171,7 @@ in {
       host = "0.0.0.0";
     };
     udev.extraRules = ''
-      SUBSYSTEM="usb", ATTR{idVendor}=="2833", ATTR{idProduct}=="0186", MODE="0660" group="plugdev", symlink+="ocuquest%n"
+      SUBSYSTEM=="usb", ATTR{idVendor}=="2833", ATTR{idProduct}=="0186", MODE="0660" GROUP="plugdev", SYMLINK+="ocuquest%n"
     '';
     #wivrn = {
     #  enable = true;
@@ -222,7 +222,7 @@ in {
       libdrm
       pango # playwright
       libxkbcommon # playwright
-      mesa # gbm for playwright
+      libgbm # playwright
       nss # playwright
       gtk3
       vulkan-loader
@@ -311,7 +311,6 @@ in {
     bat
     luajit
     itch
-    koboldcpp
     cargo-mommy
     lact-patched
     spotify
