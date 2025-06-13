@@ -185,6 +185,7 @@ in {
     direnv.enable = true;
     git.enable = true;
     adb.enable = true;
+    niri.enable = true;
     firefox = import ./modules/firefox.nix args;
     neovim = {
       enable = true;
