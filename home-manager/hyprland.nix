@@ -86,6 +86,7 @@ in {
       ];
       exec-once = [
         "${inputs.quickshell.packages.${pkgs.system}.default}/bin/quickshell"
+	"wlsunset -L 153 -T 6500 -g 1.000000 -l -27.5 -t 4000"
       ];
       bindm = [
         "${mod}, mouse:272, movewindow"
