@@ -1,8 +1,5 @@
 { inputs, config, lib, pkgs, ... }@args:
-let lact-patched = pkgs.lact.overrideAttrs (oldAttrs: {
-  nativeBuildInputs = oldAttrs.nativeBuildInputs ++ [ pkgs.autoAddDriverRunpath ];
-});
-in {
+{
   imports = [ ./hardware-configuration.nix ./cachix.nix inputs.home-manager.nixosModules.home-manager ];
   documentation.nixos.enable = false;
 
@@ -126,13 +123,6 @@ in {
     nvidia = {
       open = true;
       powerManagement.enable = true;
-      package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
-        version = "575.51.02";
-        sha256_64bit = "sha256-XZ0N8ISmoAC8p28DrGHk/YN1rJsInJ2dZNL8O+Tuaa0=";
-        openSha256 = "sha256-NQg+QDm9Gt+5bapbUO96UFsPnz1hG1dtEwT/g/vKHkw=";
-        settingsSha256 = "sha256-6n9mVkEL39wJj5FB1HBml7TTJhNAhS/j5hqpNGFQE4w=";
-        persistencedSha256 = lib.fakeHash;
-      };
     };
     bluetooth = {
       enable = true;
@@ -278,7 +268,7 @@ in {
       (import ./home-manager/hyprland.nix combined)
       (import ./home-manager/kitty.nix combined)
     ];
-  systemd.packages = with pkgs; [ lact-patched ];
+  systemd.packages = with pkgs; [ lact ];
   systemd.services.lactd.wantedBy = [ "multi-user.target" ];
   environment.systemPackages = with pkgs; [
     ntfs3g
@@ -313,7 +303,7 @@ in {
     luajit
     itch
     cargo-mommy
-    lact-patched
+    lact
     spotify
     # vs code
     nixd
