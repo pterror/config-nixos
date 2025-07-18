@@ -1,6 +1,16 @@
-{ inputs, config, lib, pkgs, ... }@args:
 {
-  imports = [ ./hardware-configuration.nix ./cachix.nix inputs.home-manager.nixosModules.home-manager ];
+  inputs,
+  config,
+  lib,
+  pkgs,
+  ...
+}@args:
+{
+  imports = [
+    ./hardware-configuration.nix
+    ./cachix.nix
+    inputs.home-manager.nixosModules.home-manager
+  ];
   documentation.nixos.enable = false;
 
   nix.settings = {
@@ -9,12 +19,22 @@
       "https://nix-gaming.cachix.org"
       "https://stardustxr.cachix.org"
       "https://eigenvalue.cachix.org"
+      "https://ai.cachix.org"
+      "https://cache.nixos.org"
+      "https://nix-community.cachix.org"
+      "https://cuda-maintainers.cachix.org"
+      "https://numtide.cachix.org"
     ];
     trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
       "stardustxr.cachix.org-1:mWSn8Ap2RLsIWT/8gsj+VfbJB6xoOkPaZpbjO+r9HBo="
       "eigenvalue.cachix.org-1:ykerQDDa55PGxU25CETy9wF6uVDpadGGXYrFNJA3TUs="
+      "ai.cachix.org-1:N9dzRK+alWwoKXQlnn0H6aUx0lU/mspIoz8hMvGvbbc="
+      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
+      "numtide.cachix.org-1:2ps1kLBUWjxIneOy1Ik6cQjb41X0iXVXeHigGmycPPE="
     ];
   };
 
@@ -30,14 +50,29 @@
       ];
       users.me = {
         directories = [
-          { directory = ".gnupg"; mode = "0700"; }
-          { directory = ".ssh"; mode = "0700"; }
-          { directory = ".local/share/keyrings"; mode = "0700"; }
+          {
+            directory = ".gnupg";
+            mode = "0700";
+          }
+          {
+            directory = ".ssh";
+            mode = "0700";
+          }
+          {
+            directory = ".local/share/keyrings";
+            mode = "0700";
+          }
           ".config/qt6ct" # TODO: move to declarative config
           ".config/quickshell"
           ".config/wallpapers"
-          { directory = ".config/omf"; mode = "0700"; } # TODO: move to declarative config
-          { directory = ".config/pipewire"; mode = "0700"; }
+          {
+            directory = ".config/omf";
+            mode = "0700";
+          } # TODO: move to declarative config
+          {
+            directory = ".config/pipewire";
+            mode = "0700";
+          }
           ".config/google-chrome"
           ".config/fish"
           ".config/itch"
@@ -54,7 +89,7 @@
           ".cargo" # for .cargo/bin/
           "git"
           "game"
-	  "Dendron"
+          "Dendron"
         ];
       };
     };
@@ -77,45 +112,50 @@
   };
 
   qt.enable = true;
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
   nixpkgs.config = {
     #cudaSupport = true;
     cudaArches = [ "sm_86" ];
-    allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-      "google-chrome"
-      "spotify"
-      "steam"
-      "steam-unwrapped"
-      "steam-run"
-      "reaper"
-      "discord-canary"
-      "nvidia-x11"
-      "nvidia-settings"
-      # for wivrn
-      "cuda-merged"
-      "cuda_cuobjdump"
-      "cuda_gdb"
-      "cuda_nvcc"
-      "cuda_nvdisasm"
-      "cuda_nvprune"
-      "cuda_cccl"
-      "cuda_cudart"
-      "cuda_cupti"
-      "cuda_cuxxfilt"
-      "cuda_nvml_dev"
-      "cuda_nvrtc"
-      "cuda_nvtx"
-      "libnpp"
-      "libcublas"
-      "libcufft"
-      "libcurand"
-      "libcusparse"
-      "libnvjitlink"
-      "cudnn"
-      "cuda_profiler_api"
-      "cuda_sanitizer_api"
-      "libcusolver"
-    ];
+    allowUnfreePredicate =
+      pkg:
+      builtins.elem (lib.getName pkg) [
+        "google-chrome"
+        "spotify"
+        "steam"
+        "steam-unwrapped"
+        "steam-run"
+        "reaper"
+        "discord-canary"
+        "nvidia-x11"
+        "nvidia-settings"
+        # for wivrn
+        "cuda-merged"
+        "cuda_cuobjdump"
+        "cuda_gdb"
+        "cuda_nvcc"
+        "cuda_nvdisasm"
+        "cuda_nvprune"
+        "cuda_cccl"
+        "cuda_cudart"
+        "cuda_cupti"
+        "cuda_cuxxfilt"
+        "cuda_nvml_dev"
+        "cuda_nvrtc"
+        "cuda_nvtx"
+        "libnpp"
+        "libcublas"
+        "libcufft"
+        "libcurand"
+        "libcusparse"
+        "libnvjitlink"
+        "cudnn"
+        "cuda_profiler_api"
+        "cuda_sanitizer_api"
+        "libcusolver"
+      ];
   };
   hardware = {
     graphics.enable = true; # hyprland
@@ -230,7 +270,11 @@
       me = {
         hashedPassword = "$y$j9T$cidkoWm0GGdY640fxDlg1.$MtxmsHZ0XIO7PvPGss/K0WPBE7NwJVhvH38gbg/gCpA";
         isNormalUser = true;
-        extraGroups = [ "wheel" "docker" "adbusers" ];
+        extraGroups = [
+          "wheel"
+          "docker"
+          "adbusers"
+        ];
         shell = pkgs.fish;
       };
       root = {
@@ -242,7 +286,8 @@
       vboxusers.members = [ "me" ];
     };
   };
-  home-manager.users.me = args2:
+  home-manager.users.me =
+    args2:
     let
       combined = args // args2;
     in
@@ -263,78 +308,94 @@
             size = 10;
           };
         };
-        services.wlsunset = { enable = true; latitude = "-27.5"; longitude = "153"; };
+        services.wlsunset = {
+          enable = true;
+          latitude = "-27.5";
+          longitude = "153";
+        };
       }
       (import ./home-manager/hyprland.nix combined)
       (import ./home-manager/kitty.nix combined)
     ];
   systemd.packages = with pkgs; [ lact ];
   systemd.services.lactd.wantedBy = [ "multi-user.target" ];
-  environment.systemPackages = with pkgs; [
-    ntfs3g
-    home-manager
-    cachix
-    file
-    pcmanfm
-    pavucontrol
-    google-chrome
-    curl
-    cava
-    wlsunset
-    gallery-dl
-    qt6.qtmultimedia
-    qt6.qtwayland # idk if this fixes QT_QPA_PLATFORM=wayland
-    # qt6.qtbase # eglfs_kms for wayland-compositor
-    qt6.qtvirtualkeyboard # optional dependency for wayland-compositor
-    vulkan-loader # libvulkan for wayland-compositor
-    kdePackages.qt6ct # xdg-desktop-portal for file dialog
-    xdg-utils # open, xdg-open
-    ffmpeg-full
-    rlwrap
-    _7zz
-    unrar-wrapper
-    wf-recorder
-    clang-tools
-    nixpkgs-fmt
-    reaper
-    vesktop
-    btop
-    bat
-    luajit
-    itch
-    cargo-mommy
-    lact
-    spotify
-    # vs code
-    nixd
-    # image manipulation
-    krita
-    graphicsmagick
-    # debug
-    gdbHostCpuOnly
-    # quickshell
-    inputs.quickshell.packages.${pkgs.system}.default
-    # game
-    dxvk
-    winetricks
-    gamescope
-    gamemode
-    inputs.nix-gaming.packages.${pkgs.system}.wine-tkg
-    samba # ntlm_auth for wine
-    prismlauncher
-    r2modman
-    flatpak
-    keepassxc
-    # lumafly
-    # vr
-    sidequest
-    alvr
-    android-tools
-    slimevr
-    slimevr-server
-    #inputs.stardust-telescope.packages.${pkgs.system}.telescope
-    #inputs.stardust-telescope.packages.${pkgs.system}.flatscreen
-  ] ++ /* qti */ inputs.qti.packages.${pkgs.system}.qti-all;
+  environment.systemPackages =
+    with pkgs;
+    [
+      ntfs3g
+      home-manager
+      cachix
+      file
+      pcmanfm
+      pavucontrol
+      gg-jj
+      jujutsu
+      google-chrome
+      curl
+      cava
+      wlsunset
+      nil
+      gallery-dl
+      qt6.qtmultimedia
+      qt6.qtwayland # idk if this fixes QT_QPA_PLATFORM=wayland
+      # qt6.qtbase # eglfs_kms for wayland-compositor
+      qt6.qtvirtualkeyboard # optional dependency for wayland-compositor
+      vulkan-loader # libvulkan for wayland-compositor
+      kdePackages.qt6ct # xdg-desktop-portal for file dialog
+      xdg-utils # open, xdg-open
+      ffmpeg-full
+      rlwrap
+      _7zz
+      unrar-wrapper
+      wf-recorder
+      clang-tools
+      nixpkgs-fmt
+      reaper
+      vesktop
+      btop
+      bat
+      luajit
+      itch
+      cargo-mommy
+      lact
+      spotify
+      godot
+      appimage-run
+      yacreader
+      gpustat
+      amdgpu_top
+      # vs code
+      nixd
+      # image manipulation
+      krita
+      graphicsmagick
+      # debug
+      gdbHostCpuOnly
+      # quickshell
+      inputs.quickshell.packages.${pkgs.system}.default
+      # game
+      dxvk
+      winetricks
+      gamescope
+      gamemode
+      inputs.nix-gaming.packages.${pkgs.system}.wine-tkg
+      samba # ntlm_auth for wine
+      prismlauncher
+      r2modman
+      flatpak
+      keepassxc
+      # lumafly
+      # vr
+      sidequest
+      alvr
+      android-tools
+      slimevr
+      slimevr-server
+      #inputs.stardust-telescope.packages.${pkgs.system}.telescope
+      #inputs.stardust-telescope.packages.${pkgs.system}.flatscreen
+    ]
+    # qti
+    ++ inputs.qti.packages.${pkgs.system}.qti-all;
   fonts.packages = with pkgs; [
     inputs.unicorn-scribbles-font.packages.${pkgs.system}.default
     inputs.pointfree-font.packages.${pkgs.system}.default
@@ -365,7 +426,10 @@
   xdg.portal = {
     enable = true;
     config = {
-      common.default = [ "hyprland" "gtk" ];
+      common.default = [
+        "hyprland"
+        "gtk"
+      ];
     };
     extraPortals = with pkgs; [
       xdg-desktop-portal-hyprland
@@ -380,4 +444,3 @@
     stateVersion = "23.11"; # initial version. NEVER EVER CHANGE!
   };
 }
-
