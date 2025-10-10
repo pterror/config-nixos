@@ -139,7 +139,10 @@
   networking = {
     hostName = "pc";
     networkmanager.enable = true;
-    firewall.enable = false;
+    firewall = {
+      enable = false;
+      checkReversePath = false;
+    };
   };
   services = {
     earlyoom.enable = true;
@@ -353,6 +356,8 @@
       #inputs.stardust-telescope.packages.${pkgs.system}.telescope
       #inputs.stardust-telescope.packages.${pkgs.system}.flatscreen
       nvidia-container-toolkit # for LaurieWired/InfiniteRadio
+      wireguard-tools
+      protonvpn-gui
     ]
     # qti
     ++ inputs.qti.packages.${pkgs.system}.qti-all;
