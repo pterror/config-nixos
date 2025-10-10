@@ -1,6 +1,15 @@
-{ inputs, config, lib, pkgs, ... }@args:
 {
-  imports = [ ./hardware-configuration.nix ./cachix.nix inputs.home-manager.nixosModules.home-manager ];
+  inputs,
+  lib,
+  pkgs,
+  ...
+}@args:
+{
+  imports = [
+    ./hardware-configuration.nix
+    ./cachix.nix
+    inputs.home-manager.nixosModules.home-manager
+  ];
   documentation.nixos.enable = false;
 
   nix.settings = {
@@ -10,6 +19,11 @@
       "https://nix-gaming.cachix.org"
       "https://stardustxr.cachix.org"
       "https://eigenvalue.cachix.org"
+      "https://ai.cachix.org"
+      "https://cache.nixos.org"
+      "https://nix-community.cachix.org"
+      "https://cuda-maintainers.cachix.org"
+      "https://numtide.cachix.org"
     ];
     trusted-public-keys = [
       "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
@@ -17,6 +31,11 @@
       "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
       "stardustxr.cachix.org-1:mWSn8Ap2RLsIWT/8gsj+VfbJB6xoOkPaZpbjO+r9HBo="
       "eigenvalue.cachix.org-1:ykerQDDa55PGxU25CETy9wF6uVDpadGGXYrFNJA3TUs="
+      "ai.cachix.org-1:N9dzRK+alWwoKXQlnn0H6aUx0lU/mspIoz8hMvGvbbc="
+      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
+      "numtide.cachix.org-1:2ps1kLBUWjxIneOy1Ik6cQjb41X0iXVXeHigGmycPPE="
     ];
   };
 
@@ -32,14 +51,29 @@
       ];
       users.me = {
         directories = [
-          { directory = ".gnupg"; mode = "0700"; }
-          { directory = ".ssh"; mode = "0700"; }
-          { directory = ".local/share/keyrings"; mode = "0700"; }
+          {
+            directory = ".gnupg";
+            mode = "0700";
+          }
+          {
+            directory = ".ssh";
+            mode = "0700";
+          }
+          {
+            directory = ".local/share/keyrings";
+            mode = "0700";
+          }
           ".config/qt6ct" # TODO: move to declarative config
           ".config/quickshell"
           ".config/wallpapers"
-          { directory = ".config/omf"; mode = "0700"; } # TODO: move to declarative config
-          { directory = ".config/pipewire"; mode = "0700"; }
+          {
+            directory = ".config/omf";
+            mode = "0700";
+          } # TODO: move to declarative config
+          {
+            directory = ".config/pipewire";
+            mode = "0700";
+          }
           ".config/google-chrome"
           ".config/fish"
           ".config/itch"
@@ -56,6 +90,7 @@
           ".cargo" # for .cargo/bin/
           "git"
           "game"
+          "Dendron"
         ];
       };
     };
@@ -76,14 +111,19 @@
   };
 
   qt.enable = true;
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-    "google-chrome"
-    "steam"
-    "steam-unwrapped"
-    "steam-run"
-    "reaper"
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
   ];
+  nixpkgs.config.allowUnfreePredicate =
+    pkg:
+    builtins.elem (lib.getName pkg) [
+      "google-chrome"
+      "steam"
+      "steam-unwrapped"
+      "steam-run"
+      "reaper"
+    ];
   hardware = {
     graphics.enable = true; # hyprland
     nvidia = {
@@ -126,7 +166,7 @@
       host = "0.0.0.0";
     };
     udev.extraRules = ''
-      SUBSYSTEM="usb", ATTR{idVendor}=="2833", ATTR{idProduct}=="0186", MODE="0660" group="plugdev", symlink+="ocuquest%n"
+      SUBSYSTEM=="usb", ATTR{idVendor}=="2833", ATTR{idProduct}=="0186", MODE="0660" GROUP="plugdev", SYMLINK+="ocuquest%n"
     '';
     #wivrn = {
     #  enable = true;
@@ -140,6 +180,7 @@
     direnv.enable = true;
     git.enable = true;
     adb.enable = true;
+    niri.enable = true;
     firefox = import ./modules/firefox.nix args;
     neovim = {
       enable = true;
@@ -177,7 +218,7 @@
       libdrm
       pango # playwright
       libxkbcommon # playwright
-      mesa # gbm for playwright
+      libgbm # playwright
       nss # playwright
       gtk3
       vulkan-loader
@@ -190,7 +231,11 @@
       me = {
         hashedPassword = "$y$j9T$cidkoWm0GGdY640fxDlg1.$MtxmsHZ0XIO7PvPGss/K0WPBE7NwJVhvH38gbg/gCpA";
         isNormalUser = true;
-        extraGroups = [ "wheel" "docker" "adbusers" ];
+        extraGroups = [
+          "wheel"
+          "docker"
+          "adbusers"
+        ];
         shell = pkgs.fish;
       };
       root = {
@@ -202,7 +247,8 @@
       vboxusers.members = [ "me" ];
     };
   };
-  home-manager.users.me = args2:
+  home-manager.users.me =
+    args2:
     let
       combined = args // args2;
     in
@@ -223,7 +269,11 @@
             size = 10;
           };
         };
-        services.wlsunset = { enable = true; latitude = "-27.5"; longitude = "153"; };
+        services.wlsunset = {
+          enable = true;
+          latitude = "-27.5";
+          longitude = "153";
+        };
       }
       (import ./home-manager/hyprland.nix combined)
       (import ./home-manager/kitty.nix combined)
@@ -336,7 +386,10 @@
   xdg.portal = {
     enable = true;
     config = {
-      common.default = [ "hyprland" "gtk" ];
+      common.default = [
+        "hyprland"
+        "gtk"
+      ];
     };
     extraPortals = with pkgs; [
       xdg-desktop-portal-hyprland
@@ -351,4 +404,3 @@
     stateVersion = "23.11"; # initial version. NEVER EVER CHANGE!
   };
 }
-

@@ -334,15 +334,14 @@
         ]
       },
       "locked": {
-        "lastModified": 1,
-        "narHash": "sha256-FKesREblL3HYQUuX4DU//NTqMkBGckJQygaGnNZpdoQ=",
         "path": "./flakes/miku-cursor",
         "type": "path"
       },
       "original": {
         "path": "./flakes/miku-cursor",
         "type": "path"
-      }
+      },
+      "parent": []
     },
     "modum-font": {
       "inputs": {
@@ -351,15 +350,14 @@
         ]
       },
       "locked": {
-        "lastModified": 1,
-        "narHash": "sha256-f8Z1wGFCs9l84BEQ+5Qkrz1BkTQKHtc/rEGEarNMsQo=",
         "path": "./flakes/modum-font",
         "type": "path"
       },
       "original": {
         "path": "./flakes/modum-font",
         "type": "path"
-      }
+      },
+      "parent": []
     },
     "nix-gaming": {
       "inputs": {
@@ -489,15 +487,14 @@
         ]
       },
       "locked": {
-        "lastModified": 1,
-        "narHash": "sha256-tvMk2y3c4FwFRnXaQkXDvXRMA+TMhImJ2pMKpAjDg6M=",
         "path": "./flakes/pointfree-font",
         "type": "path"
       },
       "original": {
         "path": "./flakes/pointfree-font",
         "type": "path"
-      }
+      },
+      "parent": []
     },
     "protostar": {
       "inputs": {
@@ -638,15 +635,14 @@
         ]
       },
       "locked": {
-        "lastModified": 1,
-        "narHash": "sha256-s1Wowt12m2N+p75bgX6XYtfNjno2QZcvBZfBm+6E/3o=",
         "path": "./flakes/string-literal-font",
         "type": "path"
       },
       "original": {
         "path": "./flakes/string-literal-font",
         "type": "path"
-      }
+      },
+      "parent": []
     },
     "umu": {
       "inputs": {
@@ -680,15 +676,14 @@
         ]
       },
       "locked": {
-        "lastModified": 1,
-        "narHash": "sha256-P8OcoIb/pn1urxKcdX96C1R+KemZJYe5YcEZ+ZpXI0k=",
         "path": "./flakes/unicorn-scribbles-font",
         "type": "path"
       },
       "original": {
         "path": "./flakes/unicorn-scribbles-font",
         "type": "path"
-      }
+      },
+      "parent": []
     }
   },
   "root": "root",

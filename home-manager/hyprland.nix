@@ -59,7 +59,7 @@ in {
           "layersOut, 1, 1.6, menu_accel"
           "fadeLayersIn, 1, 3, menu_decel"
           "fadeLayersOut, 1, 1.6, menu_accel"
-          "workspaces, 1, 7, menu_decel, slide"
+          "workspaces, 1, 7, menu_decel, slidefade 20%"
           "specialWorkspace, 1, 3, md3_decel, slidevert"
         ];
       };
@@ -86,6 +86,7 @@ in {
       ];
       exec-once = [
         "${inputs.quickshell.packages.${pkgs.system}.default}/bin/quickshell"
+	"wlsunset -L 153 -T 6500 -g 1.000000 -l -27.5 -t 4000"
       ];
       bindm = [
         "${mod}, mouse:272, movewindow"
