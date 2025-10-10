@@ -5,12 +5,14 @@
 
   nix.settings = {
     substituters = [
+      "https://cache.garnix.io"
       "https://nix-community.cachix.org"
       "https://nix-gaming.cachix.org"
       "https://stardustxr.cachix.org"
       "https://eigenvalue.cachix.org"
     ];
     trusted-public-keys = [
+      "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
       "stardustxr.cachix.org-1:mWSn8Ap2RLsIWT/8gsj+VfbJB6xoOkPaZpbjO+r9HBo="
@@ -226,102 +228,84 @@
       (import ./home-manager/hyprland.nix combined)
       (import ./home-manager/kitty.nix combined)
     ];
-  environment.systemPackages = with pkgs; [
-    home-manager
-    cachix
-    file
-    pcmanfm
-    pavucontrol
-    google-chrome
-    curl
-    cava
-    wlsunset
-    gallery-dl
-    qt6.qtmultimedia
-    qt6.qtwayland # idk if this fixes QT_QPA_PLATFORM=wayland
-    # qt6.qtbase # eglfs_kms for wayland-compositor
-    qt6.qtvirtualkeyboard # optional dependency for wayland-compositor
-    vulkan-loader # libvulkan for wayland-compositor
-    kdePackages.qt6ct # xdg-desktop-portal for file dialog
-    xdg-utils # open, xdg-open
-    ffmpeg-full
-    rlwrap
-    _7zz
-    unrar-wrapper
-    wf-recorder
-    clang-tools
-    nixpkgs-fmt
-    reaper
-    #jetbrains.idea-community
-    vesktop
-    btop
-    bat
-    luajit
-    itch
-    cargo-mommy
-    /*((mommy.override {
-      mommySettings =
-        let
-          cargo-mommy = import ./modules/cargo-mommy.nix;
-          moods = cargo-mommy.withMoods [
-            "mommy"
-            "mommy"
-            "mommy"
-            "chill"
-            "chill"
-            "chill"
-            "thirsty"
-            "thirsty"
-            "thirsty"
-            "yikes"
-          ];
-        in
-        {
-          caregiver = "uwu/NixOWOS";
-          sweetie = "cutie";
-          suffix = "//~/~/ :3/ :3/ uwu/ owo";
-          color = "182/183/218/219/225";
-        } // moods;
-    }).overrideAttrs (self: super: {
-      postInstall = builtins.replaceStrings
-        [ "--set-default MOMMY_OPT_CONFIG_FILE " ]
-        [ "--add-flags -c --add-flags " ]
-        super.postInstall;
-      patches = [ ./modules/mommy_yikes.patch ];
-    }))*/
-    # vs code
-    nixd
-    # image manipulation
-    krita
-    graphicsmagick
-    # debug
-    gdbHostCpuOnly
-    # quickshell
-    inputs.quickshell.packages.${pkgs.system}.default
-    # game
-    dxvk
-    winetricks
-    gamescope
-    gamemode
-    inputs.nix-gaming.packages.${pkgs.system}.wine-tkg
-    samba # ntlm_auth for wine
-    prismlauncher
-    r2modman
-    flatpak
-    keepassxc
-    # lumafly
-    # vr
-    (sidequest.overrideAttrs (super: {
-      nativeBuildInputs = super.nativeBuildInputs ++ [ wrapGAppsHook ];
-    }))
-    alvr
-    android-tools
-    # inputs.hwfetch.packages.${pkgs.system}.default
-    # inputs.verdi.packages.${pkgs.system}.default
-    # inputs.asciinema.packages.${pkgs.system}.default
-    inputs.stardust-telescope.packages.${pkgs.system}.telescope
-    inputs.stardust-telescope.packages.${pkgs.system}.flatscreen
-  ] ++ /* qti */ inputs.qti.packages.${pkgs.system}.qti-all;
+  systemd.packages = with pkgs; [ lact ];
+  systemd.services.lactd.wantedBy = [ "multi-user.target" ];
+  environment.systemPackages =
+    with pkgs;
+    [
+      ntfs3g
+      home-manager
+      cachix
+      file
+      pcmanfm
+      pavucontrol
+      google-chrome
+      curl
+      cava
+      wlsunset
+      nil
+      gallery-dl
+      qt6.qtmultimedia
+      qt6.qtwayland # idk if this fixes QT_QPA_PLATFORM=wayland
+      # qt6.qtbase # eglfs_kms for wayland-compositor
+      qt6.qtvirtualkeyboard # optional dependency for wayland-compositor
+      vulkan-loader # libvulkan for wayland-compositor
+      kdePackages.qt6ct # xdg-desktop-portal for file dialog
+      xdg-utils # open, xdg-open
+      ffmpeg-full
+      rlwrap
+      _7zz
+      unrar-wrapper
+      wf-recorder
+      clang-tools
+      nixpkgs-fmt
+      reaper
+      vesktop
+      btop
+      bat
+      luajit
+      itch
+      cargo-mommy
+      lact
+      spotify
+      godot
+      appimage-run
+      yacreader
+      gpustat
+      amdgpu_top
+      # vs code
+      nixd
+      # image manipulation
+      krita
+      graphicsmagick
+      # debug
+      gdbHostCpuOnly
+      # quickshell
+      inputs.quickshell.packages.${pkgs.system}.default
+      # game
+      dxvk
+      winetricks
+      gamescope
+      gamemode
+      inputs.nix-gaming.packages.${pkgs.system}.wine-tkg
+      samba # ntlm_auth for wine
+      prismlauncher
+      r2modman
+      flatpak
+      keepassxc
+      # lumafly
+      # vr
+      sidequest
+      alvr
+      android-tools
+      slimevr
+      slimevr-server
+      #inputs.stardust-telescope.packages.${pkgs.system}.telescope
+      #inputs.stardust-telescope.packages.${pkgs.system}.flatscreen
+      nvidia-container-toolkit # for LaurieWired/InfiniteRadio
+    ]
+    # qti
+    ++ inputs.qti.packages.${pkgs.system}.qti-all;
   fonts.packages = with pkgs; [
     inputs.unicorn-scribbles-font.packages.${pkgs.system}.default
     inputs.pointfree-font.packages.${pkgs.system}.default
