@@ -278,7 +278,6 @@
           longitude = "153";
         };
       }
-      (import ./home-manager/hyprland.nix combined)
       (import ./home-manager/kitty.nix combined)
     ];
   systemd.packages = with pkgs; [ lact ];
@@ -388,6 +387,19 @@
       __GL_SHADER_DISK_CACHE_SIZE = "100000000000";
     };
   };
+  system.activationScripts.me =
+    let
+      username = "me";
+      homeDirectory = "/home/${username}";
+      hyprlandConfFile = pkgs.callPackage ./config/hyprland.nix { };
+    in
+    ''
+      echo "Setting up hyprland.conf for user: ${username}"
+      userGroup=$(${pkgs.util-linux}/bin/id -gn ${username})
+      ${pkgs.coreutils}/bin/mkdir -p "${homeDirectory}/.config/hypr"
+      ${pkgs.coreutils}/bin/ln -sf "${hyprlandConfFile}" "${homeDirectory}/.config/hypr/hyprland.conf"
+      ${pkgs.coreutils}/bin/chown -R ${username}:$userGroup "${homeDirectory}/.config"
+    '';
   xdg.portal = {
     enable = true;
     config = {
@@ -397,7 +409,7 @@
       ];
     };
     extraPortals = with pkgs; [
-      xdg-desktop-portal-hyprland
+      inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland
       xdg-desktop-portal-gtk
     ];
   };
