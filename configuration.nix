@@ -295,7 +295,8 @@ in
   environment.systemPackages =
     with pkgs;
     [
-      hyprland
+      (hyprland.override { enableXWayland = true; })
+      xwayland
       ntfs3g
       home-manager
       cachix
@@ -324,7 +325,7 @@ in
       nixpkgs-fmt
       reaper
       (discord.override { withVencord = true; })
-      btop
+      htop
       bat
       luajit
       itch
