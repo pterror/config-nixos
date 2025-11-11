@@ -23,17 +23,9 @@
         installation_mode = "force_installed";
         install_url = "https://addons.mozilla.org/firefox/downloads/latest/github-whitespace-disabler/latest.xpl";
       };
-      "{bc2166c4-e7a2-46d5-ad9e-342cef57f1f7}" = {
-        installation_mode = "force_installed";
-        install_url = "https://addons.mozilla.org/firefox/downloads/latest/gloc/latest.xpl";
-      };
       "{4a313247-8330-4a81-948e-b79936516f78}" = {
         installation_mode = "force_installed";
         install_url = "https://addons.mozilla.org/firefox/downloads/latest/image-search-options/latest.xpl";
-      };
-      "{13c9fd7a-58f4-4a28-9ff9-75e54ad1d540}" = {
-        installation_mode = "force_installed";
-        install_url = "https://addons.mozilla.org/firefox/downloads/latest/local-file-image-viewer/latest.xpl";
       };
       "popup-tab@eight04.blogspot.com" = {
         installation_mode = "force_installed";

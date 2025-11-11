@@ -4,6 +4,9 @@
   pkgs,
   ...
 }@args:
+let
+  system = pkgs.stdenv.hostPlatform.system;
+in
 {
   imports = [
     ./hardware-configuration.nix
@@ -108,6 +111,10 @@
       efi.canTouchEfiVariables = true;
     };
     kernelPackages = pkgs.linuxPackages_zen;
+    # disable power management for Realtek RTL8852AE (rtw89_8852ae) do avoid wifi stability issues
+    extraModprobeConfig = ''
+      options rtw89_core disable_ps_mode=Y
+    '';
   };
 
   qt.enable = true;
@@ -123,6 +130,9 @@
       "steam-unwrapped"
       "steam-run"
       "reaper"
+      "discord"
+      "spotify"
+      "vscode"
     ];
   hardware = {
     graphics.enable = true; # hyprland
@@ -149,6 +159,7 @@
     tailscale.enable = true;
     transmission = {
       enable = true;
+      package = pkgs.transmission_4;
       user = "me";
       settings.download-dir = "/mnt/usb/game/";
     };
@@ -261,14 +272,14 @@
         home.pointerCursor = {
           gtk.enable = true;
           name = "miku-cursor";
-          package = inputs.miku-cursor.packages.${pkgs.system}.default;
+          package = inputs.miku-cursor.packages.${system}.default;
           size = 24;
         };
         gtk = {
           theme.name = "Adwaita-dark";
           font = {
             name = "Unicorn Scribbles";
-            package = inputs.unicorn-scribbles-font.packages.${pkgs.system}.default;
+            package = inputs.unicorn-scribbles-font.packages.${system}.default;
             size = 10;
           };
         };
@@ -278,13 +289,13 @@
           longitude = "153";
         };
       }
-      (import ./home-manager/kitty.nix combined)
     ];
   systemd.packages = with pkgs; [ lact ];
   systemd.services.lactd.wantedBy = [ "multi-user.target" ];
   environment.systemPackages =
     with pkgs;
     [
+      hyprland
       ntfs3g
       home-manager
       cachix
@@ -312,7 +323,7 @@
       clang-tools
       nixpkgs-fmt
       reaper
-      vesktop
+      (discord.override { withVencord = true; })
       btop
       bat
       luajit
@@ -320,6 +331,7 @@
       cargo-mommy
       lact
       spotify
+      vscode
       godot
       appimage-run
       yacreader
@@ -333,13 +345,13 @@
       # debug
       gdbHostCpuOnly
       # quickshell
-      inputs.quickshell.packages.${pkgs.system}.default
+      inputs.quickshell.packages.${system}.default
       # game
       dxvk
       winetricks
       gamescope
       gamemode
-      inputs.nix-gaming.packages.${pkgs.system}.wine-tkg
+      inputs.nix-gaming.packages.${system}.wine-tkg
       samba # ntlm_auth for wine
       prismlauncher
       r2modman
@@ -352,22 +364,22 @@
       android-tools
       slimevr
       slimevr-server
-      #inputs.stardust-telescope.packages.${pkgs.system}.telescope
-      #inputs.stardust-telescope.packages.${pkgs.system}.flatscreen
+      #inputs.stardust-telescope.packages.${system}.telescope
+      #inputs.stardust-telescope.packages.${system}.flatscreen
       nvidia-container-toolkit # for LaurieWired/InfiniteRadio
       wireguard-tools
       protonvpn-gui
     ]
     # qti
-    ++ inputs.qti.packages.${pkgs.system}.qti-all;
+    ++ inputs.qti.packages.${system}.qti-all;
   fonts.packages = with pkgs; [
-    inputs.unicorn-scribbles-font.packages.${pkgs.system}.default
-    inputs.pointfree-font.packages.${pkgs.system}.default
-    # inputs.string-literal-font.packages.${pkgs.system}.default
-    # inputs.modum-font.packages.${pkgs.system}.default
+    inputs.unicorn-scribbles-font.packages.${system}.default
+    inputs.pointfree-font.packages.${system}.default
+    # inputs.string-literal-font.packages.${system}.default
+    # inputs.modum-font.packages.${system}.default
     twemoji-color-font
     noto-fonts
-    noto-fonts-emoji
+    noto-fonts-color-emoji
     noto-fonts-cjk-sans
     nerd-fonts.fantasque-sans-mono
   ];
@@ -391,14 +403,16 @@
     let
       username = "me";
       homeDirectory = "/home/${username}";
-      hyprlandConfFile = pkgs.callPackage ./config/hyprland.nix { };
+      hyprlandConfFile = pkgs.writeText "hyprland.conf" (pkgs.callPackage ./config/hyprland.nix args);
+      ghosttyConfFile = pkgs.writeText "config" (pkgs.callPackage ./config/ghostty.nix args);
     in
     ''
       echo "Setting up hyprland.conf for user: ${username}"
-      userGroup=$(${pkgs.util-linux}/bin/id -gn ${username})
+      userGroup=$(${pkgs.coreutils}/bin/id -gn ${username})
       ${pkgs.coreutils}/bin/mkdir -p "${homeDirectory}/.config/hypr"
       ${pkgs.coreutils}/bin/ln -sf "${hyprlandConfFile}" "${homeDirectory}/.config/hypr/hyprland.conf"
-      ${pkgs.coreutils}/bin/chown -R ${username}:$userGroup "${homeDirectory}/.config"
+      ${pkgs.coreutils}/bin/mkdir -p "${homeDirectory}/.config/ghostty"
+      ${pkgs.coreutils}/bin/ln -sf "${ghosttyConfFile}" "${homeDirectory}/.config/ghostty/config"
     '';
   xdg.portal = {
     enable = true;
@@ -409,7 +423,7 @@
       ];
     };
     extraPortals = with pkgs; [
-      inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland
+      inputs.hyprland.packages.${system}.xdg-desktop-portal-hyprland
       xdg-desktop-portal-gtk
     ];
   };

@@ -1,10 +1,14 @@
 { pkgs, inputs, ... }:
 let
+  system = pkgs.stdenv.hostPlatform.system;
   mod = "SUPER";
-  screenshot = "${inputs.qti.packages.${pkgs.system}.qti}/bin/qti --path ${
-    inputs.qti.packages.${pkgs.system}.qti-app-screenshot-editor
+  screenshot = "${inputs.qti.packages.${system}.qti}/bin/qti --path ${
+    inputs.qti.packages.${system}.qti-app-screenshot-editor
   }/share/qti/screenshot-editor/screenshot-editor.qml";
-  quickshell = "${inputs.quickshell.packages.${pkgs.system}.default}/bin/quickshell";
+  quickshell = "${inputs.quickshell.packages.${system}.default}/bin/quickshell";
+  browser = "${pkgs.firefox}/bin/firefox";
+  terminal = "${pkgs.ghostty}/bin/ghostty";
+  file-browser = "${pkgs.pcmanfm}/bin/pcmanfm";
 in
 ''
   exec-once = ${pkgs.dbus}/bin/dbus-update-activation-environment --systemd DISPLAY HYPRLAND_INSTANCE_SIGNATURE WAYLAND_DISPLAY XDG_CURRENT_DESKTOP && systemctl --user stop hyprland-session.target && systemctl --user start hyprland-session.target
@@ -91,12 +95,11 @@ in
   bind = ${mod} SHIFT, S, exec, [float; monitor DP-3; move -1920 0; size 5760 1080; noanim] ${screenshot}
   bind = ${mod}, Tab, global, quickshell:workspaces_overview:toggle
   bind = ${mod}, L, global, quickshell:wlogout:toggle
-  bind = ${mod}, A, exec, ${pkgs.firefox}/bin/firefox
-  bind = ${mod}, Q, exec, ${pkgs.kitty}/bin/kitty -1
+  bind = ${mod}, A, exec, ${browser}
+  bind = ${mod}, Q, exec, ${terminal}
+  bind = ${mod}, E, exec, ${file-browser}
   bind = ${mod}, C, killactive,
-  bind = ${mod}, D, exec, ${pkgs.itch}/bin/itch
   bind = ${mod}, M, exit,
-  bind = ${mod}, E, exec, ${pkgs.pcmanfm}/bin/pcmanfm
   bind = ${mod}, V, togglefloating,
   bind = ${mod}, R, global, quickshell:launcher:toggle
   bind = ${mod}, P, pseudo, # dwindle
