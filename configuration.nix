@@ -133,10 +133,13 @@ in
       "discord"
       "spotify"
       "vscode"
+      "nvidia-x11"
+      "nvidia-settings"
     ];
   hardware = {
     graphics.enable = true; # hyprland
     nvidia = {
+      open = true;
       modesetting.enable = true;
       powerManagement.enable = true;
     };
@@ -155,6 +158,7 @@ in
     };
   };
   services = {
+    xserver.videoDrivers = ["nvidia"];
     earlyoom.enable = true;
     tailscale.enable = true;
     transmission = {
