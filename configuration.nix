@@ -135,6 +135,7 @@ in
       "vscode"
       "nvidia-x11"
       "nvidia-settings"
+      "claude-code"
     ];
   hardware = {
     graphics.enable = true; # hyprland
@@ -337,6 +338,8 @@ in
       lact
       spotify
       vscode
+      claude-code
+      gemini-cli
       godot
       appimage-run
       yacreader
