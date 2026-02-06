@@ -18,9 +18,16 @@ in
   env = QT_QPA_PLATFORM,wayland
   env = XDG_SESSION_TYPE,wayland
 
-  monitor = DP-2, preferred, 0x0, auto
-  monitor = DP-3, preferred, 1920x0, auto
-  monitor = HDMI-A-2, preferred, 3840x0, auto
+  monitor = DP-1, preferred, 0x0, auto
+  monitor = DP-2, preferred, 1920x0, auto
+  monitor = HDMI-A-1, preferred, 3840x0, auto
+
+  device {
+    name = wacom-intuos-s-pen
+    output = DP-2
+    region_size = 1728, 1080
+    region_position = 96, 0
+  }
 
   animations {
     bezier = linear, 0, 0, 1, 1
@@ -91,8 +98,8 @@ in
   bind = , XF86AudioStop, global, quickshell:media:pause
   bind = , XF86AudioPrev, global, quickshell:media:previous
   bind = , XF86AudioNext, global, quickshell:media:next
-  bind = , Print, exec, [float; monitor DP-3; move -1920 0; size 5760 1080; noanim] ${screenshot}
-  bind = ${mod} SHIFT, S, exec, [float; monitor DP-3; move -1920 0; size 5760 1080; noanim] ${screenshot}
+  bind = , Print, exec, [float; monitor DP-2; move -1920 0; size 5760 1080; noanim] ${screenshot}
+  bind = ${mod} SHIFT, S, exec, [float; monitor DP-2; move -1920 0; size 5760 1080; noanim] ${screenshot}
   bind = ${mod}, Tab, global, quickshell:workspaces_overview:toggle
   bind = ${mod}, L, global, quickshell:wlogout:toggle
   bind = ${mod}, A, exec, ${browser}

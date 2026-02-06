@@ -1,4 +1,5 @@
 {
+  config,
   inputs,
   lib,
   pkgs,
@@ -110,7 +111,8 @@ in
       };
       efi.canTouchEfiVariables = true;
     };
-    kernelPackages = pkgs.linuxPackages_zen;
+    # kernelPackages = pkgs.linuxPackages_zen;
+    kernelPackages = pkgs.linuxPackages;
     # disable power management for Realtek RTL8852AE (rtw89_8852ae) do avoid wifi stability issues
     extraModprobeConfig = ''
       options rtw89_core disable_ps_mode=Y
@@ -122,6 +124,7 @@ in
     "nix-command"
     "flakes"
   ];
+  nixpkgs.config.nvidia.acceptLicense = true;
   nixpkgs.config.allowUnfreePredicate =
     pkg:
     builtins.elem (lib.getName pkg) [
@@ -133,6 +136,7 @@ in
       "discord"
       "spotify"
       "vscode"
+      "nvidia-dc"
       "nvidia-x11"
       "nvidia-settings"
       "claude-code"
@@ -143,6 +147,14 @@ in
       open = true;
       modesetting.enable = true;
       powerManagement.enable = true;
+      package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
+        version = "570.172.08";
+        sha256_64bit = "sha256-AlaGfggsr5PXsl+nyOabMWBiqcbHLG4ij617I4xvoX0=";
+        sha256_aarch64 = "sha256-FVRyFvK1FKznckpatMMydmmQSkHK+41NkEjTybYJY9g=";
+        openSha256 = "sha256-aTV5J4zmEgRCOavo6wLwh5efOZUG+YtoeIT/tnrC1Hg=";
+        settingsSha256 = "sha256-N/1Ra8Teq93U3T898ImAT2DceHjDHZL1DuriJeTYEa4=";
+        persistencedSha256 = "sha256-x4K0Gp89LdL5YJhAI0AydMRxl6fyBylEnj+nokoBrK8=";
+      };
     };
     bluetooth = {
       enable = true;
@@ -162,6 +174,7 @@ in
     xserver.videoDrivers = ["nvidia"];
     earlyoom.enable = true;
     tailscale.enable = true;
+    flatpak.enable = true;
     transmission = {
       enable = true;
       package = pkgs.transmission_4;
@@ -179,11 +192,11 @@ in
     };
     openssh.enable = true;
     sunshine.enable = true;
-    openvscode-server = {
-      enable = true;
-      user = "me";
-      host = "0.0.0.0";
-    };
+    # openvscode-server = {
+    #   enable = true;
+    #   user = "me";
+    #   host = "0.0.0.0";
+    # };
     udev.extraRules = ''
       SUBSYSTEM=="usb", ATTR{idVendor}=="2833", ATTR{idProduct}=="0186", MODE="0660" GROUP="plugdev", SYMLINK+="ocuquest%n"
     '';
@@ -198,7 +211,6 @@ in
     steam.enable = true;
     direnv.enable = true;
     git.enable = true;
-    adb.enable = true;
     niri.enable = true;
     firefox = import ./modules/firefox.nix args;
     neovim = {
@@ -304,6 +316,7 @@ in
       xwayland
       ntfs3g
       home-manager
+      pm2
       cachix
       file
       pcmanfm
@@ -339,7 +352,8 @@ in
       spotify
       vscode
       claude-code
-      gemini-cli
+      github-cli
+      (pkgs.callPackage "${inputs.gemini-pkg-source}/pkgs/by-name/ge/gemini-cli-bin/package.nix" { })
       godot
       appimage-run
       yacreader
