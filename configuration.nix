@@ -351,7 +351,7 @@ in
       lact
       spotify
       vscode
-      claude-code
+      (pkgs.callPackage ./modules/claude-code.nix {})
       github-cli
       (pkgs.callPackage "${inputs.gemini-pkg-source}/pkgs/by-name/ge/gemini-cli-bin/package.nix" { })
       godot
