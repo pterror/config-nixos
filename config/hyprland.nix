@@ -24,7 +24,7 @@ in
 
   device {
     name = wacom-intuos-s-pen
-    output = DP-2
+    output = DP-1
     region_size = 1728, 1080
     region_position = 96, 0
   }
@@ -149,10 +149,10 @@ in
   bindm = ${mod}, mouse:272, movewindow
   bindm = ${mod}, mouse:273, resizewindow
 
-  windowrulev2 = bordersize 0, floating:0, onworkspace:w[tv1]
-  windowrulev2 = rounding 0, floating:0, onworkspace:w[tv1]
-  windowrulev2 = bordersize 0, floating:0, onworkspace:f[1]
-  windowrulev2 = rounding 0, floating:0, onworkspace:f[1]
+  windowrule = match:float false, match:workspace w[tv1], border_size 0
+  windowrule = match:float false, match:workspace w[tv1], rounding 0
+  windowrule = match:float false, match:workspace f[1], border_size 0
+  windowrule = match:float false, match:workspace f[1], rounding 0
 
   workspace = w[tv1], gapsout:0, gapsin:0
   workspace = f[1], gapsout:0, gapsin:0
