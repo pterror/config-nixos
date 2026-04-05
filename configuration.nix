@@ -108,14 +108,27 @@ in
         efiSupport = true;
         useOSProber = true;
         gfxmodeEfi = "1920x1080";
+	memtest86.enable = true;
       };
       efi.canTouchEfiVariables = true;
     };
     # kernelPackages = pkgs.linuxPackages_zen;
     kernelPackages = pkgs.linuxPackages;
+    kernelParams = [
+      "panic_on_oops=1"       # convert oopses to panics (captured by pstore)
+      "panic=10"              # auto-reboot 10s after panic
+      "hung_task_panic=1"     # panic on hung tasks instead of just warning
+      "softlockup_panic=1"    # panic on soft lockups (CPU stuck in kernel)
+      "hardlockup_panic=1"    # panic on hard lockups (NMI watchdog)
+      "tsc=unstable"          # skip the TSC dance, BIOS is known broken
+      "memmap=8M!0x100000000" # reserve 8MB at 4GB for ramoops (start of high RAM, safe per e820)
+    ];
+    kernelModules = [ "ramoops" ];
+    blacklistedKernelModules = [ "efi_pstore" ]; # ramoops needs to be the pstore backend
     # disable power management for Realtek RTL8852AE (rtw89_8852ae) do avoid wifi stability issues
     extraModprobeConfig = ''
       options rtw89_core disable_ps_mode=Y
+      options ramoops mem_address=0x100000000 mem_size=0x800000 record_size=0x40000 console_size=0x20000 ecc=1
     '';
   };
 
@@ -142,11 +155,12 @@ in
       "claude-code"
     ];
   hardware = {
+    rasdaemon.enable = true;
     graphics.enable = true; # hyprland
     nvidia = {
       open = true;
       modesetting.enable = true;
-      powerManagement.enable = true;
+      powerManagement.enable = false; # testing: suspected cause of triple faults
       package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
         version = "570.172.08";
         sha256_64bit = "sha256-AlaGfggsr5PXsl+nyOabMWBiqcbHLG4ij617I4xvoX0=";
@@ -175,6 +189,7 @@ in
     earlyoom.enable = true;
     tailscale.enable = true;
     flatpak.enable = true;
+    fwupd.enable = true;
     transmission = {
       enable = true;
       package = pkgs.transmission_4;
@@ -326,6 +341,7 @@ in
       cava
       wlsunset
       nil
+      sox
       gallery-dl
       qt6.qtmultimedia
       qt6.qtwayland # idk if this fixes QT_QPA_PLATFORM=wayland

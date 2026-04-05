@@ -12,15 +12,14 @@ let
 in
 ''
   exec-once = ${pkgs.dbus}/bin/dbus-update-activation-environment --systemd DISPLAY HYPRLAND_INSTANCE_SIGNATURE WAYLAND_DISPLAY XDG_CURRENT_DESKTOP && systemctl --user stop hyprland-session.target && systemctl --user start hyprland-session.target
-  exec-once = ${quickshell} # Assuming 'quickshell' is a package available in your PATH
+  exec-once = ${quickshell}
   exec-once = wlsunset -L 153 -T 6500 -g 1.000000 -l -27.5 -t 4000
 
   env = QT_QPA_PLATFORM,wayland
   env = XDG_SESSION_TYPE,wayland
 
   monitor = DP-1, preferred, 0x0, auto
-  monitor = DP-2, preferred, 1920x0, auto
-  monitor = HDMI-A-1, preferred, 3840x0, auto
+  monitor = HDMI-A-1, preferred, 1920x0, auto
 
   device {
     name = wacom-intuos-s-pen
@@ -98,8 +97,8 @@ in
   bind = , XF86AudioStop, global, quickshell:media:pause
   bind = , XF86AudioPrev, global, quickshell:media:previous
   bind = , XF86AudioNext, global, quickshell:media:next
-  bind = , Print, exec, [float; monitor DP-2; move -1920 0; size 5760 1080; noanim] ${screenshot}
-  bind = ${mod} SHIFT, S, exec, [float; monitor DP-2; move -1920 0; size 5760 1080; noanim] ${screenshot}
+  bind = , Print, exec, [float; monitor DP-1; move 960 0; size 3840 1080; noanim] ${screenshot}
+  bind = ${mod} SHIFT, S, exec, [float; monitor DP-1; move 960 0; size 3840 1080; noanim] ${screenshot}
   bind = ${mod}, Tab, global, quickshell:workspaces_overview:toggle
   bind = ${mod}, L, global, quickshell:wlogout:toggle
   bind = ${mod}, A, exec, ${browser}
