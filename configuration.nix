@@ -276,6 +276,9 @@ in
     lib.concatStrings [
       (mkCfg { path = ".config/hypr/hyprland.conf"; config = ./config/hyprland.nix; inherit args; })
       (mkCfg { path = ".config/ghostty/config"; config = ./config/ghostty.nix; inherit args; })
+      (mkCfg { path = ".config/fish/functions/fish_prompt.fish"; config = ./config/fish_prompt.nix; inherit args; })
+      (mkCfg { path = ".config/fish/functions/fish_right_prompt.fish"; config = ./config/fish_right_prompt.nix; inherit args; })
+      (mkCfg { path = ".config/fish/functions/fish_mode_prompt.fish"; config = ./config/fish_mode_prompt.nix; inherit args; })
     ];
   xdg.portal = {
     enable = true;

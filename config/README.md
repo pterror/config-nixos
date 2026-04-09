@@ -6,6 +6,7 @@ This directory contains configs managed via `lib/mkUserConfig.nix` - they're wri
 
 - **hyprland.nix** - Window manager config. Benefits from nix templating for package paths (screenshot tool, browser, terminal, etc.)
 - **ghostty.nix** - Terminal config. Simple and benefits from nix font references
+- **fish_prompt.nix, fish_right_prompt.nix, fish_mode_prompt.nix** - Vendored agnoster theme. Removes omf dependency while keeping theme reproducible.
 
 ## NOT Managed (mutable in ~/.config/)
 
