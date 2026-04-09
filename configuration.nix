@@ -219,6 +219,9 @@ in
         };
       }
     ];
+  environment.etc."pipewire/pipewire.conf.d/hesuvi.conf".text =
+    pkgs.callPackage ./config/pipewire-hesuvi.nix {};
+
   systemd.packages = with pkgs; [ lact ];
   systemd.services.lactd.wantedBy = [ "multi-user.target" ];
   environment.systemPackages =
@@ -281,7 +284,6 @@ in
       (mkCfg { path = ".config/fish/functions/fish_prompt.fish"; config = ./config/fish_prompt.nix; inherit args; })
       (mkCfg { path = ".config/fish/functions/fish_right_prompt.fish"; config = ./config/fish_right_prompt.nix; inherit args; })
       (mkCfg { path = ".config/fish/functions/fish_mode_prompt.fish"; config = ./config/fish_mode_prompt.nix; inherit args; })
-      (mkCfg { path = ".config/pipewire/filter-chain.conf.d/hesuvi.conf"; config = ./config/pipewire-hesuvi.nix; inherit args; })
     ];
   xdg.portal = {
     enable = true;

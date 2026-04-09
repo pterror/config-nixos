@@ -1,77 +1,96 @@
 { hrir ? "/home/me/.config/pipewire/hrir/ooyh0.wav", ... }:
-# Virtual 7.1 surround sink using HeSuVi HRTF convolution
-# WAV file must be manually placed at the path above (default: ~/.config/pipewire/hrir/ooyh0.wav)
+# Virtual 7.1 surround sink using HeSuVi HRTF convolution.
+# WAV file must be manually placed at the hrir path above.
 # Download from: https://mega.nz/folder/zPx2jAxK#icrUEYHI6St-7m8nUgqcrg
+# Channel order is the HeSuVi 14-channel format as per pipewire's own example config.
 ''
 context.modules = [
   { name = libpipewire-module-filter-chain
+    flags = [ nofail ]
     args = {
       node.description = "Headphone Surround Virtualizer"
       media.name       = "Headphone Surround Virtualizer"
       filter.graph = {
         nodes = [
-          # FL
-          { type = builtin label = convolver name = conv_fl_l config = { filename = "${hrir}" channel =  0 } }
-          { type = builtin label = convolver name = conv_fl_r config = { filename = "${hrir}" channel =  1 } }
-          # FR
-          { type = builtin label = convolver name = conv_fr_l config = { filename = "${hrir}" channel =  2 } }
-          { type = builtin label = convolver name = conv_fr_r config = { filename = "${hrir}" channel =  3 } }
-          # FC
-          { type = builtin label = convolver name = conv_fc_l config = { filename = "${hrir}" channel =  4 } }
-          { type = builtin label = convolver name = conv_fc_r config = { filename = "${hrir}" channel =  5 } }
-          # RL
-          { type = builtin label = convolver name = conv_rl_l config = { filename = "${hrir}" channel =  6 } }
-          { type = builtin label = convolver name = conv_rl_r config = { filename = "${hrir}" channel =  7 } }
-          # RR
-          { type = builtin label = convolver name = conv_rr_l config = { filename = "${hrir}" channel =  8 } }
-          { type = builtin label = convolver name = conv_rr_r config = { filename = "${hrir}" channel =  9 } }
-          # SL
-          { type = builtin label = convolver name = conv_sl_l config = { filename = "${hrir}" channel = 10 } }
-          { type = builtin label = convolver name = conv_sl_r config = { filename = "${hrir}" channel = 11 } }
-          # SR
-          { type = builtin label = convolver name = conv_sr_l config = { filename = "${hrir}" channel = 12 } }
-          { type = builtin label = convolver name = conv_sr_r config = { filename = "${hrir}" channel = 13 } }
+          # duplicate inputs
+          { type = builtin label = copy name = copyFL  }
+          { type = builtin label = copy name = copyFR  }
+          { type = builtin label = copy name = copyFC  }
+          { type = builtin label = copy name = copyRL  }
+          { type = builtin label = copy name = copyRR  }
+          { type = builtin label = copy name = copySL  }
+          { type = builtin label = copy name = copySR  }
+          { type = builtin label = copy name = copyLFE }
 
-          # Mix all left-ear signals together
-          { type = builtin label = mixer name = mix_l config = { n_inputs = 7 } }
-          # Mix all right-ear signals together
-          { type = builtin label = mixer name = mix_r config = { n_inputs = 7 } }
+          # HeSuVi 14-channel WAV channel order
+          { type = builtin label = convolver name = convFL_L  config = { filename = "${hrir}" channel =  0 } }
+          { type = builtin label = convolver name = convFL_R  config = { filename = "${hrir}" channel =  1 } }
+          { type = builtin label = convolver name = convSL_L  config = { filename = "${hrir}" channel =  2 } }
+          { type = builtin label = convolver name = convSL_R  config = { filename = "${hrir}" channel =  3 } }
+          { type = builtin label = convolver name = convRL_L  config = { filename = "${hrir}" channel =  4 } }
+          { type = builtin label = convolver name = convRL_R  config = { filename = "${hrir}" channel =  5 } }
+          { type = builtin label = convolver name = convFC_L  config = { filename = "${hrir}" channel =  6 } }
+          { type = builtin label = convolver name = convFR_R  config = { filename = "${hrir}" channel =  7 } }
+          { type = builtin label = convolver name = convFR_L  config = { filename = "${hrir}" channel =  8 } }
+          { type = builtin label = convolver name = convSR_R  config = { filename = "${hrir}" channel =  9 } }
+          { type = builtin label = convolver name = convSR_L  config = { filename = "${hrir}" channel = 10 } }
+          { type = builtin label = convolver name = convRR_R  config = { filename = "${hrir}" channel = 11 } }
+          { type = builtin label = convolver name = convRR_L  config = { filename = "${hrir}" channel = 12 } }
+          { type = builtin label = convolver name = convFC_R  config = { filename = "${hrir}" channel = 13 } }
+          # LFE treated as FC
+          { type = builtin label = convolver name = convLFE_L config = { filename = "${hrir}" channel =  6 } }
+          { type = builtin label = convolver name = convLFE_R config = { filename = "${hrir}" channel = 13 } }
+
+          { type = builtin label = mixer name = mixL }
+          { type = builtin label = mixer name = mixR }
         ]
         links = [
-          { output = "conv_fl_l:Out" input = "mix_l:In 1" }
-          { output = "conv_fr_l:Out" input = "mix_l:In 2" }
-          { output = "conv_fc_l:Out" input = "mix_l:In 3" }
-          { output = "conv_rl_l:Out" input = "mix_l:In 4" }
-          { output = "conv_rr_l:Out" input = "mix_l:In 5" }
-          { output = "conv_sl_l:Out" input = "mix_l:In 6" }
-          { output = "conv_sr_l:Out" input = "mix_l:In 7" }
+          { output = "copyFL:Out"  input = "convFL_L:In"  }
+          { output = "copyFL:Out"  input = "convFL_R:In"  }
+          { output = "copySL:Out"  input = "convSL_L:In"  }
+          { output = "copySL:Out"  input = "convSL_R:In"  }
+          { output = "copyRL:Out"  input = "convRL_L:In"  }
+          { output = "copyRL:Out"  input = "convRL_R:In"  }
+          { output = "copyFC:Out"  input = "convFC_L:In"  }
+          { output = "copyFR:Out"  input = "convFR_R:In"  }
+          { output = "copyFR:Out"  input = "convFR_L:In"  }
+          { output = "copySR:Out"  input = "convSR_R:In"  }
+          { output = "copySR:Out"  input = "convSR_L:In"  }
+          { output = "copyRR:Out"  input = "convRR_R:In"  }
+          { output = "copyRR:Out"  input = "convRR_L:In"  }
+          { output = "copyFC:Out"  input = "convFC_R:In"  }
+          { output = "copyLFE:Out" input = "convLFE_L:In" }
+          { output = "copyLFE:Out" input = "convLFE_R:In" }
 
-          { output = "conv_fl_r:Out" input = "mix_r:In 1" }
-          { output = "conv_fr_r:Out" input = "mix_r:In 2" }
-          { output = "conv_fc_r:Out" input = "mix_r:In 3" }
-          { output = "conv_rl_r:Out" input = "mix_r:In 4" }
-          { output = "conv_rr_r:Out" input = "mix_r:In 5" }
-          { output = "conv_sl_r:Out" input = "mix_r:In 6" }
-          { output = "conv_sr_r:Out" input = "mix_r:In 7" }
+          { output = "convFL_L:Out"  input = "mixL:In 1" }
+          { output = "convFL_R:Out"  input = "mixR:In 1" }
+          { output = "convSL_L:Out"  input = "mixL:In 2" }
+          { output = "convSL_R:Out"  input = "mixR:In 2" }
+          { output = "convRL_L:Out"  input = "mixL:In 3" }
+          { output = "convRL_R:Out"  input = "mixR:In 3" }
+          { output = "convFC_L:Out"  input = "mixL:In 4" }
+          { output = "convFC_R:Out"  input = "mixR:In 4" }
+          { output = "convFR_L:Out"  input = "mixL:In 5" }
+          { output = "convFR_R:Out"  input = "mixR:In 5" }
+          { output = "convSR_L:Out"  input = "mixL:In 6" }
+          { output = "convSR_R:Out"  input = "mixR:In 6" }
+          { output = "convRR_L:Out"  input = "mixL:In 7" }
+          { output = "convRR_R:Out"  input = "mixR:In 7" }
+          { output = "convLFE_L:Out" input = "mixL:In 8" }
+          { output = "convLFE_R:Out" input = "mixR:In 8" }
         ]
-        inputs  = [ "conv_fl_l:In" "conv_fl_r:In"
-                    "conv_fr_l:In" "conv_fr_r:In"
-                    "conv_fc_l:In" "conv_fc_r:In"
-                    "conv_rl_l:In" "conv_rl_r:In"
-                    "conv_rr_l:In" "conv_rr_r:In"
-                    "conv_sl_l:In" "conv_sl_r:In"
-                    "conv_sr_l:In" "conv_sr_r:In" ]
-        outputs = [ "mix_l:Out" "mix_r:Out" ]
+        inputs  = [ "copyFL:In" "copyFR:In" "copyFC:In" "copyLFE:In" "copyRL:In" "copyRR:In" "copySL:In" "copySR:In" ]
+        outputs = [ "mixL:Out" "mixR:Out" ]
       }
       capture.props = {
-        node.name      = "effect_input.hesuvi"
+        node.name      = "effect_input.virtual-surround-7.1-hesuvi"
         media.class    = Audio/Sink
-        audio.channels = 7
-        audio.position = [ FL FR FC RL RR SL SR ]
+        audio.channels = 8
+        audio.position = [ FL FR FC LFE RL RR SL SR ]
       }
       playback.props = {
-        node.name      = "effect_output.hesuvi"
-        media.class    = Audio/Source
+        node.name      = "effect_output.virtual-surround-7.1-hesuvi"
+        node.passive   = true
         audio.channels = 2
         audio.position = [ FL FR ]
       }
