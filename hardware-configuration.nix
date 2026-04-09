@@ -8,32 +8,21 @@
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "nvme" "usbhid" "usb_storage" ];
+  boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "thunderbolt" "usbhid" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/402595a1-3e09-433d-9416-0c04c74e9add";
+    { device = "/dev/disk/by-uuid/cf86c59d-1def-4e47-b0ad-d7433efaf2a0";
       fsType = "btrfs";
-      options = [ "subvol=subvolume/root" ];
-    };
-
-  fileSystems."/persistent" =
-    { device = "/dev/disk/by-uuid/402595a1-3e09-433d-9416-0c04c74e9add";
-      neededForBoot = true;
-      fsType = "btrfs";
-    };
-
-  fileSystems."/nix" =
-    { device = "/dev/disk/by-uuid/402595a1-3e09-433d-9416-0c04c74e9add";
-      fsType = "btrfs";
-      options = [ "subvol=nix" ];
+      options = [ "subvol=@" ];
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/DEC6-8A4E";
+    { device = "/dev/disk/by-uuid/B0DA-4CE4";
       fsType = "vfat";
+      options = [ "fmask=0077" "dmask=0077" ];
     };
 
   swapDevices = [ ];
@@ -43,9 +32,8 @@
   # still possible to use this option, but it's recommended to use it in conjunction
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.eth0.useDHCP = lib.mkDefault true;
-  # networking.interfaces.tailscale0.useDHCP = lib.mkDefault true;
-  # networking.interfaces.wlan0.useDHCP = lib.mkDefault true;
+  # networking.interfaces.enp122s0u1.useDHCP = lib.mkDefault true;
+  # networking.interfaces.enp16s0.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
