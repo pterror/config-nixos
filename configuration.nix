@@ -220,7 +220,7 @@ in
       }
     ];
   services.pipewire.extraConfig.pipewire."10-hesuvi" =
-    pkgs.callPackage ./config/pipewire-hesuvi.nix {};
+    import ./config/pipewire-hesuvi.nix {};
 
   systemd.packages = with pkgs; [ lact ];
   systemd.services.lactd.wantedBy = [ "multi-user.target" ];
