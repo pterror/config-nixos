@@ -219,7 +219,7 @@ in
         };
       }
     ];
-  environment.etc."pipewire/pipewire.conf.d/hesuvi.conf".text =
+  services.pipewire.extraConfig.pipewire."10-hesuvi" =
     pkgs.callPackage ./config/pipewire-hesuvi.nix {};
 
   systemd.packages = with pkgs; [ lact ];
