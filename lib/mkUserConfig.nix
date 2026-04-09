@@ -3,8 +3,9 @@
 
 {
   # mkUserConfig: creates a config file and returns activation script
-  # Example: mkUserConfig { path = ".config/hypr/hyprland.conf"; config = ./config/hyprland.nix; args = ...; }
-  mkUserConfig = { username, homeDirectory, path, config, args ? {} }:
+  # Usage: mkUserConfig { username = "me"; homeDirectory = "/home/me"; }
+  #        returns a function that takes { path, config, args ? {} }
+  mkUserConfig = { username, homeDirectory }: { path, config, args ? {} }:
     let
       configFile = pkgs.writeText (lib.last (lib.splitString "/" path)) (pkgs.callPackage config args);
     in
