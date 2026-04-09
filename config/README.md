@@ -7,6 +7,7 @@ This directory contains configs managed via `lib/mkUserConfig.nix` - they're wri
 - **hyprland.nix** - Window manager config. Benefits from nix templating for package paths (screenshot tool, browser, terminal, etc.)
 - **ghostty.nix** - Terminal config. Simple and benefits from nix font references
 - **fish_prompt.nix, fish_right_prompt.nix, fish_mode_prompt.nix** - Vendored agnoster theme. Removes omf dependency while keeping theme reproducible.
+- **pipewire-hesuvi.nix** - PipeWire filter-chain for HeSuVi headphone surround virtualization (7.1 → stereo HRTF convolution). Requires WAV file manually placed at `~/.config/pipewire/hrir/ooyh.wav` (from https://mega.nz/folder/zPx2jAxK#icrUEYHI6St-7m8nUgqcrg).
 
 ## NOT Managed (mutable in ~/.config/)
 
