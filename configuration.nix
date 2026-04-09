@@ -233,6 +233,7 @@ in
       pavucontrol
       google-chrome
       curl
+      qt6.qtmultimedia
       qt6.qtwayland
       kdePackages.qt6ct
       xdg-utils
