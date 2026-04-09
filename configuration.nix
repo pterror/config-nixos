@@ -239,6 +239,7 @@ in
       htop
       bat
       lact
+      luajit
       (pkgs.callPackage ./modules/claude-code.nix {})
       github-cli
       amdgpu_top
