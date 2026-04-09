@@ -270,17 +270,13 @@ in
     let
       username = "me";
       homeDirectory = "/home/${username}";
-      hyprlandConfFile = pkgs.writeText "hyprland.conf" (pkgs.callPackage ./config/hyprland.nix args);
-      ghosttyConfFile = pkgs.writeText "config" (pkgs.callPackage ./config/ghostty.nix args);
+      helper = import ./lib/mkUserConfig.nix { inherit pkgs lib; };
+      mkCfg = helper.mkUserConfig { inherit username homeDirectory; };
     in
-    ''
-      echo "Setting up hyprland.conf for user: ${username}"
-      userGroup=$(${pkgs.coreutils}/bin/id -gn ${username})
-      ${pkgs.coreutils}/bin/mkdir -p "${homeDirectory}/.config/hypr"
-      ${pkgs.coreutils}/bin/ln -sf "${hyprlandConfFile}" "${homeDirectory}/.config/hypr/hyprland.conf"
-      ${pkgs.coreutils}/bin/mkdir -p "${homeDirectory}/.config/ghostty"
-      ${pkgs.coreutils}/bin/ln -sf "${ghosttyConfFile}" "${homeDirectory}/.config/ghostty/config"
-    '';
+    lib.concatStrings [
+      (mkCfg { path = ".config/hypr/hyprland.conf"; config = ./config/hyprland.nix; inherit args; })
+      (mkCfg { path = ".config/ghostty/config"; config = ./config/ghostty.nix; inherit args; })
+    ];
   xdg.portal = {
     enable = true;
     config = {
