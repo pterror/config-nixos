@@ -120,6 +120,7 @@ in
       "steam"
       "steam-unwrapped"
       "steam-run"
+      "itch"
       "claude-code"
     ];
   hardware = {
@@ -252,6 +253,8 @@ in
       inputs.nix-gaming.packages.${system}.wine-tkg
       samba
       keepassxc
+      ntfs3g
+      itch
     ]
     ++ inputs.qti.packages.${system}.qti-all;
   fonts.packages = with pkgs; [
