@@ -42,9 +42,9 @@
       # ctx 8192 uses ~3.1GB KV — safe with compositor overhead
       serve-qwen = mkServer { name = "qwen"; port = 8080; ctxSize = 8192; };
 
-      # Gemma 4 26B-A4B: Q4_K_M (~18.7GB weights), ~4.9GB KV headroom
-      # ctx 12288 uses ~4.6GB KV — better context than Q5_K_M (6.4K) for RP
-      serve-gemma = mkServer { name = "gemma"; port = 8081; ctxSize = 12288; };
+      # Gemma 4 26B-A4B: Q4_K_S (~16.7GB weights), ~6.9GB KV headroom
+      # ctx 16384 uses ~6.6GB KV — more context than Q4_K_M (13K) for RP
+      serve-gemma = mkServer { name = "gemma"; port = 8081; ctxSize = 16384; };
 
     in {
       packages.${system} = {
