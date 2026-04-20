@@ -30,7 +30,7 @@
             --n-gpu-layers 999 \
             --ctx-size ${toString ctxSize} \
             --parallel ${toString parallel} \
-            --flash-attn \
+            --flash-attn on \
             --host 127.0.0.1 \
             --port ${toString port}
         '';
