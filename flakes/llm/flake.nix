@@ -18,12 +18,15 @@
         HSA_OVERRIDE_GFX_VERSION = "11.0.0";
         # Prevents occasional hangs on RDNA3
         HSA_ENABLE_SDMA = "0";
+        # Restrict HIP to GPU only — CPU appears as a ROCm HSA agent otherwise
+        HIP_VISIBLE_DEVICES = "0";
       };
 
       mkServer = { name, port, ctxSize, parallel ? 2 }:
         pkgs.writeShellScriptBin "serve-${name}" ''
           export HSA_OVERRIDE_GFX_VERSION=${rocmEnv.HSA_OVERRIDE_GFX_VERSION}
           export HSA_ENABLE_SDMA=${rocmEnv.HSA_ENABLE_SDMA}
+          export HIP_VISIBLE_DEVICES=${rocmEnv.HIP_VISIBLE_DEVICES}
           model="''${LLM_MODEL_PATH:-''${1:?}}"
           exec ${llama}/bin/llama-server \
             --model "$model" \
