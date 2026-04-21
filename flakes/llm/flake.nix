@@ -22,7 +22,7 @@
         HIP_VISIBLE_DEVICES = "0";
       };
 
-      mkServer = { name, port, ctxSize, parallel ? 2 }:
+      mkServer = { name, port, ctxSize, parallel ? 2, extraArgs ? "" }:
         pkgs.writeShellScriptBin "serve-${name}" ''
           export HSA_OVERRIDE_GFX_VERSION=${rocmEnv.HSA_OVERRIDE_GFX_VERSION}
           export HSA_ENABLE_SDMA=${rocmEnv.HSA_ENABLE_SDMA}
@@ -35,6 +35,7 @@
             --parallel ${toString parallel} \
             --flash-attn on \
             --no-context-shift \
+            ${extraArgs} \
             --host 127.0.0.1 \
             --port ${toString port}
         '';
@@ -45,7 +46,7 @@
 
       # Gemma 4 26B-A4B: Q4_K_S (~16.7GB weights), ~6.9GB KV headroom
       # ctx-size goes entirely to one request with parallel=1
-      serve-gemma = mkServer { name = "gemma"; port = 8081; ctxSize = 16384; parallel = 1; };
+      serve-gemma = mkServer { name = "gemma"; port = 8081; ctxSize = 16384; parallel = 1; extraArgs = "--reasoning-format none"; };
 
     in {
       packages.${system} = {
