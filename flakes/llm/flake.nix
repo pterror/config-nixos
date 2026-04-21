@@ -34,7 +34,6 @@
             --ctx-size ${toString ctxSize} \
             --parallel ${toString parallel} \
             --flash-attn on \
-            --no-context-shift \
             --host 127.0.0.1 \
             --port ${toString port}
         '';
