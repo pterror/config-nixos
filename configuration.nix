@@ -255,6 +255,7 @@ in
       keepassxc
       ntfs3g
       itch
+      proton-vpn
     ]
     ++ inputs.qti.packages.${system}.qti-all;
   fonts.packages = with pkgs; [
