@@ -1,58 +1,51 @@
 # NOTE: To update this package, run:
-#   nix-shell -p nodejs curl --run "./modules/update-claude-code.sh"
+#   ./modules/update-claude-code.sh
 # Or specify a version:
-#   nix-shell -p nodejs curl --run "./modules/update-claude-code.sh 2.1.33"
+#   ./modules/update-claude-code.sh 2.1.33
 {
   lib,
   stdenv,
-  buildNpmPackage,
   fetchzip,
-  versionCheckHook,
-  writableTmpDirAsHomeHook,
+  autoPatchelfHook,
+  makeWrapper,
   bubblewrap,
   procps,
   socat,
+  glibc,
 }:
-buildNpmPackage (finalAttrs: {
+stdenv.mkDerivation (finalAttrs: {
   pname = "claude-code";
-  version = "2.1.92";
+  version = "2.1.121";
 
   src = fetchzip {
-    url = "https://registry.npmjs.org/@anthropic-ai/claude-code/-/claude-code-${finalAttrs.version}.tgz";
-    hash = "sha256-CLLCtVK3TeXFZ8wBnRRHNc2MoUt7lTdMJwz8sZHpkFM=";
+    url = "https://registry.npmjs.org/@anthropic-ai/claude-code-linux-x64/-/claude-code-linux-x64-${finalAttrs.version}.tgz";
+    hash = "sha256-TNQ6N2BaaxOMpA488HTPyHdmifsLytwRAt8uMKkJzKg=";
   };
 
-  npmDepsHash = "sha256-5LvH7fG5pti2SiXHQqgRxfFpxaXxzrmGxIoPR4dGE+8=";
+  nativeBuildInputs = [
+    autoPatchelfHook
+    makeWrapper
+  ];
 
-  strictDeps = true;
+  buildInputs = [ glibc ];
 
-  postPatch = ''
-    cp ${./package-lock.json} package-lock.json
+  dontBuild = true;
+  dontStrip = true;
 
-    # https://github.com/anthropics/claude-code/issues/15195
-    substituteInPlace cli.js \
-          --replace-fail '#!/bin/sh' '#!/usr/bin/env sh'
+  installPhase = ''
+    runHook preInstall
+    install -Dm755 claude $out/bin/claude
+    runHook postInstall
   '';
 
-  dontNpmBuild = true;
-
-  env.AUTHORIZED = "1";
-
-  # `claude-code` tries to auto-update by default, this disables that functionality.
-  # https://docs.anthropic.com/en/docs/agents-and-tools/claude-code/overview#environment-variables
-  # The DEV=true env var causes claude to crash with `TypeError: window.WebSocket is not a constructor`
-  postInstall = ''
+  postFixup = ''
     wrapProgram $out/bin/claude \
       --set DISABLE_AUTOUPDATER 1 \
       --set DISABLE_INSTALLATION_CHECKS 1 \
       --unset DEV \
       --prefix PATH : ${
         lib.makeBinPath (
-          [
-            # claude-code uses [node-tree-kill](https://github.com/pkrumins/node-tree-kill) which requires procps's pgrep(darwin) or ps(linux)
-            procps
-          ]
-          # the following packages are required for the sandbox to work (Linux only)
+          [ procps ]
           ++ lib.optionals stdenv.hostPlatform.isLinux [
             bubblewrap
             socat
@@ -60,13 +53,6 @@ buildNpmPackage (finalAttrs: {
         )
       }
   '';
-
-  doInstallCheck = true;
-  nativeInstallCheckInputs = [
-    writableTmpDirAsHomeHook
-    versionCheckHook
-  ];
-  versionCheckKeepEnvironment = [ "HOME" ];
 
   passthru.updateScript = ./update-claude-code.sh;
 
