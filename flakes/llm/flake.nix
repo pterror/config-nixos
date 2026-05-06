@@ -44,9 +44,9 @@
       # ctx 8192 uses ~3.1GB KV — safe with compositor overhead
       serve-qwen = mkServer { name = "qwen"; port = 8080; ctxSize = 8192; parallel = 1; };
 
-      # Gemma 4 26B-A4B: Q4_K_S (~16.7GB weights), ~6.9GB KV headroom
-      # ctx-size goes entirely to one request with parallel=1
-      serve-gemma = mkServer { name = "gemma"; port = 8081; ctxSize = 16384; parallel = 1; extraArgs = "--reasoning-format none"; };
+      # Gemma 4 26B-A4B: Q4_K_S (~16.4GB weights). SWA (5:1 local:global) keeps
+      # KV small — only global layers scale with ctx, so 128k fits easily.
+      serve-gemma = mkServer { name = "gemma"; port = 8081; ctxSize = 131072; parallel = 1; extraArgs = "--reasoning-format none"; };
 
     in {
       packages.${system} = {
