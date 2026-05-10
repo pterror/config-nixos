@@ -39,6 +39,7 @@ in
       directories = [
         "/var/log"
         "/var/lib/bluetooth"
+        "/var/lib/docker"
         "/var/lib/nixos"
         "/var/lib/systemd/coredump"
         "/etc/NetworkManager/system-connections"
@@ -140,6 +141,8 @@ in
       checkReversePath = false;
     };
   };
+  virtualisation.docker.enable = true;
+
   services = {
     earlyoom.enable = true;
     tailscale.enable = true;
@@ -182,7 +185,7 @@ in
       me = {
         hashedPassword = "$y$j9T$cidkoWm0GGdY640fxDlg1.$MtxmsHZ0XIO7PvPGss/K0WPBE7NwJVhvH38gbg/gCpA";
         isNormalUser = true;
-        extraGroups = [ "wheel" ];
+        extraGroups = [ "wheel" "docker" ];
         shell = pkgs.fish;
       };
       root = {
