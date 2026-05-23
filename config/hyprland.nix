@@ -109,7 +109,7 @@ in
   bind = ${mod}, V, togglefloating,
   bind = ${mod}, R, global, quickshell:launcher:toggle
   bind = ${mod}, P, pseudo, # dwindle
-  bind = ${mod}, J, togglesplit, # dwindle
+  # bind = ${mod}, J, togglesplit, # dwindle
   bind = ${mod}, Z, togglespecialworkspace, magic
   bind = ${mod} SHIFT, Z, movetoworkspace, special:magic
   bind = ${mod}, left, movefocus, l
