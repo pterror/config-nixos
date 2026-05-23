@@ -58,10 +58,15 @@ let
       # contains the [Interface] PrivateKey/ListenPort and [Peer] blocks.
       ip netns exec "$NETNS" wg setconf "$WG_IF" <(wg-quick strip "$CONF")
 
-      ip -n "$NETNS" address add "$ADDRESS" dev "$WG_IF"
+      # Address may be comma-separated (IPv4 + IPv6); add each.
+      echo "$ADDRESS" | tr ',' '\n' | while read -r addr; do
+        addr_trimmed="$(echo "$addr" | tr -d '[:space:]')"
+        [ -n "$addr_trimmed" ] && ip -n "$NETNS" address add "$addr_trimmed" dev "$WG_IF"
+      done
       ip -n "$NETNS" link set "$WG_IF" up
       ip -n "$NETNS" link set lo up
       ip -n "$NETNS" route add default dev "$WG_IF"
+      ip -n "$NETNS" -6 route add default dev "$WG_IF" 2>/dev/null || true
 
       install -d -m 0755 "/etc/netns/$NETNS"
       if [ -n "$DNS" ]; then
