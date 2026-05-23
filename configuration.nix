@@ -12,8 +12,15 @@ in
   imports = [
     ./hardware-configuration.nix
     ./cachix.nix
+    ./modules/chub-mirrorer.nix
     inputs.home-manager.nixosModules.home-manager
   ];
+
+  services.chub-mirrorer = {
+    enable = true;
+    schedule = "hourly";
+    extraArgs = [ "--incremental" ];
+  };
   documentation.nixos.enable = false;
 
   nix.settings = {
