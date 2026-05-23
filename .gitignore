@@ -1,6 +1,9 @@
 # HRTF impulse response files - proprietary, not redistributable
 *.wav
 
+# direnv local cache
+.direnv/
+
 # Normalize
 .normalize/*
 !.normalize/config.toml
