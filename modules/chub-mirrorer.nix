@@ -108,7 +108,7 @@ let
       set -euo pipefail
       exec ip netns exec "${cfg.netns}" \
         runuser -u "${cfg.user}" -- \
-        env HOME="/home/${cfg.user}" PATH="${
+        env HOME="/home/${cfg.user}" NAMESPACE=all PATH="${
           lib.makeBinPath [
             pkgs.bun
             pkgs.coreutils
