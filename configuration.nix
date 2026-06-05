@@ -266,6 +266,7 @@ in
       ntfs3g
       itch
       proton-vpn
+      openseeface
     ]
     ++ inputs.qti.packages.${system}.qti-all;
   fonts.packages = with pkgs; [
