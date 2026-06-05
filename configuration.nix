@@ -185,6 +185,10 @@ in
         '';
       };
     };
+    obs-studio = {
+      enable = true;
+      enableVirtualCamera = true;
+    };
   };
   time.timeZone = "Australia/Brisbane";
   users = {
