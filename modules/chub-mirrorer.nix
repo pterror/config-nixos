@@ -96,6 +96,53 @@ let
     '';
   };
 
+  healthcheckScript = pkgs.writeShellApplication {
+    name = "chub-vpn-healthcheck";
+    runtimeInputs = [
+      pkgs.wireguard-tools
+      pkgs.iproute2
+      pkgs.systemd
+      pkgs.coreutils
+      pkgs.gawk
+    ];
+    text = ''
+      set -euo pipefail
+
+      NETNS="${cfg.netns}"
+      WG_IF="wg-chub"
+      STALE_THRESHOLD="${toString cfg.healthcheck.staleThreshold}"
+
+      # Query the latest handshake epoch inside the netns. `latest-handshakes`
+      # prints `<pubkey>\t<epoch>`; take the epoch. Guard against a missing
+      # interface/netns so a failed probe doesn't abort under `set -e`.
+      set +e
+      HANDSHAKE="$(ip netns exec "$NETNS" wg show "$WG_IF" latest-handshakes 2>/dev/null | awk '{print $2}' | head -n1)"
+      set -e
+
+      NOW="$(date +%s)"
+
+      # Treat empty/absent/zero epoch as infinitely stale (needs restart).
+      if [ -z "''${HANDSHAKE:-}" ] || [ "$HANDSHAKE" = "0" ]; then
+        AGE=$((STALE_THRESHOLD + 1))
+      else
+        AGE=$((NOW - HANDSHAKE))
+      fi
+
+      if [ "$AGE" -le "$STALE_THRESHOLD" ]; then
+        exit 0
+      fi
+
+      if systemctl is-active --quiet chub-mirrorer.service; then
+        echo "chub-vpn-healthcheck: mirror run active; skipping netns restart (age=''${AGE}s threshold=''${STALE_THRESHOLD}s)"
+        exit 0
+      fi
+
+      echo "chub-vpn-healthcheck: tunnel wedged (age=''${AGE}s > threshold=''${STALE_THRESHOLD}s); restarting chub-vpn-netns.service"
+      systemctl restart chub-vpn-netns.service
+      systemctl start --no-block chub-mirrorer.service
+    '';
+  };
+
   runScript = pkgs.writeShellApplication {
     name = "chub-mirrorer-run";
     runtimeInputs = [
@@ -170,6 +217,34 @@ in
       example = [ "--incremental" ];
       description = "Extra arguments appended to `bun run src/main.ts`.";
     };
+
+    healthcheck = {
+      enable = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+        description = ''
+          Enable the WireGuard tunnel self-heal timer. The tunnel
+          occasionally wedges (stale handshake, live interface,
+          PersistentKeepalive does not recover it); this periodically
+          rebuilds the netns to force a fresh handshake.
+        '';
+      };
+
+      interval = lib.mkOption {
+        type = lib.types.str;
+        default = "2min";
+        description = "OnUnitActiveSec for the self-heal timer.";
+      };
+
+      staleThreshold = lib.mkOption {
+        type = lib.types.int;
+        default = 300;
+        description = ''
+          Handshake age in seconds beyond which the tunnel is considered
+          wedged and the netns is rebuilt.
+        '';
+      };
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -207,6 +282,26 @@ in
         OnCalendar = cfg.schedule;
         Persistent = true;
         RandomizedDelaySec = "5m";
+      };
+    };
+
+    systemd.services.chub-vpn-healthcheck = lib.mkIf cfg.healthcheck.enable {
+      description = "Self-heal chub-vpn WireGuard tunnel if the handshake is stale";
+      after = [ "chub-vpn-netns.service" ];
+      serviceConfig = {
+        Type = "oneshot";
+        # Needs root for `ip netns exec` and systemctl restart/start.
+        User = "root";
+        ExecStart = "${healthcheckScript}/bin/chub-vpn-healthcheck";
+      };
+    };
+
+    systemd.timers.chub-vpn-healthcheck = lib.mkIf cfg.healthcheck.enable {
+      description = "Periodic chub-vpn tunnel self-heal check";
+      wantedBy = [ "timers.target" ];
+      timerConfig = {
+        OnBootSec = "3min";
+        OnUnitActiveSec = cfg.healthcheck.interval;
       };
     };
   };
