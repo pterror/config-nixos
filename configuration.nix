@@ -13,6 +13,7 @@ in
     ./hardware-configuration.nix
     ./cachix.nix
     ./modules/chub-mirrorer.nix
+    ./modules/chub-activity.nix
     inputs.home-manager.nixosModules.home-manager
   ];
 
@@ -20,6 +21,10 @@ in
     enable = true;
     schedule = "hourly";
     extraArgs = [ "--incremental" ];
+  };
+  services.chub-activity = {
+    enable = true;
+    schedule = "hourly";
   };
   documentation.nixos.enable = false;
 
@@ -166,10 +171,15 @@ in
   };
   programs = {
     fish.enable = true;
-    steam.enable = true;
     direnv.enable = true;
     git.enable = true;
     firefox = import ./modules/firefox.nix args;
+    steam = {
+      enable = true;
+      extraPackages = with pkgs; [
+        nss
+      ];
+    };
     neovim = {
       enable = true;
       defaultEditor = true;
@@ -251,8 +261,10 @@ in
       pavucontrol
       google-chrome
       curl
+      cava # for quickshell
       qt6.qtmultimedia
       qt6.qtwayland
+      qt6.qtquick3d # for rendering 3d models in quickshell
       kdePackages.qt6ct
       xdg-utils
       htop
