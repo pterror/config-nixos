@@ -107,7 +107,7 @@ in
   bind = ${mod}, A, exec, ${browser}
   bind = ${mod}, Q, exec, ${terminal}
   bind = ${mod}, E, exec, ${file-browser}
-  bind = ${mod}, D, dpms, off
+  bind = ${mod}, D, dpms, toggle
   bind = ${mod}, C, killactive,
   bind = ${mod}, M, exit,
   bind = ${mod}, V, togglefloating,
