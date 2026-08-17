@@ -43,14 +43,12 @@ in
 
   nix.settings = {
     substituters = [
-      "https://cache.garnix.io"
       "https://nix-community.cachix.org"
       "https://ai.cachix.org"
       "https://cache.nixos.org"
       "https://numtide.cachix.org"
     ];
     trusted-public-keys = [
-      "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "ai.cachix.org-1:N9dzRK+alWwoKXQlnn0H6aUx0lU/mspIoz8hMvGvbbc="
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
@@ -296,6 +294,12 @@ in
       itch
       proton-vpn
       openseeface
+      yacreader
+      kdePackages.dolphin
+      pcmanfm
+      gallery-dl
+      graphicsmagick
+      flatpak
     ]
     ++ inputs.qti.packages.${system}.qti-all;
   fonts.packages = with pkgs; [
@@ -313,6 +317,8 @@ in
       QT_QPA_PLATFORMTHEME = "qt6ct";
       QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
       QSG_USE_SIMPLE_ANIMATION_DRIVER = "0";
+      CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS = "1000";
+      CLAUDE_CODE_MAX_SUBAGENTS_PER_SESSION = "10000";
     };
   };
   system.activationScripts.me =
