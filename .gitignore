@@ -4,6 +4,10 @@
 # direnv local cache
 .direnv/
 
+# nix build output symlink
+result
+result-*
+
 # Normalize
 .normalize/*
 !.normalize/config.toml
