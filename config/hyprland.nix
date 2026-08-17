@@ -14,6 +14,7 @@ in
   exec-once = ${pkgs.dbus}/bin/dbus-update-activation-environment --systemd DISPLAY HYPRLAND_INSTANCE_SIGNATURE WAYLAND_DISPLAY XDG_CURRENT_DESKTOP && systemctl --user stop hyprland-session.target && systemctl --user start hyprland-session.target
   exec-once = ${quickshell}
   exec-once = wlsunset -L 153 -T 6500 -g 1.000000 -l -27.5 -t 4000
+  exec-once = ${pkgs.hypridle}/bin/hypridle
 
   env = QT_QPA_PLATFORM,wayland
   env = XDG_SESSION_TYPE,wayland
@@ -106,6 +107,7 @@ in
   bind = ${mod}, A, exec, ${browser}
   bind = ${mod}, Q, exec, ${terminal}
   bind = ${mod}, E, exec, ${file-browser}
+  bind = ${mod}, D, dpms, off
   bind = ${mod}, C, killactive,
   bind = ${mod}, M, exit,
   bind = ${mod}, V, togglefloating,
