@@ -1,6 +1,8 @@
 {
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
+    nixowos.url = "github:yunfachi/nixowos";
+    nixowos.inputs.nixpkgs.follows = "nixpkgs";
     impermanence.url = "github:nix-community/impermanence";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -39,6 +41,7 @@
           my-config = import ./my-config.nix;
         };
         modules = [
+          inputs.nixowos.nixosModules.default
           impermanence.nixosModules.impermanence
           ./configuration.nix
         ];

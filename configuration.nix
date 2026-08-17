@@ -18,6 +18,7 @@ in
     inputs.home-manager.nixosModules.home-manager
   ];
 
+  nixowos.enable = true;
   services.chub-mirrorer = {
     enable = true;
     schedule = "hourly";
