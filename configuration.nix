@@ -14,6 +14,7 @@ in
     ./cachix.nix
     ./modules/chub-mirrorer.nix
     ./modules/chub-activity.nix
+    ./modules/monitor-brightness.nix
     inputs.home-manager.nixosModules.home-manager
   ];
 
@@ -25,6 +26,17 @@ in
   services.chub-activity = {
     enable = true;
     schedule = "hourly";
+  };
+  services.monitor-brightness = {
+    enable = true;
+    day = {
+      brightness = 60;
+      time = "07:00";
+    };
+    night = {
+      brightness = 0;
+      time = "19:00";
+    };
   };
   documentation.nixos.enable = false;
 
