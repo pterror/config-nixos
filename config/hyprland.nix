@@ -18,8 +18,9 @@ in
   env = QT_QPA_PLATFORM,wayland
   env = XDG_SESSION_TYPE,wayland
 
-  monitor = DP-3, preferred, 0x0, auto
-  monitor = HDMI-A-1, preferred, 1920x0, auto
+  monitor = DP-2, 1920x1080@199.98, 0x0, auto
+  monitor = DP-3, 1920x1080@199.98, 1920x0, auto
+  monitor = HDMI-A-1, preferred, 3840x0, auto
 
   device {
     name = wacom-intuos-s-pen
@@ -87,6 +88,7 @@ in
   misc {
     disable_hyprland_logo = true
     disable_splash_rendering = true
+    vrr = true
   }
 
   bind = , XF86AudioRaiseVolume, global, quickshell:audio:volume_up
@@ -97,8 +99,8 @@ in
   bind = , XF86AudioStop, global, quickshell:media:pause
   bind = , XF86AudioPrev, global, quickshell:media:previous
   bind = , XF86AudioNext, global, quickshell:media:next
-  bind = , Print, exec, [float; monitor DP-3; move 0 0; size 3840 1080; noanim] ${screenshot}
-  bind = ${mod} SHIFT, S, exec, [float; monitor DP-3; move 0 0; size 3840 1080; noanim] ${screenshot}
+  bind = , Print, exec, [float; monitor DP-3; move -1920 0; size 5760 1080; noanim] ${screenshot}
+  bind = ${mod} SHIFT, S, exec, [float; monitor DP-3; move -1920 0; size 5760 1080; noanim] ${screenshot}
   bind = ${mod}, Tab, global, quickshell:workspaces_overview:toggle
   bind = ${mod}, L, global, quickshell:wlogout:toggle
   bind = ${mod}, A, exec, ${browser}
@@ -112,6 +114,8 @@ in
   # bind = ${mod}, J, togglesplit, # dwindle
   bind = ${mod}, Z, togglespecialworkspace, magic
   bind = ${mod} SHIFT, Z, movetoworkspace, special:magic
+  bind = ${mod}, X, togglespecialworkspace, magic2
+  bind = ${mod} SHIFT, X, movetoworkspace, special:magic2
   bind = ${mod}, left, movefocus, l
   bind = ${mod}, right, movefocus, r
   bind = ${mod}, up, movefocus, u
