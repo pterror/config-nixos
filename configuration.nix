@@ -30,14 +30,8 @@ in
   };
   services.monitor-brightness = {
     enable = true;
-    day = {
-      brightness = 60;
-      time = "07:00";
-    };
-    night = {
-      brightness = 0;
-      time = "19:00";
-    };
+    day = 60;
+    night = 0;
   };
   documentation.nixos.enable = false;
 
