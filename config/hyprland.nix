@@ -145,6 +145,7 @@ in
   bind = ${mod} SHIFT, S, exec, [float; monitor DP-3; move -1920 0; size 5760 1080; noanim] ${screenshot}
   bind = ${mod}, Tab, global, quickshell:workspaces_overview:toggle
   bind = ${mod}, L, global, quickshell:wlogout:toggle
+  bind = ${mod} SHIFT, M, global, quickshell:motion:toggle_reduced_motion
   bind = ${mod}, A, exec, ${browser}
   bind = ${mod}, Q, exec, ${terminal}
   bind = ${mod}, E, exec, ${file-browser}
