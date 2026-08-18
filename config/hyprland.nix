@@ -9,6 +9,47 @@ let
   browser = "${pkgs.firefox}/bin/firefox";
   terminal = "${pkgs.ghostty}/bin/ghostty";
   file-browser = "${pkgs.pcmanfm}/bin/pcmanfm";
+  # Toggles all RGB off/on. Saves whatever the lighting was set to before
+  # blacking it out, so restoring does not need a hardcoded profile.
+  rgb-toggle = "${
+    pkgs.writeShellApplication {
+      name = "rgb-toggle";
+      runtimeInputs = [
+        pkgs.openrgb
+        pkgs.coreutils
+      ];
+      text = ''
+        set -uo pipefail
+        state="''${XDG_RUNTIME_DIR:-/tmp}/rgb-toggle-state"
+        profile="rgb-toggle-restore"
+
+        # Setting a colour without --device only affects one controller --
+        # the GUI's "apply all devices" button exists for the same reason.
+        # So enumerate and drive each device explicitly.
+        blackout() {
+          local count i
+          count=$(openrgb --list-devices 2>/dev/null | grep -cE '^[0-9]+:')
+          [ "$count" -gt 0 ] || return 1
+          for i in $(seq 0 $((count - 1))); do
+            openrgb --device "$i" --mode direct --color 000000 >/dev/null 2>&1 \
+              || openrgb --device "$i" --color 000000 >/dev/null 2>&1 \
+              || true
+          done
+        }
+
+        if [ "$(cat "$state" 2>/dev/null)" = "off" ]; then
+          openrgb --profile "$profile" >/dev/null 2>&1 || true
+          echo on > "$state"
+        else
+          # Best effort -- if the save fails the lighting can still be
+          # restored by hand from the GUI.
+          openrgb --save-profile "$profile" >/dev/null 2>&1 || true
+          blackout
+          echo off > "$state"
+        fi
+      '';
+    }
+  }/bin/rgb-toggle";
 in
 ''
   exec-once = ${pkgs.dbus}/bin/dbus-update-activation-environment --systemd DISPLAY HYPRLAND_INSTANCE_SIGNATURE WAYLAND_DISPLAY XDG_CURRENT_DESKTOP && systemctl --user stop hyprland-session.target && systemctl --user start hyprland-session.target
@@ -108,6 +149,7 @@ in
   bind = ${mod}, Q, exec, ${terminal}
   bind = ${mod}, E, exec, ${file-browser}
   bind = ${mod}, D, dpms, toggle
+  bind = ${mod}, F, exec, ${rgb-toggle}
   bind = ${mod}, C, killactive,
   bind = ${mod}, M, exit,
   bind = ${mod}, V, togglefloating,

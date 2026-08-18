@@ -33,6 +33,10 @@ in
     day = 60;
     night = 0;
   };
+  # Installs the udev rules OpenRGB needs to reach USB HID controllers
+  # (the MSI Mystic Light device) without running as root. SMBus devices
+  # like the Corsair RGB DIMMs are already reachable via hardware.i2c.
+  services.hardware.openrgb.enable = true;
   documentation.nixos.enable = false;
 
   nix.settings = {
