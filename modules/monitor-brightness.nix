@@ -70,6 +70,14 @@ let
       night_elev=${toString cfg.nightElevation}
       cache=/run/monitor-brightness.last
 
+      # Monitors reset to their own stored brightness across a power cycle,
+      # so after resume the cache is stale and must be bypassed.
+      force=0
+      if [ "''${1:-}" = "--force" ]; then
+        force=1
+        shift
+      fi
+
       if [ $# -ge 1 ]; then
         # Explicit override, e.g. `monitor-brightness-apply 40`.
         target="$1"
@@ -87,7 +95,7 @@ let
 
       # ddcutil writes are slow and the panel is already at the right level
       # most of the time -- skip the I2C traffic when nothing changed.
-      if [ "$(cat "$cache" 2>/dev/null)" = "$target" ]; then
+      if [ "$force" = 0 ] && [ "$(cat "$cache" 2>/dev/null)" = "$target" ]; then
         exit 0
       fi
 
@@ -226,6 +234,29 @@ in
       serviceConfig = {
         Type = "oneshot";
         ExecStart = lib.getExe applyScript;
+      };
+    };
+
+    # The timer alone is not enough: monitors come back from suspend at
+    # their own stored brightness, and a resume between ticks would leave
+    # them wrong for up to a full interval.
+    systemd.services.monitor-brightness-resume = {
+      description = "Reapply monitor brightness after resume";
+      after = [
+        "suspend.target"
+        "hibernate.target"
+        "hybrid-sleep.target"
+      ];
+      wantedBy = [
+        "suspend.target"
+        "hibernate.target"
+        "hybrid-sleep.target"
+      ];
+      serviceConfig = {
+        Type = "oneshot";
+        # Panels need a moment to finish waking before they answer on I2C.
+        ExecStartPre = "${pkgs.coreutils}/bin/sleep 3";
+        ExecStart = "${lib.getExe applyScript} --force";
       };
     };
 
