@@ -10,10 +10,9 @@
 # An output only renders its *active* workspace, so one headless output is
 # created per real monitor rather than parking everything on a single one.
 #
-# Parking happens when either:
-#   - keep-alive mode was armed by hand (headless-arm), or
-#   - a window matches `matchClasses` / `matchExePatterns`.
-# Otherwise idle does a plain DPMS off.
+# On idle, parking happens only when a window matches `matchClasses` or
+# `matchExePatterns`; otherwise idle does a plain DPMS off. headless-toggle
+# parks immediately regardless, for when you know you want it.
 {
   config,
   lib,
@@ -23,7 +22,6 @@
 let
   cfg = config.services.headless-idle;
 
-  armState = ''"''${XDG_RUNTIME_DIR:-/tmp}/headless-arm"'';
   parkState = ''"''${XDG_RUNTIME_DIR:-/tmp}/headless-parked"'';
 
   classArray = lib.concatMapStringsSep " " lib.escapeShellArg cfg.matchClasses;
@@ -119,8 +117,6 @@ let
   shouldParkScript = mkScript "headless-should-park" ''
     set -uo pipefail
 
-    [ -f ${armState} ] && exit 0
-
     classes=(${classArray})
     patterns=(${patternArray})
 
@@ -180,22 +176,19 @@ let
     fi
   '';
 
-  armScript = mkScript "headless-arm" ''
+  # Immediate action, not a mode: park everything and blank the panels now.
+  # Pressing again puts it all back.
+  toggleScript = mkScript "headless-toggle" ''
     set -uo pipefail
 
-    arm=${armState}
-
-    # Disarming while parked should also bring the workspaces back, so this
-    # key is always a way out of headless mode.
     # hyprctl notify rather than stdout: output from an exec bind goes
     # nowhere, so without this the key appears to do nothing at all.
-    if [ -f "$arm" ]; then
-      rm -f "$arm"
-      [ -f ${parkState} ] && headless-restore
-      hyprctl notify -1 2000 "rgb(cc8888)" "keep-alive disarmed"
+    if [ -f ${parkState} ]; then
+      headless-restore
+      hyprctl notify -1 2000 "rgb(cc8888)" "displays restored"
     else
-      : > "$arm"
-      hyprctl notify -1 2000 "rgb(88cc88)" "keep-alive armed"
+      headless-park
+      hyprctl notify -1 2000 "rgb(88cc88)" "displays parked"
     fi
   '';
 in
@@ -219,8 +212,8 @@ in
       description = ''
         Substrings matched against each window's resolved executable path.
         The default catches Steam games. Note Proton titles run under a
-        wrapper and browser-based games will not match at all -- arm by
-        hand for those.
+        wrapper and browser-based games will not match at all -- use
+        headless-toggle by hand for those.
       '';
     };
 
@@ -242,7 +235,7 @@ in
       idleScript
       resumeScript
       dpmsToggleScript
-      armScript
+      toggleScript
     ];
   };
 }
