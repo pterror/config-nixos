@@ -187,13 +187,15 @@ let
 
     # Disarming while parked should also bring the workspaces back, so this
     # key is always a way out of headless mode.
+    # hyprctl notify rather than stdout: output from an exec bind goes
+    # nowhere, so without this the key appears to do nothing at all.
     if [ -f "$arm" ]; then
       rm -f "$arm"
       [ -f ${parkState} ] && headless-restore
-      echo "keep-alive disarmed"
+      hyprctl notify -1 2000 "rgb(cc8888)" "keep-alive disarmed"
     else
       : > "$arm"
-      echo "keep-alive armed"
+      hyprctl notify -1 2000 "rgb(88cc88)" "keep-alive armed"
     fi
   '';
 in
