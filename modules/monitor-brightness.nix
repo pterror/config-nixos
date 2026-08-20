@@ -60,6 +60,7 @@ let
       pkgs.coreutils
       pkgs.gawk
       pkgs.gnugrep
+      pkgs.util-linux
     ];
     text = ''
       set -uo pipefail
@@ -68,7 +69,7 @@ let
       night=${toString cfg.night}
       day_elev=${toString cfg.dayElevation}
       night_elev=${toString cfg.nightElevation}
-      cache=/run/monitor-brightness.last
+      cachedir=/run/monitor-brightness
 
       # Monitors reset to their own stored brightness across a power cycle,
       # so after resume the cache is stale and must be bypassed.
@@ -93,52 +94,78 @@ let
            }')
       fi
 
-      # ddcutil writes are slow and the panel is already at the right level
-      # most of the time -- skip the I2C traffic when nothing changed.
-      if [ "$force" = 0 ] && [ "$(cat "$cache" 2>/dev/null)" = "$target" ]; then
+      # Created by tmpfiles as 1777; umask 000 keeps the files group-writable
+      # so root timer runs and ad-hoc user runs share one view of state.
+      # Split state would reintroduce exactly the drift this cache prevents.
+      umask 000
+      mkdir -p "$cachedir"
+
+      # Only one run at a time. The timer tick, hypridle's on-resume, the
+      # post-suspend service and a manual invocation can all fire at once,
+      # and concurrent DDC traffic has been observed to hang the amdgpu SMU.
+      # flock rather than a pid file: the kernel drops it when the process
+      # dies, so a crashed run cannot wedge every later one.
+      exec 9>"$cachedir/.lock"
+      if ! flock -w 15 9; then
+        echo "another run holds the lock, skipping" >&2
         exit 0
       fi
 
-      displays=$(ddcutil detect --brief 2>/dev/null \
-        | grep '^Display' \
-        | awk '{print $2}')
+      # One detect for the whole run, capturing the I2C bus number. Writes
+      # then use --bus, which addresses the bus directly: every
+      # `ddcutil --display N` invocation instead re-scans *all* buses via
+      # ddc_detect_all_displays, so per-display calls multiply I2C traffic
+      # by the display count.
+      records=$(ddcutil detect --brief 2>/dev/null | awk '
+        /I2C bus:/       { bus = $NF; sub(/.*i2c-/, "", bus) }
+        /DRM connector:/ { conn = $NF }
+        /Monitor:/       { print bus "|" conn }
+      ')
 
-      if [ -z "$displays" ]; then
+      if [ -z "$records" ]; then
         echo "no DDC/CI capable displays detected" >&2
         exit 1
       fi
 
-      # Each display is its own I2C bus, so drive them concurrently --
-      # sequential ddcutil writes across three panels are visibly staggered.
+      # Each display caches its own last-applied value. A single shared
+      # cache is unsafe: if one panel is missed on a tick -- detect not
+      # listing it, or its write failing -- the others still succeed, the
+      # shared value is written, and every later tick short-circuits on it,
+      # freezing the missed panel at a stale brightness indefinitely.
+      #
+      # Writes are sequential, deliberately. Running them concurrently does
+      # not help: ddcutil takes an flock per bus, so concurrent instances
+      # serialise anyway, and the contention is actively harmful -- enough
+      # of it has been observed to hang the amdgpu SMU, taking the GPU down
+      # with it. Using --bus keeps each write to a single bus.
       set_one() {
-        local d="$1"
+        local bus="$1" conn="$2" cachefile
+        cachefile="$cachedir/''${conn:-bus$bus}"
+
+        if [ "$force" = 0 ] && [ "$(cat "$cachefile" 2>/dev/null)" = "$target" ]; then
+          return 0
+        fi
+
         for _ in 1 2 3; do
-          if ddcutil --display "$d" \
+          if ddcutil --bus "$bus" \
                --sleep-multiplier ${toString cfg.sleepMultiplier} \
                setvcp 10 "$target" 2>/dev/null; then
+            echo "$target" > "$cachefile"
             return 0
           fi
           sleep 1
         done
-        echo "display $d: failed to set brightness after 3 attempts" >&2
+        # Leave the cache untouched so the next tick retries this panel.
+        echo "bus $bus ($conn): failed to set brightness after 3 attempts" >&2
         return 1
       }
 
       rc=0
-      pids=""
-      for d in $displays; do
-        set_one "$d" &
-        pids="$pids $!"
-      done
-      for p in $pids; do
-        wait "$p" || rc=1
-      done
+      while IFS='|' read -r bus conn; do
+        [ -n "$bus" ] || continue
+        set_one "$bus" "$conn" || rc=1
+      done <<< "$records"
 
-      # Only cache on full success, so a partial failure retries next tick.
-      if [ "$rc" = 0 ]; then
-        echo "$target" > "$cache"
-        echo "brightness -> $target%"
-      fi
       exit "$rc"
     '';
   };
@@ -221,6 +248,8 @@ in
 
   config = lib.mkIf cfg.enable {
     hardware.i2c.enable = true;
+
+    systemd.tmpfiles.rules = [ "d /run/monitor-brightness 1777 root root -" ];
 
     users.users.${cfg.user}.extraGroups = [ "i2c" ];
 
