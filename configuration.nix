@@ -18,6 +18,11 @@ in
     inputs.home-manager.nixosModules.home-manager
   ];
 
+  fileSystems."/mnt/nvme" = {
+    device = "/dev/disk/by-uuid/62ed3bff-b6e1-4bdc-8853-60ca0e8a24da";
+    fsType = "btrfs";
+  };
+
   nixowos.enable = true;
   services.chub-mirrorer = {
     enable = true;
