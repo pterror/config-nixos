@@ -149,8 +149,9 @@ in
   bind = ${mod}, A, exec, ${browser}
   bind = ${mod}, Q, exec, ${terminal}
   bind = ${mod}, E, exec, ${file-browser}
-  bind = ${mod}, D, dpms, toggle
+  bind = ${mod}, D, exec, headless-dpms-toggle
   bind = ${mod}, F, exec, ${rgb-toggle}
+  bind = ${mod} SHIFT, D, exec, headless-arm
   bind = ${mod}, C, killactive,
   bind = ${mod}, M, exit,
   bind = ${mod}, V, togglefloating,

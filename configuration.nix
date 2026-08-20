@@ -15,6 +15,7 @@ in
     ./modules/chub-mirrorer.nix
     ./modules/chub-activity.nix
     ./modules/monitor-brightness.nix
+    ./modules/headless-idle.nix
     inputs.home-manager.nixosModules.home-manager
   ];
 
@@ -42,6 +43,7 @@ in
   # (the MSI Mystic Light device) without running as root. SMBus devices
   # like the Corsair RGB DIMMs are already reachable via hardware.i2c.
   services.hardware.openrgb.enable = true;
+  services.headless-idle.enable = true;
   documentation.nixos.enable = false;
 
   nix.settings = {
