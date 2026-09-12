@@ -30,6 +30,8 @@
     # nixpkgs for the python/node dependency set, and overriding it breaks the
     # build.
     hermes-agent.url = "github:NousResearch/hermes-agent";
+    wyldfire-nix.url = "github:pterror/wyldfire-nix";
+    wyldfire-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
   outputs =
     {

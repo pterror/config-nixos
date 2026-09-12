@@ -150,6 +150,7 @@ in
     "nix-command"
     "flakes"
   ];
+  nixpkgs.overlays = [ inputs.wyldfire-nix.overlays.default ];
   nixpkgs.config.allowUnfreePredicate =
     pkg:
     builtins.elem (lib.getName pkg) [
@@ -159,6 +160,7 @@ in
       "steam-run"
       "itch"
       "claude-code"
+      "wyldfire"
     ];
   hardware = {
     rasdaemon.enable = true;
@@ -318,6 +320,8 @@ in
       gallery-dl
       graphicsmagick
       flatpak
+      wyldfire
+      _7zz
     ]
     ++ inputs.qti.packages.${system}.qti-all;
   fonts.packages = with pkgs; [
