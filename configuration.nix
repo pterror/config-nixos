@@ -295,6 +295,7 @@ in
       lact
       luajit
       (pkgs.callPackage ./modules/claude-code.nix {})
+      (pkgs.callPackage ./modules/codex.nix {})
       github-cli
       amdgpu_top
       nixd
