@@ -189,6 +189,11 @@ in
     fish.enable = true;
     direnv.enable = true;
     git.enable = true;
+    hyprland = {
+      enable = true;
+      withUWSM = true;
+      xwayland.enable = true;
+    };
     firefox = import ./modules/firefox.nix args;
     steam = {
       enable = true;
@@ -268,8 +273,6 @@ in
   environment.systemPackages =
     with pkgs;
     [
-      (hyprland.override { enableXWayland = true; })
-      xwayland
       home-manager
       cachix
       file
@@ -350,7 +353,6 @@ in
       ];
     };
     extraPortals = with pkgs; [
-      inputs.hyprland.packages.${system}.xdg-desktop-portal-hyprland
       xdg-desktop-portal-gtk
     ];
   };
