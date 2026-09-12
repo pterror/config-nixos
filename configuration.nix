@@ -86,6 +86,10 @@ in
             directory = ".local/share/keyrings";
             mode = "0700";
           }
+          {
+            directory = ".claude";
+            mode = "0700";
+          }
           ".config/qt6ct"
           ".config/quickshell"
           ".config/wallpapers"
