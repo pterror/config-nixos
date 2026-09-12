@@ -375,10 +375,6 @@ in
     ];
   };
   system = {
-    autoUpgrade = {
-      enable = true;
-      allowReboot = true;
-    };
     stateVersion = "23.11"; # initial version. NEVER EVER CHANGE!
   };
 }
