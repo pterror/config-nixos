@@ -160,6 +160,7 @@ in
       "steam-run"
       "itch"
       "claude-code"
+      "vscode"
       "wyldfire"
     ];
   hardware = {
@@ -255,6 +256,7 @@ in
       {
         home.stateVersion = "23.11"; # initial version. NEVER EVER CHANGE!
         home.pointerCursor = {
+	  enable = true;
           gtk.enable = true;
           name = "miku-cursor";
           package = inputs.miku-cursor.packages.${system}.default;
@@ -302,6 +304,7 @@ in
       luajit
       (pkgs.callPackage ./modules/claude-code.nix {})
       (pkgs.callPackage ./modules/codex.nix {})
+      godot
       github-cli
       amdgpu_top
       nixd
@@ -313,6 +316,7 @@ in
       ntfs3g
       itch
       proton-vpn
+      vscode
       openseeface
       yacreader
       kdePackages.dolphin
