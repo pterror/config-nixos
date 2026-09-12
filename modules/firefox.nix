@@ -5,7 +5,6 @@
     speechSynthesisSupport = true;
   };
   preferences = {
-    "gfx.webrender.all" = true; # required to fix transparency on xwayland.
     "browser.tabs.allow_transparent_browser" = true; # transparency
     "browser.tabs.inTitlebar" = 1; # required for transparency
     # transparency is hopelessly broken on native wayland.
