@@ -7,6 +7,16 @@
 }@args:
 let
   system = pkgs.stdenv.hostPlatform.system;
+  # session-desktop's pnpm-lock.yaml is missing an "integrity" field for a
+  # GitHub-release tarball dep (@emoji-mart/data), which makes pnpm's
+  # frozen-lockfile install refuse to proceed. Skip that verification step.
+  session-desktop = pkgs.session-desktop.overrideAttrs (old: {
+    postPatch =
+      old.postPatch
+      + ''
+        echo 'verify-store-integrity=false' >> .npmrc
+      '';
+  });
 in
 {
   imports = [
@@ -324,6 +334,7 @@ in
       gallery-dl
       graphicsmagick
       flatpak
+      # session-desktop
       wyldfire
       _7zz
     ]
