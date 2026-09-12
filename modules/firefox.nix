@@ -6,7 +6,6 @@
   };
   preferences = {
     "gfx.webrender.all" = true; # required to fix transparency on xwayland.
-    "gfx.color_management.hdr.force_enabled" = true; # required to un-blocklist WEBRENDER_COMPOSITOR, which gfxInfo blocklists on Linux unless HDR is detected; without it, window transparency silently fails to composite even though the CSS applies fine.
     "browser.tabs.allow_transparent_browser" = true; # transparency
     "browser.tabs.inTitlebar" = 1; # required for transparency
     # transparency is hopelessly broken on native wayland.
