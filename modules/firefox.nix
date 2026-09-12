@@ -25,9 +25,10 @@
     "widget.gtk.ignore-bogus-leave-notify" = 1;
 
     # privacy/network hardening
-    "network.proxy.type" = 4; # SOCKS proxy (Tor, port 9050)
-    "network.proxy.socks" = "127.0.0.1";
-    "network.proxy.socks_port" = 9050;
+    # network.proxy.* removed: policies.json locks these, which blocks the
+    # WebExtensions proxy API entirely (breaks Proton VPN's extension, "Not
+    # able to control the browser network settings"). Set proxy manually in
+    # about:config (like font.* prefs) if you want the Tor SOCKS proxy back.
     "media.peerconnection.ice.default_address_only" = true; # prevent WebRTC leaking local IPs
     "media.peerconnection.ice.no_host" = true;
     "media.peerconnection.ice.proxy_only_if_behind_proxy" = true;
@@ -84,14 +85,6 @@
         installation_mode = "force_installed";
         install_url = "https://addons.mozilla.org/firefox/downloads/latest/return-youtube-dislikes/latest.xpl";
       };
-      "{3c078156-979c-498b-8990-85f7987dd929}" = {
-        installation_mode = "force_installed";
-        install_url = "https://addons.mozilla.org/firefox/downloads/latest/sidebery/latest.xpl";
-      };
-      "{145b460b-95c7-4d6c-800f-351bd1d5471d}" = {
-        installation_mode = "force_installed";
-        install_url = "https://addons.mozilla.org/firefox/downloads/latest/screen-recorder/latest.xpl";
-      };
       "sponsorBlocker@ajay.app" = {
         installation_mode = "force_installed";
         install_url = "https://addons.mozilla.org/firefox/downloads/latest/sponsorblock/latest.xpl";
@@ -115,6 +108,38 @@
       "{2766e9f7-7bf2-4c72-81b9-d119eb54c753}" = {
         installation_mode = "force_installed";
         install_url = "https://addons.mozilla.org/firefox/downloads/latest/remove-youtube-shorts/latest.xpl";
+      };
+      "deArrow@ajay.app" = {
+        installation_mode = "force_installed";
+        install_url = "https://addons.mozilla.org/firefox/downloads/latest/dearrow/latest.xpl";
+      };
+      "jid1-xUfzOsOFlzSOXg@jetpack" = {
+        installation_mode = "force_installed";
+        install_url = "https://addons.mozilla.org/firefox/downloads/latest/reddit-enhancement-suite/latest.xpl";
+      };
+      "vpn@proton.ch" = {
+        installation_mode = "force_installed";
+        install_url = "https://addons.mozilla.org/firefox/downloads/latest/proton-vpn-firefox-extension/latest.xpl";
+      };
+      "{cb31ec5d-c49a-4e5a-b240-16c767444f62}" = {
+        installation_mode = "force_installed";
+        install_url = "https://addons.mozilla.org/firefox/downloads/latest/indie-wiki-buddy/latest.xpl";
+      };
+      "{b9db16a4-6edc-47ec-a1f4-b86292ed211d}" = {
+        installation_mode = "force_installed";
+        install_url = "https://addons.mozilla.org/firefox/downloads/latest/video-downloadhelper/latest.xpl";
+      };
+      "{799c0914-748b-41df-a25c-22d008f9e83f}" = {
+        installation_mode = "force_installed";
+        install_url = "https://addons.mozilla.org/firefox/downloads/latest/web-scrobbler/latest.xpl";
+      };
+      "{2e5ff8c8-32fe-46d0-9fc8-6b8986621f3c}" = {
+        installation_mode = "force_installed";
+        install_url = "https://addons.mozilla.org/firefox/downloads/latest/search_by_image/latest.xpl";
+      };
+      "{d835e0f8-dc63-4800-8036-80e25890fb41}" = {
+        installation_mode = "force_installed";
+        install_url = "https://addons.mozilla.org/firefox/downloads/latest/oneko/latest.xpl";
       };
     };
   };
