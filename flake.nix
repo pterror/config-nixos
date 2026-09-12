@@ -26,6 +26,10 @@
     stardust-telescope.url = "github:StardustXR/telescope";
     stardust-telescope.inputs.nixpkgs.follows = "nixpkgs";
     gemini-pkg-source.url = "github:ljxfstorm/nixpkgs/d193ce311bd02bd9676784594691d1c2c4ce7fbd";
+    # NOTE: deliberately not `follows`-ing nixpkgs: hermes-agent pins its own
+    # nixpkgs for the python/node dependency set, and overriding it breaks the
+    # build.
+    hermes-agent.url = "github:NousResearch/hermes-agent";
   };
   outputs =
     {

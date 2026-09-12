@@ -90,6 +90,10 @@ in
             directory = ".claude";
             mode = "0700";
           }
+          {
+            directory = ".hermes";
+            mode = "0700";
+          }
           ".config/qt6ct"
           ".config/quickshell"
           ".config/wallpapers"
@@ -300,6 +304,7 @@ in
       amdgpu_top
       nixd
       inputs.quickshell.packages.${system}.default
+      inputs.hermes-agent.packages.${system}.default
       inputs.nix-gaming.packages.${system}.wine-tkg
       samba
       keepassxc
