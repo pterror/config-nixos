@@ -6,7 +6,9 @@
   };
   preferences = {
     "gfx.webrender.all" = true; # required to fix transparency on xwayland.
+    "gfx.color_management.hdr_force_enabled" = true; # required to un-blocklist WEBRENDER_COMPOSITOR, which gfxInfo blocklists on Linux unless HDR is detected; without it, window transparency silently fails to composite even though the CSS applies fine.
     "browser.tabs.allow_transparent_browser" = true; # transparency
+    "browser.tabs.inTitlebar" = 1; # required for transparency
     # transparency is hopelessly broken on native wayland.
     "browser.display.background_color" = "#1c1b2200";
     "browser.display.background_color.dark" = "#1c1b2200";
@@ -16,12 +18,37 @@
     "browser.theme.content-theme" = 0; # dark
     "browser.theme.toolbar-theme" = 0; # dark
     "layout.css.prefers-color-scheme.content-override" = 0; # dark
-    "font.default.x-western" = "sans-serif";
-    "font.name-list.monospace.x-western" = my-config.fonts.monospace;
-    "font.name-list.sans-serif.x-western" = my-config.fonts.sans-serif;
-    #"font.name-list.cursive.x-western" = my-config.fonts.cursive;
+    # font.* prefs moved to profile user.js: policies.json can't set them,
+    # Firefox's policy engine blocks any "font." pref regardless of lock status.
     "browser.eme.ui.enabled" = false; # disable DRM ui. media.eme.enabled is disabled by default
+    "media.eme.enabled" = true; # allow DRM playback despite disabling the UI above
     "dom.events.testing.asyncClipboard" = true; # paste support for dance for vscode
+    # https://www.reddit.com/r/FirefoxCSS/comments/105xnku/sidebar_autohides_when_trying_to_move_tabs/
+    "widget.gtk.ignore-bogus-leave-notify" = 1;
+
+    # privacy/network hardening
+    "network.proxy.type" = 4; # SOCKS proxy (Tor, port 9050)
+    "network.proxy.socks" = "127.0.0.1";
+    "network.proxy.socks_port" = 9050;
+    "media.peerconnection.ice.default_address_only" = true; # prevent WebRTC leaking local IPs
+    "media.peerconnection.ice.no_host" = true;
+    "media.peerconnection.ice.proxy_only_if_behind_proxy" = true;
+    "network.dns.disablePrefetch" = true;
+    "network.prefetch-next" = false;
+    "network.http.speculative-parallel-limit" = 0;
+
+    # misc UI/behavior
+    "browser.cache.disk.capacity" = 8000000;
+    "browser.cache.disk.smart_size.enabled" = false;
+    "browser.newtabpage.activity-stream.feeds.topsites" = false;
+    "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
+    "browser.toolbars.bookmarks.visibility" = "never";
+    "layout.spellcheckDefault" = 0;
+    "security.dialog_enable_delay" = 0;
+    "accessibility.typeaheadfind.flashBar" = 0;
+    "findbar.highlightAll" = true;
+    "devtools.chrome.enabled" = true;
+    "devtools.debugger.remote-enabled" = true;
   };
   policies = {
     DontCheckDefaultBrowser = true;
@@ -51,10 +78,10 @@
         installation_mode = "force_installed";
         install_url = "https://addons.mozilla.org/firefox/downloads/latest/popup-tab/latest.xpl";
       };
-      "@react-devtools" = {
-        installation_mode = "force_installed";
-        install_url = "https://addons.mozilla.org/firefox/downloads/latest/react-devtools/latest.xpl";
-      };
+      #"@react-devtools" = {
+      #  installation_mode = "force_installed";
+      #  install_url = "https://addons.mozilla.org/firefox/downloads/latest/react-devtools/latest.xpl";
+      #};
       "{762f9885-5a13-4abd-9c77-433dcd38b8fd}" = {
         installation_mode = "force_installed";
         install_url = "https://addons.mozilla.org/firefox/downloads/latest/return-youtube-dislikes/latest.xpl";
