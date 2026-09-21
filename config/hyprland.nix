@@ -50,6 +50,22 @@ let
       '';
     }
   }/bin/rgb-toggle";
+  vtuber-start = "${
+    pkgs.writeShellApplication {
+      name = "vtuber-start";
+      runtimeInputs = [
+        pkgs.openseeface
+        pkgs.obs-studio
+        pkgs.steam
+      ];
+      text = ''
+        facetracker &
+        obs --startvirtualcam &
+        steam steam://rungameid/1325860 &
+        wait
+      '';
+    }
+  }/bin/vtuber-start";
 in
 ''
   exec-once = ${quickshell}
@@ -150,6 +166,7 @@ in
   bind = ${mod}, E, exec, ${file-browser}
   bind = ${mod}, D, exec, headless-dpms-toggle
   bind = ${mod}, F, exec, ${rgb-toggle}
+  bind = ${mod} SHIFT, A, exec, ${vtuber-start}
   bind = ${mod} SHIFT, D, exec, headless-toggle
   bind = ${mod}, C, killactive,
   bind = ${mod}, M, exit,
