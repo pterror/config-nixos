@@ -71,6 +71,12 @@ in
     ];
   };
 
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 30d";
+  };
+
   environment.persistence = {
     "/persistent" = {
       hideMounts = true;
@@ -315,6 +321,7 @@ in
       (pkgs.callPackage ./modules/claude-code.nix {})
       (pkgs.callPackage ./modules/codex.nix {})
       godot
+      vesktop
       github-cli
       amdgpu_top
       nixd
@@ -337,6 +344,7 @@ in
       # session-desktop
       wyldfire
       _7zz
+      krita
     ]
     ++ inputs.qti.packages.${system}.qti-all;
   fonts.packages = with pkgs; [
