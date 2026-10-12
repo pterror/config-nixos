@@ -26,6 +26,7 @@ in
     ./modules/chub-activity.nix
     ./modules/monitor-brightness.nix
     ./modules/headless-idle.nix
+    ./modules/wf-ptrace.nix
     inputs.home-manager.nixosModules.home-manager
   ];
 
@@ -320,6 +321,7 @@ in
       luajit
       (pkgs.callPackage ./modules/claude-code.nix {})
       (pkgs.callPackage ./modules/codex.nix {})
+      (pkgs.callPackage ./modules/wfhelper.nix {})
       godot
       vesktop
       github-cli

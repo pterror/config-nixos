@@ -71,6 +71,8 @@ in
   exec-once = ${quickshell}
   exec-once = wlsunset -L 153 -T 6500 -g 1.000000 -l -27.5 -t 4000
   exec-once = ${pkgs.hypridle}/bin/hypridle
+  # Password prompts for polkit (e.g. wfhelper's wf-ptrace.service start).
+  exec-once = ${pkgs.hyprpolkitagent}/libexec/hyprpolkitagent
 
   env = QT_QPA_PLATFORM,wayland
   env = XDG_SESSION_TYPE,wayland
