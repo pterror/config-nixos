@@ -165,6 +165,7 @@ in
   bind = ${mod}, Tab, global, quickshell:workspaces_overview:toggle
   bind = ${mod}, L, global, quickshell:wlogout:toggle
   bind = ${mod} SHIFT, M, global, quickshell:motion:toggle_reduced_motion
+  bind = ${mod}, grave, global, quickshell:info_osd:hold
   bind = ${mod}, A, exec, ${browser}
   bind = ${mod}, Q, exec, ${terminal}
   bind = ${mod}, E, exec, ${file-browser}
