@@ -69,10 +69,12 @@ let
 in
 ''
   exec-once = ${quickshell}
-  exec-once = wlsunset -L 153 -T 6500 -g 1.000000 -l -27.5 -t 4000
   exec-once = ${pkgs.hypridle}/bin/hypridle
+  exec-once = ${pkgs.hyprsunset}/bin/hyprsunset
   # Password prompts for polkit (e.g. wfhelper's wf-ptrace.service start).
   exec-once = ${pkgs.hyprpolkitagent}/libexec/hyprpolkitagent
+  # From modules/monitor-brightness.nix -- drives hyprsunset off sun elevation.
+  exec-once = hyprsunset-solar
 
   env = QT_QPA_PLATFORM,wayland
   env = XDG_SESSION_TYPE,wayland

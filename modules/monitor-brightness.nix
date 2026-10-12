@@ -169,6 +169,52 @@ let
       exit "$rc"
     '';
   };
+
+  # Color temperature rides the same elevation ramp. It runs as a user
+  # loop from Hyprland's exec-once rather than off the root timer, since
+  # hyprctl needs the session's socket. The CTM itself comes from
+  # hyprsunset: wlr-gamma-control (wlsunset) got wedged after a monitor
+  # power cycle, refusing every output until Hyprland restarted.
+  temperatureScript = pkgs.writeShellApplication {
+    name = "hyprsunset-solar";
+    runtimeInputs = [
+      pkgs.hyprland
+      pkgs.gawk
+      pkgs.coreutils
+    ];
+    text = ''
+      set -uo pipefail
+
+      day=${toString cfg.temperature.day}
+      night=${toString cfg.temperature.night}
+      day_elev=${toString cfg.dayElevation}
+      night_elev=${toString cfg.nightElevation}
+
+      while true; do
+        elev=$(${elevationScript} ${toString cfg.latitude} ${toString cfg.longitude})
+        target=$(awk -v e="$elev" -v d="$day" -v n="$night" \
+                     -v de="$day_elev" -v ne="$night_elev" \
+          'BEGIN {
+             if (e >= de)      { v = d }
+             else if (e <= ne) { v = n }
+             else              { v = n + (e - ne) / (de - ne) * (d - n) }
+             printf "%d", v + 0.5
+           }')
+
+        # Compare against hyprsunset's live value rather than a cached one,
+        # so a restarted hyprsunset (back at its default) gets corrected.
+        current=$(hyprctl hyprsunset temperature 2>/dev/null) || current=""
+        if [ "$current" != "$target" ]; then
+          if ! hyprctl hyprsunset temperature "$target" >/dev/null 2>&1; then
+            # hyprsunset not up yet (login) -- retry soon, not in a minute.
+            sleep 2
+            continue
+          fi
+        fi
+        sleep 60
+      done
+    '';
+  };
 in
 {
   options.services.monitor-brightness = {
@@ -202,6 +248,20 @@ in
         Sun elevation in degrees at or below which night brightness is
         used. -6 is the end of civil twilight.
       '';
+    };
+
+    temperature = {
+      day = lib.mkOption {
+        type = lib.types.ints.positive;
+        default = 6500;
+        description = "Color temperature in K with the sun high.";
+      };
+
+      night = lib.mkOption {
+        type = lib.types.ints.positive;
+        default = 4000;
+        description = "Color temperature in K after dark.";
+      };
     };
 
     latitude = lib.mkOption {
@@ -256,6 +316,7 @@ in
     environment.systemPackages = [
       pkgs.ddcutil
       applyScript
+      temperatureScript
     ];
 
     systemd.services.monitor-brightness = {

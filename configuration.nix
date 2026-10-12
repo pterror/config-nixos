@@ -287,11 +287,6 @@ in
             size = 10;
           };
         };
-        services.wlsunset = {
-          enable = true;
-          latitude = "-27.5";
-          longitude = "153";
-        };
       }
     ];
   services.pipewire.extraConfig.pipewire."10-hesuvi" =
