@@ -161,6 +161,14 @@ in
       options rtw89_core disable_ps_mode=Y
     '';
   };
+    # Works around a recurring RX 7900 XTX (Navi31/GFX11) hang: an
+    # unidentified malformed packet in the command stream wedges the
+    # gfx ring, MES/pipe reset can't recover it, and it escalates to a
+    # VRAM-wiping MODE1 reset that crashes every GPU client. Disabling
+    # GFX11 user-mode queues is the only known workaround; RADV doesn't
+    # use them yet, so there's no expected downside.
+    # https://ratatoskr.run/amd-gfx/2026/06/17132313/t
+    kernelParams = [ "amdgpu.user_queue=0" ];
 
   qt.enable = true;
   nix.settings.experimental-features = [
