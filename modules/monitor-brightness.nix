@@ -135,7 +135,7 @@ let
       #
       # Writes are sequential, deliberately. Running them concurrently does
       # not help: ddcutil takes an flock per bus, so concurrent instances
-      # serialise anyway, and the contention is actively harmful -- enough
+      # serialize anyway, and the contention is actively harmful -- enough
       # of it has been observed to hang the amdgpu SMU, taking the GPU down
       # with it. Using --bus keeps each write to a single bus.
       set_one() {

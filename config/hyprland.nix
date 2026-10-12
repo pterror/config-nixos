@@ -23,7 +23,7 @@ let
         state="''${XDG_RUNTIME_DIR:-/tmp}/rgb-toggle-state"
         profile="rgb-toggle-restore"
 
-        # Setting a colour without --device only affects one controller --
+        # Setting a color without --device only affects one controller --
         # the GUI's "apply all devices" button exists for the same reason.
         # So enumerate and drive each device explicitly.
         blackout() {

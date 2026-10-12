@@ -4,7 +4,7 @@
 # stalls anything driven by them -- games, video, requestAnimationFrame.
 # Switching a monitor off by its physical button does not do this, because
 # the compositor still considers the output connected. This module gets
-# that behaviour from software: on idle it parks each monitor's active
+# that behavior from software: on idle it parks each monitor's active
 # workspace on a headless output, then blanks the real panels.
 #
 # An output only renders its *active* workspace, so one headless output is
