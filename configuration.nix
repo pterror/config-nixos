@@ -214,7 +214,7 @@ in
     openssh.enable = true;
   };
   programs = {
-    fish.enable = true;
+    fish = import ./programs/fish.nix;
     direnv.enable = true;
     git.enable = true;
     hyprland = {
@@ -394,3 +394,9 @@ in
     stateVersion = "23.11"; # initial version. NEVER EVER CHANGE!
   };
 }
+      (mkCfg { path = ".config/fish/functions/vpn.fish"; config = ./config/fish_vpn.nix; inherit args; })
+      (mkCfg { path = ".config/fish/functions/spawn.fish"; config = ./config/fish_spawn.nix; inherit args; })
+      (mkCfg { path = ".config/fish/functions/m.fish"; config = ./config/fish_m.nix; inherit args; })
+      (mkCfg { path = ".config/fish/functions/cimg.fish"; config = ./config/fish_cimg.nix; inherit args; })
+      (mkCfg { path = ".config/fish/functions/cimgc.fish"; config = ./config/fish_cimgc.nix; inherit args; })
+      (mkCfg { path = ".config/fish/functions/cimg1.fish"; config = ./config/fish_cimg1.nix; inherit args; })
