@@ -58,6 +58,7 @@ in
   documentation.nixos.enable = false;
 
   nix.settings = {
+    cores = 12;
     substituters = [
       "https://nix-community.cachix.org"
       "https://ai.cachix.org"
@@ -160,7 +161,6 @@ in
     extraModprobeConfig = ''
       options rtw89_core disable_ps_mode=Y
     '';
-  };
     # Works around a recurring RX 7900 XTX (Navi31/GFX11) hang: an
     # unidentified malformed packet in the command stream wedges the
     # gfx ring, MES/pipe reset can't recover it, and it escalates to a
@@ -169,6 +169,7 @@ in
     # use them yet, so there's no expected downside.
     # https://ratatoskr.run/amd-gfx/2026/06/17132313/t
     kernelParams = [ "amdgpu.user_queue=0" ];
+  };
 
   qt.enable = true;
   nix.settings.experimental-features = [
@@ -225,6 +226,10 @@ in
     fish = import ./programs/fish.nix;
     direnv.enable = true;
     git.enable = true;
+    nh = {
+      enable = true;
+      flake = "/home/me/git/config-nixos";
+    };
     hyprland = {
       enable = true;
       withUWSM = true;
@@ -342,6 +347,9 @@ in
       openseeface
       yacreader
       kdePackages.dolphin
+      kdePackages.kio-extras
+      kdePackages.kimageformats
+      kdePackages.qtimageformats
       pcmanfm
       gallery-dl
       graphicsmagick
@@ -350,6 +358,7 @@ in
       wyldfire
       _7zz
       krita
+      appimage-run
     ]
     ++ inputs.qti.packages.${system}.qti-all;
   fonts.packages = with pkgs; [
@@ -385,6 +394,12 @@ in
       (mkCfg { path = ".config/fish/functions/fish_prompt.fish"; config = ./config/fish_prompt.nix; inherit args; })
       (mkCfg { path = ".config/fish/functions/fish_right_prompt.fish"; config = ./config/fish_right_prompt.nix; inherit args; })
       (mkCfg { path = ".config/fish/functions/fish_mode_prompt.fish"; config = ./config/fish_mode_prompt.nix; inherit args; })
+      (mkCfg { path = ".config/fish/functions/vpn.fish"; config = ./config/fish_vpn.nix; inherit args; })
+      (mkCfg { path = ".config/fish/functions/spawn.fish"; config = ./config/fish_spawn.nix; inherit args; })
+      (mkCfg { path = ".config/fish/functions/m.fish"; config = ./config/fish_m.nix; inherit args; })
+      (mkCfg { path = ".config/fish/functions/cimg.fish"; config = ./config/fish_cimg.nix; inherit args; })
+      (mkCfg { path = ".config/fish/functions/cimgc.fish"; config = ./config/fish_cimgc.nix; inherit args; })
+      (mkCfg { path = ".config/fish/functions/cimg1.fish"; config = ./config/fish_cimg1.nix; inherit args; })
     ];
   xdg.portal = {
     enable = true;
@@ -402,9 +417,3 @@ in
     stateVersion = "23.11"; # initial version. NEVER EVER CHANGE!
   };
 }
-      (mkCfg { path = ".config/fish/functions/vpn.fish"; config = ./config/fish_vpn.nix; inherit args; })
-      (mkCfg { path = ".config/fish/functions/spawn.fish"; config = ./config/fish_spawn.nix; inherit args; })
-      (mkCfg { path = ".config/fish/functions/m.fish"; config = ./config/fish_m.nix; inherit args; })
-      (mkCfg { path = ".config/fish/functions/cimg.fish"; config = ./config/fish_cimg.nix; inherit args; })
-      (mkCfg { path = ".config/fish/functions/cimgc.fish"; config = ./config/fish_cimgc.nix; inherit args; })
-      (mkCfg { path = ".config/fish/functions/cimg1.fish"; config = ./config/fish_cimg1.nix; inherit args; })
