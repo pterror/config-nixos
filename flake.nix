@@ -13,6 +13,9 @@
     qti.url = "git+https://github.com/pterror/qti?submodules=1";
     qti.inputs.nixpkgs.follows = "nixpkgs";
     nix-gaming.url = "github:fufexan/nix-gaming";
+    llm.url = "path:./flakes/llm";
+    marinara.url = "path:./flakes/marinara";
+    marinara.inputs.nixpkgs.follows = "nixpkgs";
     unicorn-scribbles-font.url = "path:./flakes/unicorn-scribbles-font";
     unicorn-scribbles-font.inputs.nixpkgs.follows = "nixpkgs";
     pointfree-font.url = "path:./flakes/pointfree-font";

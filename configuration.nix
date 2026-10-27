@@ -335,6 +335,13 @@ in
       github-cli
       amdgpu_top
       nixd
+      inputs.llm.packages.${system}.serve-gemma
+      (inputs.marinara.packages.${system}.marinara-engine.override {
+        llama-cpp = inputs.llm.packages.${system}.llama;
+        wrapperEnv = inputs.llm.lib.rocmEnv;
+        # Marinara prefers the system `claude` anyway.
+        bundleClaudeCode = false;
+      })
       inputs.quickshell.packages.${system}.default
       inputs.hermes-agent.packages.${system}.default
       inputs.nix-gaming.packages.${system}.wine-tkg

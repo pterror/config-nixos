@@ -22,11 +22,16 @@
         HIP_VISIBLE_DEVICES = "0";
       };
 
-      mkServer = { name, port, ctxSize, parallel ? 2, extraArgs ? "" }:
+      mkServer = { name, port, ctxSize, parallel ? 2, extraArgs ? "", defaultModel ? null }:
         pkgs.writeShellScriptBin "serve-${name}" ''
           export HSA_OVERRIDE_GFX_VERSION=${rocmEnv.HSA_OVERRIDE_GFX_VERSION}
           export HSA_ENABLE_SDMA=${rocmEnv.HSA_ENABLE_SDMA}
           export HIP_VISIBLE_DEVICES=${rocmEnv.HIP_VISIBLE_DEVICES}
+          ${pkgs.lib.optionalString (defaultModel != null) ''
+            if [ "$#" -eq 0 ] && [ -z "''${LLM_MODEL_PATH:-}" ]; then
+              set -- ${pkgs.lib.escapeShellArg defaultModel}
+            fi
+          ''}
           model="''${LLM_MODEL_PATH:-''${1:?}}"
           exec ${llama}/bin/llama-server \
             --model "$model" \
@@ -46,9 +51,17 @@
 
       # Gemma 4 26B-A4B: Q4_K_S (~16.4GB weights). SWA (5:1 local:global) keeps
       # KV small — only global layers scale with ctx, so 128k fits easily.
-      serve-gemma = mkServer { name = "gemma"; port = 8081; ctxSize = 131072; parallel = 1; extraArgs = "--reasoning-format none"; };
+      serve-gemma = mkServer {
+        name = "gemma";
+        port = 8081;
+        ctxSize = 131072;
+        parallel = 1;
+        defaultModel = "/home/me/ai/llm/gemma-4-26B-A4B-it-UD-Q4_K_S.gguf";
+      };
 
     in {
+      lib = { inherit rocmEnv; };
+
       packages.${system} = {
         inherit llama serve-qwen serve-gemma;
         default = llama;
