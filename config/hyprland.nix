@@ -5,7 +5,7 @@ let
   screenshot = "${inputs.qti.packages.${system}.qti}/bin/qti --path ${
     inputs.qti.packages.${system}.qti-app-screenshot-editor
   }/share/qti/screenshot-editor/screenshot-editor.qml";
-  quickshell = "${inputs.quickshell.packages.${system}.default}/bin/quickshell";
+  quickshell = "${pkgs.quickshell}/bin/quickshell";
   browser = "${pkgs.firefox}/bin/firefox";
   terminal = "${pkgs.ghostty}/bin/ghostty";
   file-browser = "${pkgs.pcmanfm}/bin/pcmanfm";

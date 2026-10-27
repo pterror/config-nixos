@@ -1,0 +1,26 @@
+--- a/src/render/Renderer.cpp
++++ b/src/render/Renderer.cpp
+@@ -340,6 +340,11 @@
+         if (!shouldRenderWindow(w, pMonitor))
+             continue;
+ 
++        // every visible special workspace is rendered on every monitor, so don't draw
++        // another special workspace's windows over this one's
++        if (pWorkspace->m_isSpecialWorkspace && w->onSpecialWorkspace() && w->m_workspace != pWorkspace)
++            continue;
++
+         if (w->alphaValue(WINDOW_ALPHA_FADE) * w->alphaValue(WINDOW_ALPHA_FULLSCREEN) == 0.f)
+             continue;
+ 
+@@ -449,6 +454,11 @@
+         if (!shouldRenderWindow(w, pMonitor))
+             continue;
+ 
++        // every visible special workspace is rendered on every monitor, so don't draw
++        // another special workspace's windows over this one's
++        if (pWorkspace->m_isSpecialWorkspace && w->onSpecialWorkspace() && w->m_workspace != pWorkspace)
++            continue;
++
+         windows.emplace_back(w);
+     }
+ 

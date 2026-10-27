@@ -234,6 +234,12 @@ in
       enable = true;
       withUWSM = true;
       xwayland.enable = true;
+      # Drop once https://github.com/hyprwm/Hyprland/discussions/16621 is fixed
+      # upstream: with special workspaces open on two monitors, tiled windows
+      # get drawn over floating ones.
+      package = pkgs.hyprland.overrideAttrs (old: {
+        patches = (old.patches or [ ]) ++ [ ./patches/hyprland-special-overdraw.patch ];
+      });
     };
     firefox = import ./modules/firefox.nix args;
     steam = {
@@ -342,7 +348,7 @@ in
         # Marinara prefers the system `claude` anyway.
         bundleClaudeCode = false;
       })
-      inputs.quickshell.packages.${system}.default
+      quickshell
       inputs.hermes-agent.packages.${system}.default
       inputs.nix-gaming.packages.${system}.wine-tkg
       samba
